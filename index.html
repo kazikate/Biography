@@ -3,8 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Kazikate - Linkler</title>
+    <title>Kazikate - Biography</title>
     <link rel="icon" type="image/png" href="https://iili.io/KZSLl9e.md.png">
+    
+    <meta property="og:title" content="Kazikate - Biography">
+    <meta property="og:description" content="">
+    
+    <meta property="og:image" content="https://iili.io/KtX4hvf.md.png"> 
+    
+    <meta property="og:url" content="https://kazikate.github.io/Biography/"> 
+    <meta property="og:type" content="website">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@kazikate1"> <meta name="twitter:title" content="Kazikate - Biographt">
+    <meta name="twitter:description" content="">
+    
+    <meta name="twitter:image" content="https://iili.io/KtX4hvf.md.png"> 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> 
  
@@ -621,7 +635,6 @@
             if (history.state && history.state.modal === MODAL_STATE_NAME) {
                  // Geri gitme işlemini History API'ye bırak, bu popstate'i tetikler
                  // NOT: Eğer bu kod popstate olayından çağrılıyorsa, history.back() yapmamalıyız.
-                 // Ancak kullanıcı 'X'e veya dışarıya tıklarsa, manuel geri gitmeliyiz.
                  if (history.length > 0) {
                      history.back();
                  }
