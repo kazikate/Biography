@@ -31,11 +31,7 @@
 
         /* Renk Değişkenleri */
         :root {
-                    /* Renk Değişkenleri */
-            /* 👇 BURAYA EKLEYİNİZ 👇 */
             color-scheme: dark; 
-            /* 👆 BURAYA EKLEYİNİZ 👆 */
-
             --dark-bg: #000000; 
             --link-bg: #1F1925; 
             --link-hover: #31283D; 
@@ -66,26 +62,22 @@
         }
         
         /* ------------------------------------------------ */
-        /* YENİ STİL: KAYDIRMAYI ENGELLEME SINIFI */
-        /* ------------------------------------------------ */
-        .no-scroll {
-            overflow: hidden; 
-        }
-
-        /* ------------------------------------------------ */
-        /* PARALLAX VE ANİMASYON BİLEŞENLERİ */
+        /* TEMEL GENİŞLİK VE ORTALAMA AYARLARI (MASAÜSTÜ VE MOBİL İÇİN SABİT) */
         /* ------------------------------------------------ */
 
-        /* 1. Kısım: Profil Görseli Kapsayıcısı (Hareket Eden Katman) */
         .profile-img-container {
             position: absolute;
             top: 0;
-            left: 0;
+            left: 0; /* Masaüstünde ortalamak için bu değeri JS ile güncelleyeceğiz veya alttaki kuralları kullanacağız */
             width: 100%;
             height: var(--image-height-vh); 
             z-index: 1; 
             max-width: 600px;
             
+            /* Masaüstü Ortalaması */
+            left: 50%;
+            transform: translateX(-50%); /* Bu, yatayda ortalamayı sağlar */
+
             /* SİYAHA YUMUŞAK GEÇİŞ EFEKTİ */
             mask-image: linear-gradient(to bottom, black var(--transition-start), transparent 100%);
             -webkit-mask-image: linear-gradient(to bottom, black var(--transition-start), transparent 94%);
@@ -95,16 +87,60 @@
             opacity: 0; 
             will-change: transform; 
             cursor: pointer; 
-
-            /* Görselin kendisine tıklamada vurguyu kaldırır */
             -webkit-tap-highlight-color: transparent; 
         }
+
+        /* İçerik Katmanı (Ön Plan) */
+        .content-wrapper {
+            width: 100%;
+            max-width: 600px; /* İçeriği 600px'te sınırlar */
+            margin-top: calc(var(--image-height-vh) * 0.8 - 10px); 
+            z-index: 2; 
+            position: relative;
+            
+            /* Masaüstü Ortalaması */
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px; 
+            padding: 0 20px 40px; 
+            text-align: center;
+            box-sizing: border-box;
+            margin: 0 auto;
+        }
+
+        /* Sabit Blur Katmanını da İçerik ile Eşle ve Ortala */
+        .bottom-blur-layer {
+            position: fixed;
+            bottom: 0;
+            z-index: 9;
+            pointer-events: none;
+            height: 100px; 
+            
+            /* İçerik ile Eşleme */
+            width: 100%;
+            max-width: 600px;
+            left: 50%;
+            transform: translateX(-50%);
+
+            /* Efektler */
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(50px); 
+            -webkit-backdrop-filter: blur(50px);
+            mask-image: linear-gradient(to top, black 0%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to top, black 0%, transparent 100%);
+        }
+
+        /* Diğer Bileşenler */
         .profile-img-container.is-visible {
             opacity: 1; 
             transition-delay: 0.1s; 
         }
 
-        /* Bulanıklık Uygulanacak Görsel Katmanı */
+        /* Bulanırlık Uygulanacak Görsel Katmanı */
         .profile-img-visual {
             width: 100%;
             height: 100%;
@@ -113,13 +149,12 @@
             background-size: cover; 
             background-position: center top; 
             background-repeat: no-repeat;
-            
             filter: blur(0px); 
             transition: filter 0.1s linear; 
             will-change: filter; 
         }
 
-        /* YENİ STİL: Dinamik Dim/Karartma Katmanı */
+        /* Dinamik Dim/Karartma Katmanı */
         .dim-overlay {
             position: absolute; 
             top: 0;
@@ -130,23 +165,6 @@
             opacity: 0; 
             transition: opacity 0.1s linear; 
             will-change: opacity; 
-        }
-
-        /* İçerik Katmanı (Ön Plan) */
-        .content-wrapper {
-            width: 100%;
-            margin-top: calc(var(--image-height-vh) * 0.8 - 10px); 
-            z-index: 2; 
-            position: relative;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 600px; 
-            padding: 0 20px 40px; 
-            text-align: center;
-            box-sizing: border-box;
-            margin: 0 auto;
         }
 
         /* 2. Kullanıcı Adı (Başlık) */
@@ -271,15 +289,14 @@
         .link-platform { font-weight: 600; display: block; }
         .link-username { font-size: 0.75em; opacity: 0.6; font-weight: 400; display: block; }
         .footer-links { 
-    margin-top: 40px; 
-    font-size: 1em; 
-    font-weight: 400; 
-    
-    /* 👇 Bu kısımları ekleyin/değiştirin */
-    margin-bottom: 40px; /* Blur katmanı yüksekliği kadar boşluk */
-    position: relative;
-    z-index: 10; /* Blur katmanının üstünde kalmasını sağlar */
-}
+            margin-top: 40px; 
+            font-size: 1em; 
+            font-weight: 400; 
+            
+            margin-bottom: 40px; 
+            position: relative;
+            z-index: 10; 
+        }
 
 
         .footer-links a { color: var(--text-light); opacity: 0.6; text-decoration: none; margin: 0 2px; }
@@ -340,43 +357,54 @@
         }
 
     /* ------------------------------------------------ */
-/* YENİ STİL: SAYFA ALT KISMI BLUR EFEKTİ */
-/* ------------------------------------------------ */
-.bottom-blur-layer {
-    position: fixed; /* Ekranın alt kısmına sabitle */
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 100px; /* Blur katmanının yüksekliği */
-    z-index: 9; /* Linklerin (z-index: 2) üstünde, modalın (z-index: 1000) altında olmalı */
-    pointer-events: none; /* Tıklamaların bu katmanın altındaki elementlere geçmesini sağlar */
-    
-    /* Buzlu Cam Efekti */
-    background: rgba(0, 0, 0, 0.8); /* Hafif karartma (saydam siyah) */
-    backdrop-filter: blur(50px); /* Bulanıklık efekti */
-    -webkit-backdrop-filter: blur(50px); /* Webkit (Safari, Chrome) desteği */
-    
-    /* Üste doğru yumuşak bir geçiş ekler */
-    mask-image: linear-gradient(to top, black 0%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to top, black 0%, transparent 100%);
-}
+    /* YENİ STİL: KAYDIRMAYI ENGELLEME SINIFI */
+    /* ------------------------------------------------ */
+    .no-scroll {
+        overflow: hidden; 
+    }
 
-/* FOOTER'IN ALT BLUR KATMANI İLE ÇAKIŞMAMASI İÇİN */
-.footer-links {
-    /* ... (Mevcut stiller) */
-    margin-bottom: 0px; /* Blur katmanı yüksekliği kadar boşluk bırak */
-    position: relative; /* z-index'i uygulayabilmek için */
-    z-index: 10; /* Blur katmanının üstünde görünmeli */
-}
+    /* ------------------------------------------------ */
+    /* FOOTER BLUR VE MEDYA SORGUSU */
+    /* ------------------------------------------------ */
 
-        /* Medya Sorgusu */
-        @media (max-width: 480px) {
-            body { padding: 0; }
-            .container { padding: 0 20px 40px; }
+    /* FOOTER'IN ALT BLUR KATMANI İLE ÇAKIŞMAMASI İÇİN */
+    .footer-links {
+        margin-bottom: 0px; 
+        position: relative; 
+        z-index: 10; 
+    }
+
+    /* Medya Sorgusu */
+    @media (max-width: 480px) {
+        body { padding: 0; }
+        .container { padding: 0 20px 40px; }
+    }
+
+    /* ------------------------------------------------ */
+    /* SADECE MASAÜSTÜ GENİŞLİĞİ AYARI */
+    /* ------------------------------------------------ */
+    @media (min-width: 700px) {
+        /*
+        Sayfanın içeriği 700px genişliğini geçtiğinde, 
+        maksimum genişliği 800px olarak ayarla ve ortala.
+        */
+        
+        .profile-img-container,
+        .content-wrapper,
+        .bottom-blur-layer {
+            max-width: 500px; /* 👈 SADECE MASAÜSTÜNDE GEÇERLİ GENİŞLİK */
+            /* Diğer ortalama kuralları (left:50% ve margin:auto) zaten kodunuzda var. */
         }
 
+        /* Container içindeki linkler de 800px'i geçmesin */
+        .container {
+             max-width: 800px; 
+             padding: 0 0 40px 0; /* Masaüstünde kenar boşluğunu kaldırırız */
+        }
+    }
+
         /* ------------------------------------------------ */
-        /* YENİ STİLLER: INSTAGRAM TARZI PROFİL BÜYÜTME MODALI (350px) */
+        /* INSTAGRAM TARZI PROFİL BÜYÜTME MODALI STİLLERİ */
         /* ------------------------------------------------ */
 
         .image-preview-modal {
@@ -399,19 +427,17 @@
             opacity: 1;
             background-color: rgba(0, 0, 0, 0.85); 
             pointer-events: auto; 
-            backdrop-filter: blur(10px); /* Arka planı bulanıklaştır */
-    -webkit-backdrop-filter: blur(10px); /* Safari desteği için */
-    background-color: rgba(0, 0, 0, 0.7); /* Hafif karartma ile daha iyi görünür */
+            backdrop-filter: blur(10px); 
+            -webkit-backdrop-filter: blur(10px); 
+            background-color: rgba(0, 0, 0, 0.7); 
         }
 
         .modal-content {
-            /* Başlangıçta yaylı animasyon CSS'te tanımlı */
             transform: scale(0); 
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
         }
 
         .modal-circle-mask {
-            /* Yuvarlak maskeleme ve boyutlandırma */
             width: 400px; 
             height: 400px;
             border-radius: 50%;
@@ -582,8 +608,11 @@
             const scrollY = window.scrollY;
             const clampedScroll = Math.min(scrollY, maxScroll);
             const scrollRatio = clampedScroll / maxScroll; 
+            
+            /* Masaüstü ortalaması için yatay kaydırma kaldırıldı (CSS ile halledildi) */
             const newY = scrollY * parallaxRatio; 
-            profileImgContainer.style.transform = `translateY(${newY}px)`;
+            profileImgContainer.style.transform = `translateY(${newY}px) translateX(-50%)`; /* Ortalamayı koru */
+            
             const blurValue = scrollRatio * maxBlur; 
             profileImgVisual.style.filter = `blur(${blurValue}px)`;
             const dimOpacityValue = scrollRatio * maxDimOpacity;
@@ -640,8 +669,6 @@
 
             // GEÇMİŞTEN ÇIKIŞ: Eğer modal açıksa ve geçmişte bir durum varsa, geri git
             if (history.state && history.state.modal === MODAL_STATE_NAME) {
-                 // Geri gitme işlemini History API'ye bırak, bu popstate'i tetikler
-                 // NOT: Eğer bu kod popstate olayından çağrılıyorsa, history.back() yapmamalıyız.
                  if (history.length > 0) {
                      history.back();
                  }
@@ -686,10 +713,7 @@
         
         // YENİ İŞLEV: Geri Tuşu Olayını Dinleme
         window.addEventListener('popstate', (e) => {
-            // Eğer modal açıkken tarayıcı geçmişinde geri gelindiyse (modal durumu değiştiyse)
-            // Modalı kapat.
             if (modal.classList.contains('is-open') && (!e.state || e.state.modal !== MODAL_STATE_NAME)) {
-                // history.back() yapmıyoruz çünkü zaten geri gelmiş durumdayız (popstate tetiklendi)
                 modal.classList.remove('is-open');
                 document.body.classList.remove('no-scroll');
                 
