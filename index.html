@@ -145,7 +145,7 @@
             width: 100%;
             height: 100%;
             position: relative; 
-            background-image: url('assets/Profile2.png'); 
+            background-image: url('https://iili.io/CxpksOx.png'); 
             background-size: cover; 
             background-position: center top; 
             background-repeat: no-repeat;
@@ -476,15 +476,76 @@ body.animations-done .link-button {
         transition: transform 0.15s !important;
     }
 }
+  
+/* ------------------------------------------------ */
+/* PROFİL FOTOĞRAFI TAM EKRAN VE İPUCU (FLASH) EFEKTİ */
+/* ------------------------------------------------ */
+
+.profile-hover-layer {
+    position: absolute;
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 5;
+    background-color: rgba(0, 0, 0, 0.4); 
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    opacity: 0; 
+    pointer-events: none; 
+    transition: opacity 0.3s ease; 
+}
+
+.profile-hover-layer i {
+    color: rgba #DCBAF7; 
+    font-size: 3.5em; 
+    transform: scale(0.5); 
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+}
+
+/* 1. FARE İLE ÜSTÜNE GELİNCE ÇALIŞ (Sadece Bilgisayarda) */
+@media (hover: hover) {
+    .profile-img-container:hover .profile-hover-layer {
+        opacity: 1; 
+    }
+    .profile-img-container:hover .profile-hover-layer i {
+        transform: scale(1); 
+    }
+}
+
+/* 2. KAYDIRINCA ZORLA KAPAT (Görüntü bozulmasın diye) */
+.profile-img-container.scrolled-past .profile-hover-layer {
+    opacity: 0 !important;
+}
+.profile-img-container.scrolled-past .profile-hover-layer i {
+    transform: scale(0.5) !important;
+}
+
+/* 3. JS'NİN ÇALIŞTIRACAĞI 0.5 SANİYELİK İPUCU (TUTORIAL FLASH) */
+.profile-img-container.show-hint .profile-hover-layer {
+    opacity: 1 !important;
+}
+.profile-img-container.show-hint .profile-hover-layer i {
+    transform: scale(1) !important;
+}
+
            
     </style>
 </head>
 <body>
 
-    <div class="profile-img-container">
+     <div class="profile-img-container">
         <div class="profile-img-visual">
             <div class="dim-overlay"></div>
         </div>
+        
+        <div class="profile-hover-layer">
+            <i class="fas fa-expand"></i>
+        </div>
+    </div>
     </div>
 
     <div class="content-wrapper"> 
@@ -596,11 +657,11 @@ body.animations-done .link-button {
     <div id="image-preview-modal" class="image-preview-modal">
         <div class="modal-content">
             <div class="modal-circle-mask">
-                <img src="assets/Profile2.png" alt="Kazikate Profil Resmi" id="preview-image" />
+                <img src="https://iili.io/CxpvFxp.png" alt="Kazikate Profil Resmi" id="preview-image" />
             </div>
         </div>
     </div>
-    <script>
+   <script>
     const SPRING_TRANSITION = 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
     const MODAL_STATE_NAME = 'image_preview_open';
 
@@ -636,14 +697,20 @@ body.animations-done .link-button {
             const clampedScroll = Math.min(scrollY, maxScroll);
             const scrollRatio = clampedScroll / maxScroll; 
             
-            /* Masaüstü ortalaması için yatay kaydırma kaldırıldı (CSS ile halledildi) */
             const newY = scrollY * parallaxRatio; 
-            profileImgContainer.style.transform = `translateY(${newY}px) translateX(-50%)`; /* Ortalamayı koru */
+            profileImgContainer.style.transform = `translateY(${newY}px) translateX(-50%)`; 
             
             const blurValue = scrollRatio * maxBlur; 
             profileImgVisual.style.filter = `blur(${blurValue}px)`;
             const dimOpacityValue = scrollRatio * maxDimOpacity;
             dimOverlay.style.opacity = dimOpacityValue;
+
+            // YENİ EKLENEN KISIM: Sayfa 30px'den fazla kaydırılırsa hover efektini devre dışı bırak
+            if (scrollY > 30) {
+                profileImgContainer.classList.add('scrolled-past');
+            } else {
+                profileImgContainer.classList.remove('scrolled-past');
+            }
         }
 
         window.addEventListener('scroll', updateParallaxAndBlurAndDim, { passive: true });
@@ -666,9 +733,24 @@ body.animations-done .link-button {
         // SİHİRLİ DOKUNUŞ: Giriş animasyonları bittikten sonra (2.2 sn) devreye girer
         setTimeout(() => {
             document.body.classList.add('animations-done');
+            
+            // YENİ EKLENEN: MOBİL/MASAÜSTÜ İÇİN İPUCU FLAŞI (TUTORIAL FLASH)
+            // Sadece sayfa ilk açıldığında 1 kere çalışır
+            if (profileImgContainer) {
+                setTimeout(() => {
+                    // İpucunu (Tam ekran ikonu ve bluru) göster
+                    profileImgContainer.classList.add('show-hint');
+                    
+                    // Tam olarak 0.5 saniye (500ms) sonra ipucunu kapat
+                    setTimeout(() => {
+                        profileImgContainer.classList.remove('show-hint');
+                    }, 1000); 
+                    
+                }, 300); // Animasyonlar bittikten sonra gözün alışması için 0.3 saniye bekler
+            }
+
         }, 2200);
 
-        
         
         // --- 4. PROFİL RESMİ MODALI VE PINCH-TO-ZOOM ÖZELLİĞİ ---
         const modal = document.getElementById('image-preview-modal');
@@ -736,7 +818,6 @@ body.animations-done .link-button {
             document.addEventListener('keydown', handleEscape, { once: true });
         }
 
-
         // ESC TUŞU İŞLEVİ
         function handleEscape(e) {
             if (e.key === 'Escape') {
@@ -756,10 +837,8 @@ body.animations-done .link-button {
             }
         });
 
-
         // GÖRSELİN ÜZERİNE TIKLANINCA
         profileImgContainer.addEventListener('click', openModal);
-
         
         // ------------------------------------------------------------------
         // A. TOUCHSTART (Başlangıç) Olayı
@@ -819,6 +898,7 @@ body.animations-done .link-button {
 
     });
 </script>
+
 
     <div class="bottom-blur-layer"></div>
 
