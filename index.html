@@ -450,7 +450,33 @@
             height: 100%;
             object-fit: cover; 
         }   
-                 
+  
+      /* ------------------------------------------------ */
+/* LİNK BUTONLARI KUSURSUZ HOVER EFEKTİ */
+/* ------------------------------------------------ */
+
+/* Giriş animasyonları bittikten sonra gecikmeleri (delay) devre dışı bırakıyoruz */
+body.animations-done .link-button {
+    transition-delay: 0s !important; 
+}
+
+/* @media (hover: hover) -> Sadece mouse olan cihazlarda çalışır. 
+   Bu sayede mobilde ekranı kaydırırken asla takılı kalmaz veya büyümez! */
+@media (hover: hover) {
+    
+    /* 1. Fare Üstündeyken: Yumuşakça büyü (0.15s) */
+    body.animations-done .link-button:hover {
+        transform: scale(1.05);
+        transition: transform 0.15s ease-out !important;
+    }
+    
+    /* 2. Fare Çekildiğinde: ANINDA eski haline dön (0s) */
+    body.animations-done .link-button:not(:hover) {
+        transform: scale(1);
+        transition: transform 0.15s !important;
+    }
+}
+           
     </style>
 </head>
 <body>
@@ -623,7 +649,7 @@
         window.addEventListener('scroll', updateParallaxAndBlurAndDim, { passive: true });
         updateParallaxAndBlurAndDim(); 
         
-        // --- 3. BUTON BASMA EFEKTİ ---
+        // --- 3. BUTON BASMA EFEKTİ VE ANİMASYON KONTROLÜ ---
         const linkButtons = document.querySelectorAll('.link-button');
 
         linkButtons.forEach(btn => {
@@ -636,6 +662,12 @@
                 }, 200);
             });
         });
+
+        // SİHİRLİ DOKUNUŞ: Giriş animasyonları bittikten sonra (2.2 sn) devreye girer
+        setTimeout(() => {
+            document.body.classList.add('animations-done');
+        }, 2200);
+
         
         
         // --- 4. PROFİL RESMİ MODALI VE PINCH-TO-ZOOM ÖZELLİĞİ ---
