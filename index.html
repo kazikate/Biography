@@ -100,8 +100,9 @@ body {
     -webkit-tap-highlight-color: transparent; 
     
     /* YENİ EKLENEN: Büyüyen resmin kutu dışına taşmasını makas gibi keser */
-    overflow: hidden; 
-}
+    overflow: hidden;    
+            isolation: isolate; /* Sihirli dokunuş */
+        }
 
 
         /* İçerik Katmanı (Ön Plan) */
@@ -160,7 +161,7 @@ body {
             width: 100%;
             height: 100%;
             position: relative; 
-            background-image: url('assets/Profile2.png'); 
+            background-image: url('https://kazikate.github.io/Biography/assets/Profile2.png'); 
             background-size: cover; 
             background-position: center top; 
             background-repeat: no-repeat;
@@ -633,13 +634,224 @@ body.animations-done .link-button {
     background-color: rgba(157, 80, 255, 0.8); /* Üstüne gelince parlar */
 }
 
+/* ------------------------------------------------ */
+/* DİNAMİK MÜZİK WIDGET'I (CAM EFEKTLİ V2) */
+/* ------------------------------------------------ */
+
+#music-widget {
+    position: fixed;
+    top: 15px; left: 15px;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+}
+
+/* Ana Konteyneri Bul ve Şeffaf Yap */
+.music-cover-container {
+    width: 55px; height: 55px;
+    border-radius: 50%;
+    position: relative;
+    z-index: 2; 
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+    border: 2px solid #A48BB8;
+    overflow: hidden;
+    
+    background-color: transparent; /* Geri şeffaf yapıyoruz! */
+    transition: background-color 0.5s ease; /* Renk değişimi tereyağı gibi olsun */
+}
+
+/* YENİ: Müzik başlayınca devreye girecek katı arka plan sınıfı */
+.music-cover-container.solid-bg {
+    background-color: #120e18; /* O kusursuz koyu renk */
+}
+
+
+/* 1. KATMAN: Başlangıçtaki Cam ve İkon */
+.default-glass-cover {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(255, 255, 255, 0.05); /* Premium koyu cam */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 1;
+    transition: opacity 0.4s ease;
+}
+
+.default-glass-cover svg {
+    width: 22px; height: 22px;
+    color: #A48BB8;
+}
+
+/* 2. KATMAN: Albüm Kapağı (Crossfade destekli) */
+.track-cover-layer {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0; left: 0;
+    z-index: 2;
+    opacity: 0; 
+    /* Crossfade efekti için pürüzsüz geçiş */
+    transition: opacity 0.6s ease-in-out;
+}
+
+.spin-anim { animation: spin-record 5s linear infinite; }
+@keyframes spin-record { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+/* 3. KATMAN: Karartma ve Kontrol İkonları */
+.music-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.5); 
+    display: flex; justify-content: center; align-items: center;
+    z-index: 3;
+    opacity: 0; 
+    transition: opacity 0.3s ease;
+}
+
+.music-cover-container.is-active .music-overlay,
+.music-cover-container:hover .music-overlay { opacity: 1; }
+
+.music-overlay svg {
+    width: 20px; height: 20px; color: #A48BB8;
+    position: absolute; opacity: 0; transform: scale(0.5);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.music-overlay svg.show-icon { opacity: 1; transform: scale(1); }
+
+.music-waves {
+    display: flex; align-items: center; justify-content: center; gap: 3px;
+    height: 20px; position: absolute; opacity: 0; transform: scale(0.5);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.music-waves.show-wave { opacity: 1; transform: scale(1); }
+
+.wave-line {
+    width: 3px; height: 100%; background-color: var(--primary-color, #A48BB8);
+    border-radius: 3px; animation: wave-bounce 1s ease-in-out infinite alternate;
+}
+.wave-line:nth-child(1) { animation-delay: 0.0s; }
+.wave-line:nth-child(2) { animation-delay: 0.3s; height: 60%; }
+.wave-line:nth-child(3) { animation-delay: 0.6s; height: 80%; }
+.wave-line:nth-child(4) { animation-delay: 0.9s; height: 50%; }
+@keyframes wave-bounce { 0% { height: 20%; opacity: 0.5; } 100% { height: 100%; opacity: 1; } }
+
+/* Yandan Uzayan Cam Hap Panel */
+/* Hap Panel Ana Ayarı (KAPANMIŞ VE GERİ ÇEKİLİRKEN) */
+.music-pill {
+    position: absolute; left: 27px; height: 45px;
+    background: rgba(20, 15, 25, 0.6);
+    backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+    border: 1px solid #A48BB8; border-radius: 0 25px 25px 0;
+    z-index: 1; display: flex; align-items: center;
+    max-width: 0; padding: 0; overflow: hidden; white-space: nowrap; 
+    opacity: 0;
+    
+    /* İŞTE SİHİR BURADA: Kutu geri çekilirken (0.5s), opacity transition'ına 0.5s GECİKME veriyoruz. 
+       Yani kutu tamamen büzülene kadar opacity 1 kalıyor (sönmüyor), iş bitince şak diye 0 oluyor. */
+    transition: max-width 0.5s cubic-bezier(0.5, 0, 0.1, 1), 
+                padding 0.5s cubic-bezier(0.5, 0, 0.1, 1), 
+                opacity 0s 0.5s; 
+}
+
+/* Hap Panel Çıkışı (FIRLARKEN) */
+.music-pill.show-pill { 
+    max-width: 200px; padding: 0 20px 0 35px; opacity: 1; 
+    
+    transition: max-width 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55),
+                padding 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55), 
+                opacity 0.1s ease;
+}
+
+/* Kapağın Darbeyi Emip Yaylanma (Bounce) Efekti */
+.cover-bounce {
+    animation: hit-bounce 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes hit-bounce {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.05); } /* Daha erken şişip tok bir şekilde geri otursun */
+    100% { transform: scale(1); }
+}
+
+   /* 2. Yazıların Bulunduğu Konteyneri Bul ve Güncelle (Yumuşak geçiş ekliyoruz) */
+.music-info { 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+    /* YENİ: Yazı değiştiğinde yumuşak bir sönme/parlama efekti verecek */
+    transition: opacity 0.3s ease; 
+}
+
+/* 3. CSS'in herhangi bir yerine şu yeni sınıfı ekle (Yazıları geçici olarak görünmez yapmak için) */
+.music-info.fade-out {
+    opacity: 0;
+}
+    #track-title { color: white; font-size: 0.85rem; font-weight: 600; }
+#track-artist { color: rgba(255, 255, 255, 0.6); font-size: 0.7rem; }
+
+/* DÖNEN KAPAĞI OLDUĞU YERDE DONDURMA KİLİDİ */
+.pause-anim {
+    animation-play-state: paused !important;
+}
+
+/* İLERİ SARMA (FORWARD) İKONU ANİMASYONU */
+#forward-icon {
+    width: 20px; height: 20px; color: #A48BB8; position: absolute;
+    opacity: 0; 
+    transform: translateX(-15px) scale(0.5); /* Soldan başlar */
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+#forward-icon.show-forward {
+    opacity: 1; 
+    transform: translateX(0) scale(1); /* Sağa kayarak yerine oturur */
+}
+
+
            
     </style>
 </head>
 <body>
+    <div id="music-widget">
+        <div class="music-pill">
+            <div class="music-info">
+                <div id="track-title">Bekleniyor...</div>
+                <div id="track-artist">Müzik Çalar</div>
+            </div>
+        </div>
+        
+        <div class="music-cover-container" id="music-toggle">
+            
+            <div class="default-glass-cover" id="default-cover">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+            </div>
+            
+            <img src="" id="track-cover-1" class="track-cover-layer" alt="Album Cover">
+            <img src="" id="track-cover-2" class="track-cover-layer" alt="Album Cover">
+            
+            <div class="music-overlay">
+                <svg id="play-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                <svg id="pause-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+                <svg id="forward-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 4 15 12 5 20 5 4"></polygon><line x1="19" y1="5" x2="19" y2="19"></line></svg>
+                
+                <div class="music-waves" id="wave-icon">
+                    <div class="wave-line"></div>
+                    <div class="wave-line"></div>
+                    <div class="wave-line"></div>
+                    <div class="wave-line"></div>
+                </div>
+            </div>
+        </div>
+        
+        <audio id="audio-player"></audio>
+    </div>
 
-    <canvas id="particle-canvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none;"></canvas>
-    
+
+
+   <canvas id="particle-canvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none;"></canvas>
+
      <div class="profile-img-container">
         <div class="profile-img-visual">
             <div class="dim-overlay"></div>
@@ -1042,35 +1254,33 @@ body.animations-done .link-button {
             }
         }, { passive: true });
 
-        // --- 6. MANYETİK BUTONLAR (HEM BÜYÜK LİNKLER HEM MİNİ İKONLAR İÇİN) ---
-        // Hem ana butonları hem de mini sosyal medya ikonlarını seçer
-        const magneticElements = document.querySelectorAll('.link-button, .social-icons-mini a');
+        // --- 6. MANYETİK HOVER MOTORU (SADECE MİNİ İKONLAR İÇİN) ---
+        // Sadece küçük sosyal medya ikonlarının linklerini seçer
+        const miniIcons = document.querySelectorAll('.social-icons-mini a');
         
-        magneticElements.forEach(el => {
-            el.addEventListener('mousemove', (e) => {
+        miniIcons.forEach(icon => {
+            icon.addEventListener('mousemove', (e) => {
+                // Dokunmatik ekranda değilsek ve giriş animasyonları bittiyse çalış
                 if (!document.body.classList.contains('is-touching') && document.body.classList.contains('animations-done')) {
-                    const rect = el.getBoundingClientRect();
+                    const rect = icon.getBoundingClientRect();
+                    
+                    // Farenin ikonun merkezine olan mesafesini milimetrik hesapla
                     const x = e.clientX - rect.left - rect.width / 2;
                     const y = e.clientY - rect.top - rect.height / 2;
                     
-                    // Elementin mini ikon mu yoksa büyük buton mu olduğunu anla
-                    const isMini = el.closest('.social-icons-mini') !== null;
-                    
-                    // Küçük ikonlar daha çok fırlasın (0.4), büyük butonlar daha ağır esnesin (0.25)
-                    const pull = isMini ? 0.4 : 0.25; 
-                    const scale = isMini ? 1.15 : 1.03;
-
-                    el.style.transform = `translate(${x * pull}px, ${y * pull}px) scale(${scale})`;
-                    el.style.transition = 'transform 0.1s ease-out';
+                    // İkonlar küçük olduğu için fırlama oranını (0.4) ve büyüme oranını (1.15) yüksek tuttuk
+                    icon.style.transform = `translate(${x * 0.4}px, ${y * 0.4}px) scale(1.15)`;
+                    icon.style.transition = 'transform 0.1s ease-out';
                 }
             });
 
-            // Fare üzerinden ayrıldığında yaylanarak orijinal konumuna geri döner
-            el.addEventListener('mouseleave', () => {
-                el.style.transform = ''; 
-                el.style.transition = 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+            // Fare ikonun üzerinden ayrılınca "blup" diye yaylanarak yerine otursun
+            icon.addEventListener('mouseleave', () => {
+                icon.style.transform = ''; 
+                icon.style.transition = 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
             });
         });
+
 
 
 
@@ -1090,37 +1300,45 @@ body.animations-done .link-button {
             window.addEventListener('resize', resizeCanvas);
             resizeCanvas();
 
-            // Zerre (Partikül) Sınıfı
+            // Zerre (Partikül) Sınıfı - 3 BOYUTLU VE YAVAŞ MOTOR
             class Particle {
                 constructor() {
                     this.x = Math.random() * width;
                     this.y = Math.random() * height;
-                    this.size = Math.random() * 2.0 + 1.0; // Çok ufak, göz yormaz
-                    this.speedX = Math.random() * 0.4 - 0.2; // Sağa sola çok yavaş
-                    this.speedY = Math.random() * -0.5 - 0.1; // Sadece yukarı doğru usulca süzülür
-                    this.opacity = Math.random() * 0.4 + 0.2; // Saydamlık çok düşük, dikkat dağıtmaz
+                    this.size = Math.random() * 2.0 + 1.0; 
+                    
+                    // Hızları artık mikroskobik seviyede
+                    this.speedX = Math.random() * 0.5 - 0.2; 
+                    this.speedY = Math.random() * -0.5 - 0.2;                     
+                    this.opacity = Math.random() * 0.35 + 0.15; 
                 }
                 update() {
-                    // Cihaz sensöründen gelen eğim (jiroskop) hızına eklenir
-                    this.x += this.speedX + (tiltX * 0.03);
-                    this.y += this.speedY + (tiltY * 0.03);
+                    // SİHİRLİ DOKUNUŞ: Derinlik (Z-Ekseni) hissi. 
+                    // Büyük zerreler jiroskoptan daha çok etkilenir, küçükler daha az. 
+                    // Bu sayede hepsi aynı anda kaymaz, aralarında BOŞLUK oluşmaz!
+                    const depth = this.size * 0.4; 
+                    
+                    this.x += this.speedX + (tiltX * 0.02 * depth);
+                    this.y += this.speedY + (tiltY * 0.02 * depth);
 
-                    // Ekrandan çıkan zerreleri zıt köşeden geri sok
-                    if (this.y < 0) this.y = height;
-                    if (this.x < 0) this.x = width;
-                    if (this.x > width) this.x = 0;
-                    if (this.y > height) this.y = 0;
+                    // Sınırları ekranın tam kenarı değil, 10px dışarısı yaptık ki 
+                    // zerreler aniden "pop" diye yok olup boşluk yaratmasın, yumuşakça girsin.
+                    if (this.y < -10) this.y = height + 10;
+                    if (this.x < -10) this.x = width + 10;
+                    if (this.x > width + 10) this.x = -10;
+                    if (this.y > height + 10) this.y = -10;
                 }
                 draw() {
-                    ctx.fillStyle = `rgba(157, 80, 255, ${this.opacity})`; // Senin mor rengin
+                    ctx.fillStyle = `rgba(157, 80, 255, ${this.opacity})`; 
                     ctx.beginPath();
                     ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                     ctx.fill();
                 }
             }
 
+
             // Sadece 35 adet zerre üretir (Kalabalık yapıp siteyi ucuzlatmaması için)
-            for (let i = 0; i < 35; i++) {
+            for (let i = 0; i < 45; i++) {
                 particles.push(new Particle());
             }
 
@@ -1142,11 +1360,327 @@ body.animations-done .link-button {
             }, { passive: true });
         }
     
+        // --- ÇİFT TIKLAMALI DİNAMİK MÜZİK MOTORU ---
+        
+
+        const audioPlayer = document.getElementById('audio-player');
+        const toggleBtn = document.getElementById('music-toggle');
+        const defaultCover = document.getElementById('default-cover');
+        const trackTitle = document.getElementById('track-title');
+        const trackArtist = document.getElementById('track-artist');
+        
+        // CROSSFADE İÇİN 2 FARKLI ALBÜM KAPAĞI DEĞİŞKENİ
+        const trackCover1 = document.getElementById('track-cover-1');
+        const trackCover2 = document.getElementById('track-cover-2');
+        let activeCover = 1;
+        
+        const playIcon = document.getElementById('play-icon');
+        const pauseIcon = document.getElementById('pause-icon');
+        const waveIcon = document.getElementById('wave-icon');
+        const musicPill = document.querySelector('.music-pill');
+
+        let isPlaying = false;
+        let isFirstPlay = true; 
+        let pillTimeout;
+        let iconTimeout;
+        let clickTimer; // Tek/Çift tıklamayı ayırmak için zamanlayıcı
+        let shuffledQueue = [];
+        let currentQueueIndex = 0;
+        let pillCloseTimer; 
+
+        // HAPI İÇERİ ÇEKME VE DARBE (BOUNCE) VURMA MOTORU
+        function closePill() {
+            musicPill.classList.remove('show-pill'); 
+            clearTimeout(pillCloseTimer);
+            
+            // Tam 500ms sonra (kutu içeri girdiği an) darbe yap
+            pillCloseTimer = setTimeout(() => {
+                toggleBtn.classList.add('cover-bounce');
+                setTimeout(() => {
+                    toggleBtn.classList.remove('cover-bounce');
+                }, 400); 
+            }, 500); 
+        }
+
+        // HAPI FIRLATMA MOTORU
+        function showPill() {
+            musicPill.classList.add('show-pill');
+            clearTimeout(pillTimeout);
+            clearTimeout(pillCloseTimer); // Çakışmaları engelle
+            
+            // 3 saniye ekranda kalıp geri içeri çek
+            pillTimeout = setTimeout(() => { 
+                closePill();
+            }, 3000);
+        }
+
+                // --- 1. ÇOK DAHA BASİT VE YÖNETİLEBİLİR PLAYLIST ---
+                const playlist = [
+            // Karma & Nu-Metal Başlangıç
+            { title: "Bodies", artist: "Drowning Pool", file: "music/Bodies.opus" },
+            { title: "Courtesy Call", artist: "Thousand Foot Krutch", file: "music/Courtesy Call.opus" },
+            { title: "Flying (Remastered)", artist: "Anathema", file: "music/Flying (Remastered).opus" },
+            { title: "Sonne", artist: "Rammstein", file: "music/Sonne.opus" },
+            { title: "Stricken", artist: "Disturbed", file: "music/Stricken.opus" },
+            { title: "The Sound of Silence", artist: "Disturbed", file: "music/The Sound of Silence.opus" },
+            { title: "Decadence", artist: "Disturbed", file: "music/Decadence.opus" },
+            { title: "Sirens", artist: "Saint Asonia", file: "music/Sirens.opus" },
+            { title: "Dying Slowly", artist: "Saint Asonia", file: "music/Dying Slowly.opus" },
+            { title: "Ghost", artist: "Saint Asonia", file: "music/Ghost.opus" },
+            { title: "Devastate", artist: "Saint Asonia", file: "music/Devastate.opus" },
+            { title: "O Come, O Come Emmanuel", artist: "Skillet", file: "music/O Come, O Come Emmanuel.opus" },
+            { title: "Ash In The Wind", artist: "Skillet", file: "music/Ash In The Wind.opus" },
+            
+            // Skillet Bloğu
+            { title: "Fire Inside of Me", artist: "Skillet", file: "music/Fire Inside of Me.opus" },
+            { title: "Psycho In My Head", artist: "Skillet", file: "music/Psycho In My Head.opus" },
+            { title: "Angels Fall Down (Live)", artist: "Skillet", file: "music/Angels Fall Down (Live).opus" },
+            { title: "You Are My Hope", artist: "Skillet", file: "music/You Are My Hope.opus" },
+            { title: "One Day Too Late", artist: "Skillet", file: "music/One Day Too Late.opus" },
+            { title: "Awake and Alive", artist: "Skillet", file: "music/Awake and Alive.opus" },
+            { title: "Everything Goes Black", artist: "Skillet", file: "music/Everything Goes Black.opus" },
+            { title: "American Noise", artist: "Skillet", file: "music/American Noise.opus" },
+            { title: "Good to Be Alive", artist: "Skillet", file: "music/Good to Be Alive.opus" },
+            { title: "Valley of Death", artist: "Skillet", file: "music/Valley of Death.opus" },
+            { title: "Lucy", artist: "Skillet", file: "music/Lucy.opus" },
+            { title: "Feel Invincible", artist: "Skillet", file: "music/Feel Invincible.opus" },
+            { title: "Legendary", artist: "Skillet", file: "music/Legendary.opus" },
+            { title: "Stars", artist: "Skillet", file: "music/Stars.opus" },
+            { title: "Victorious", artist: "Skillet", file: "music/Victorious.opus" },
+            { title: "The Last Night", artist: "Skillet", file: "music/The Last Night.opus" },
+            { title: "Rebirthing", artist: "Skillet", file: "music/Rebirthing.opus" },
+            { title: "It's Not Me, It's You", artist: "Skillet", file: "music/It's Not Me, It's You.opus" },
+            { title: "Dead Inside", artist: "Skillet", file: "music/Dead Inside.opus" },
+            { title: "Freakshow", artist: "Skillet", file: "music/Freakshow.opus" },
+            { title: "What I Believe", artist: "Skillet", file: "music/What I Believe.opus" },
+            { title: "The Resistance", artist: "Skillet", file: "music/The Resistance.opus" },
+            { title: "Not Gonna Die", artist: "Skillet", file: "music/Not Gonna Die.opus" },
+            { title: "Whispers in the Dark", artist: "Skillet", file: "music/Whispers in the Dark.opus" },
+            { title: "Comatose", artist: "Skillet", file: "music/Comatose.opus" },
+            { title: "Monster", artist: "Skillet", file: "music/Monster.opus" },
+            { title: "Hero", artist: "Skillet", file: "music/Hero.opus" },
+            
+            // Linkin Park Bloğu
+            { title: "Fighting Myself", artist: "Linkin Park", file: "music/Fighting Myself.opus" },
+            { title: "Let Down", artist: "Dead By Sunrise", file: "music/Let Down.opus" },
+            { title: "Until It's Gone", artist: "Linkin Park", file: "music/Until It's Gone.opus" },
+            { title: "Up From the Bottom", artist: "Linkin Park", file: "music/Up From the Bottom.opus" },
+            { title: "Two Faced", artist: "Linkin Park", file: "music/Two Faced.opus" },
+            { title: "Good Things Go", artist: "Linkin Park", file: "music/Good Things Go.opus" },
+            { title: "Lying from You", artist: "Linkin Park", file: "music/Lying from You.opus" },
+            { title: "A Place for My Head", artist: "Linkin Park", file: "music/A Place for My Head.opus" },
+            { title: "The Emptiness Machine", artist: "Linkin Park", file: "music/The Emptiness Machine.opus" },
+            { title: "Heavy Is the Crown", artist: "Linkin Park", file: "music/Heavy Is the Crown.opus" },
+            { title: "New Divide", artist: "Linkin Park", file: "music/New Divide.opus" },
+            { title: "One More Light", artist: "Linkin Park", file: "music/One More Light.opus" },
+            { title: "ROADS UNTRAVELED", artist: "Linkin Park", file: "music/ROADS UNTRAVELED.opus" },
+            { title: "CASTLE OF GLASS", artist: "Linkin Park", file: "music/CASTLE OF GLASS.opus" },
+            { title: "What I've Done", artist: "Linkin Park", file: "music/What I've Done.opus" },
+            { title: "Given Up", artist: "Linkin Park", file: "music/Given Up.opus" },
+            { title: "Papercut", artist: "Linkin Park", file: "music/Papercut.opus" },
+            { title: "One Step Closer", artist: "Linkin Park", file: "music/One Step Closer.opus" },
+            { title: "In the End", artist: "Linkin Park", file: "music/In the End.opus" },
+            { title: "Somewhere I Belong", artist: "Linkin Park", file: "music/Somewhere I Belong.opus" },
+            { title: "Breaking the Habit", artist: "Linkin Park", file: "music/Breaking the Habit.opus" },
+            { title: "Faint", artist: "Linkin Park", file: "music/Faint.opus" },
+            { title: "Numb", artist: "Linkin Park", file: "music/Numb.opus" },
+            
+            // Three Days Grace Bloğu
+            { title: "I Don't Care", artist: "Apocalyptica", file: "music/I Don't Care.opus" },
+            { title: "Kill Me Fast", artist: "Three Days Grace", file: "music/Kill Me Fast.opus" },
+            { title: "One X", artist: "Three Days Grace", file: "music/One X.opus" },
+            { title: "Lifetime", artist: "Three Days Grace", file: "music/Lifetime.opus" },
+            { title: "Fallen Angel", artist: "Three Days Grace", file: "music/Fallen Angel.opus" },
+            { title: "Life Starts Now", artist: "Three Days Grace", file: "music/Life Starts Now.opus" },
+            { title: "World so Cold", artist: "Three Days Grace", file: "music/World so Cold.opus" },
+            { title: "Home", artist: "Three Days Grace", file: "music/Home.opus" },
+            { title: "Get Out Alive", artist: "Three Days Grace", file: "music/Get Out Alive.opus" },
+            { title: "Pain", artist: "Three Days Grace", file: "music/Pain.opus" },
+            { title: "Time of Dying", artist: "Three Days Grace", file: "music/Time of Dying.opus" },
+            { title: "Never Too Late", artist: "Three Days Grace", file: "music/Never Too Late.opus" },
+            { title: "Riot", artist: "Three Days Grace", file: "music/Riot.opus" },
+            { title: "Animal I Have Become", artist: "Three Days Grace", file: "music/Animal I Have Become.opus" },
+            { title: "I Hate Everything About You", artist: "Three Days Grace", file: "music/I Hate Everything About You.opus" },
+            
+            // Slipknot Bloğu
+            { title: "Solway Firth", artist: "Slipknot", file: "music/Solway Firth.opus" },
+            { title: "[sic]", artist: "Slipknot", file: "music/[sic].opus" },
+            { title: "Eyeless", artist: "Slipknot", file: "music/Eyeless.opus" },
+            { title: "Unsainted", artist: "Slipknot", file: "music/Unsainted.opus" },
+            { title: "Nero Forte", artist: "Slipknot", file: "music/Nero Forte.opus" },
+            { title: "Custer", artist: "Slipknot", file: "music/Custer.opus" },
+            { title: "Left Behind", artist: "Slipknot", file: "music/Left Behind.opus" },
+            { title: "People = Shit", artist: "Slipknot", file: "music/People = Shit.opus" },
+            
+            // Metalcore / Alt Metal Kapanış
+            { title: "Afraid Of The Dark", artist: "Motionless In White", file: "music/Afraid Of The Dark.opus" },
+            { title: "Voices", artist: "Motionless In White", file: "music/Voices.opus" },
+            { title: "Another Life", artist: "Motionless In White", file: "music/Another Life.opus" },
+            { title: "Until The End", artist: "Breaking Benjamin", file: "music/Until The End.opus" },
+            { title: "Evil Angel", artist: "Breaking Benjamin", file: "music/Evil Angel.opus" },
+            { title: "Dance With The Devil", artist: "Breaking Benjamin", file: "music/Dance With The Devil.opus" },
+            { title: "Awaken", artist: "Breaking Benjamin", file: "music/Awaken.opus" },
+            { title: "Circle With Me", artist: "Spiritbox", file: "music/Circle With Me.opus" },
+            { title: "Decay With Me", artist: "Deathly Hours", file: "music/Decay With Me.opus" },
+            { title: "Dying in Your Arms", artist: "Deathly Hours", file: "music/Dying in Your Arms.opus" }
+        ];
+
+        // --- YUMUŞATILMIŞ GEÇİŞLİ (CROSSFADE) VE KARIŞTIRMA ALGORİTMALI MOTOR ---
+        async function loadRandomTrack() {
+            toggleBtn.classList.add('solid-bg');
+
+            if (shuffledQueue.length === 0 || currentQueueIndex >= shuffledQueue.length) {
+                shuffledQueue = Array.from({length: playlist.length}, (_, i) => i);
+                for (let i = shuffledQueue.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [shuffledQueue[i], shuffledQueue[j]] = [shuffledQueue[j], shuffledQueue[i]];
+                }
+                currentQueueIndex = 0;
+            }
+
+            const trackIndex = shuffledQueue[currentQueueIndex];
+            currentQueueIndex++;
+            const randomTrack = playlist[trackIndex];
+            
+            // YAZILARI ANINDA DEĞİŞTİR (Kutu zaten kapanmış olacağı için görünmeden değişecek)
+            trackTitle.textContent = randomTrack.title;
+            trackArtist.textContent = randomTrack.artist;
+
+            audioPlayer.src = randomTrack.file;
+
+            
+            // CROSSFADE İÇİN HANGİ KAPAĞIN SIRADA OLDUĞUNU BUL
+            const nextCover = activeCover === 1 ? trackCover2 : trackCover1;
+            const currentCover = activeCover === 1 ? trackCover1 : trackCover2;
+
+            // API'DEN KAPAĞI ÇEK VE YÜKLE
+            let hdCoverUrl = "https://i.scdn.co/image/ab67616d0000b27341e97ee9cf2ee378519e4875"; 
+            try {
+                const response = await fetch(`https://itunes.apple.com/search?term=${randomTrack.artist}+${randomTrack.title}&entity=song&limit=1`);
+                const data = await response.json();
+                if(data.results.length > 0) {
+                    hdCoverUrl = data.results[0].artworkUrl100.replace('100x100bb', '600x600bb');
+                }
+            } catch(e) {
+                console.log("Kapak çekilirken hata oluştu.");
+            }
+
+            // Yeni kapağı arka planda yükle
+            nextCover.src = hdCoverUrl;
+
+            // YÜKLENDİĞİ AN KUSURSUZ CROSSFADE (Yumuşak Geçiş) YAP
+            nextCover.onload = () => {
+                nextCover.style.opacity = '1';
+                currentCover.style.opacity = '0';
+                defaultCover.style.opacity = '0'; // Buzlu camı tamamen gizle
+                activeCover = activeCover === 1 ? 2 : 1; // Sırayı değiştir
+            };
+        }
 
 
+        function resetIcons() {
+            playIcon.classList.remove('show-icon');
+            pauseIcon.classList.remove('show-icon');
+            waveIcon.classList.remove('show-wave');
+        }
+
+        function playTrack(isSkipping = false) {
+            clearTimeout(iconTimeout);
+            resetIcons();
+            
+            audioPlayer.play().catch(e => console.log("Müzik bekleniyor..."));
+            
+            // İKİ KAPAĞI DA SENKRONİZE DÖNDÜR (Dönüş Asla Aksamaz)
+            trackCover1.classList.add('spin-anim');
+            trackCover1.classList.remove('pause-anim'); 
+            trackCover2.classList.add('spin-anim');
+            trackCover2.classList.remove('pause-anim'); 
+            
+            toggleBtn.classList.add('is-active');
+            
+            // EĞER İLERİ SARMADAN GELDİYSEK İKONUN EKRANDAN ÇIKMASINI 400ms BEKLE
+            if (isSkipping) {
+                iconTimeout = setTimeout(() => {
+                    waveIcon.classList.add('show-wave');
+                }, 400); // 400ms gecikme eklendi! İkon kayarken dalga gelmeyecek.
+            } else {
+                playIcon.classList.add('show-icon');
+                iconTimeout = setTimeout(() => {
+                    playIcon.classList.remove('show-icon');
+                    waveIcon.classList.add('show-wave');
+                }, 1000);
+            }
+            
+            isPlaying = true;
+        }
+
+
+        function pauseTrack() {
+            clearTimeout(iconTimeout);
+            
+            audioPlayer.pause();
+            
+            trackCover1.classList.add('pause-anim'); 
+            trackCover2.classList.add('pause-anim'); 
+            
+            toggleBtn.classList.remove('is-active');
+            waveIcon.classList.remove('show-wave');
+            pauseIcon.classList.add('show-icon');
+            
+            isPlaying = false;
+        }
+
+
+        // TEK TIKLAMA: Sadece Durdur/Başlat
+        toggleBtn.addEventListener('click', (e) => {
+            if (e.detail === 1) { 
+                clickTimer = setTimeout(() => {
+                    if (isFirstPlay) {
+                        loadRandomTrack();
+                        showPill();
+                        isFirstPlay = false;
+                        playTrack();
+                    } else {
+                        isPlaying ? pauseTrack() : playTrack();
+                    }
+                }, 250); 
+            }
+        });
+
+        // ÇİFT TIKLAMA: İleri Sarma Animasyonu ve Yeni Şarkı (YUT VE TÜKÜR MANTIĞI)
+        toggleBtn.addEventListener('dblclick', () => {
+            clearTimeout(clickTimer);
+            resetIcons(); 
+            
+            const forwardIcon = document.getElementById('forward-icon');
+            forwardIcon.classList.add('show-forward');
+            
+            if (musicPill.classList.contains('show-pill')) {
+                clearTimeout(pillTimeout); 
+                closePill(); 
+            }
+            
+            setTimeout(() => {
+                forwardIcon.classList.remove('show-forward');
+                
+                loadRandomTrack(); 
+                isFirstPlay = false;
+                
+                showPill(); 
+                playTrack(true); 
+            }, 500); 
+        });
+
+
+        audioPlayer.addEventListener('ended', () => {
+            isPlaying = false;
+            trackCover1.classList.remove('spin-anim');
+            trackCover2.classList.remove('spin-anim');
+            resetIcons();
+            playIcon.classList.add('show-icon');
+        });
 
 </script>
-
 
     <div class="bottom-blur-layer"></div>
 
