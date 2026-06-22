@@ -506,15 +506,16 @@ body.animations-done .link-button {
     transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
 }
 
-/* 1. FARE İLE ÜSTÜNE GELİNCE ÇALIŞ (Sadece Bilgisayarda) */
+/* 1. FARE İLE ÜSTÜNE GELİNCE ÇALIŞ (Dokunmatik algılandığında tamamen kilitlenir) */
 @media (hover: hover) {
-    .profile-img-container:hover .profile-hover-layer {
+    body:not(.is-touching) .profile-img-container:hover .profile-hover-layer {
         opacity: 1; 
     }
-    .profile-img-container:hover .profile-hover-layer i {
+    body:not(.is-touching) .profile-img-container:hover .profile-hover-layer i {
         transform: scale(1); 
     }
 }
+
 
 /* 2. KAYDIRINCA ZORLA KAPAT (Görüntü bozulmasın diye) */
 .profile-img-container.scrolled-past .profile-hover-layer {
@@ -562,6 +563,18 @@ body.animations-done .link-button {
     
     /* Resim indirme menüsünü zorla aktif eder */
     -webkit-touch-callout: default !important; 
+}
+
+  /* ------------------------------------------------ */
+/* DOKUNMA (BASILI TUTMA) ESNASINDA HOVER'I ZORLA KAPAT */
+/* ------------------------------------------------ */
+.profile-img-container.disable-hover .profile-hover-layer {
+    opacity: 0 !important;
+    transition: none !important; /* Beklemeden anında yok olsun */
+}
+.profile-img-container.disable-hover .profile-hover-layer i {
+    transform: scale(0.5) !important;
+    transition: none !important;
 }
 
            
@@ -931,6 +944,20 @@ body.animations-done .link-button {
         }
 
     });
+
+        // --- 5. KESİN ÇÖZÜM: MOBİLDE SAHTE HOVER ENGELLEYİCİ ---
+        // Kullanıcı ekrana dokunduğu an 'is-touching' sınıfı eklenir ve hover CSS'i kilitlenir.
+        document.addEventListener('touchstart', () => {
+            document.body.classList.add('is-touching');
+        }, { passive: true });
+
+        // Sadece gerçek bir fare (veya aktif S-Pen) hareketi algılanırsa kilit açılır.
+        document.addEventListener('mousemove', (e) => {
+            if (e.movementX !== 0 || e.movementY !== 0) {
+                document.body.classList.remove('is-touching');
+            }
+        }, { passive: true });
+
 </script>
 
 
