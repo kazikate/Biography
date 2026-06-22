@@ -73,13 +73,9 @@ body {
     min-height: 100vh;
     position: relative; 
     -webkit-tap-highlight-color: transparent; 
-    
-    /* YENİ EKLENEN: Sayfanın sağa-sola kaymasını kesin olarak engeller */
-    overflow-x: hidden; 
+    /* Burada overflow ile ilgili hiçbir satır KALMASIN, tamamen silin */
 }
-
-
-        
+    
         /* ------------------------------------------------ */
         /* TEMEL GENİŞLİK VE ORTALAMA AYARLARI (MASAÜSTÜ VE MOBİL İÇİN SABİT) */
         /* ------------------------------------------------ */
@@ -159,6 +155,7 @@ body {
         }
 
         /* Bulanırlık Uygulanacak Görsel Katmanı */
+        /* Bulanırlık Uygulanacak Görsel Katmanı */
         .profile-img-visual {
             width: 100%;
             height: 100%;
@@ -168,10 +165,12 @@ body {
             background-position: center top; 
             background-repeat: no-repeat;
             filter: blur(0px); 
-            /* GÜNCELLENDİ: Yaylı transform efekti eklendi */
-            transition: filter 0.1s linear, transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            
+            /* GÜNCELLENDİ: "filter 0.1s" silindi! Sadece büyüme efekti animasyonlu kaldı */
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
             will-change: filter, transform; 
         }
+
 
         /* YENİ: MODAL AÇILDIĞINDA ARKA PLANIN ÖNE DOĞRU BÜYÜMESİ İÇİN */
         body.is-modal-open .profile-img-visual {
@@ -530,13 +529,29 @@ body.animations-done .link-button {
     transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
 }
 
-/* 1. FARE İLE ÜSTÜNE GELİNCE ÇALIŞ (Dokunmatik algılandığında tamamen kilitlenir) */
+/* ------------------------------------------------ */
+/* LİNK BUTONLARI KUSURSUZ HOVER EFEKTİ (ORİJİNAL) */
+/* ------------------------------------------------ */
+
+/* Giriş animasyonları bittikten sonra gecikmeleri (delay) devre dışı bırakıyoruz */
+body.animations-done .link-button {
+    transition-delay: 0s !important; 
+}
+
+/* @media (hover: hover) -> Sadece mouse olan cihazlarda çalışır. 
+   Bu sayede mobilde ekranı kaydırırken asla takılı kalmaz veya büyümez! */
 @media (hover: hover) {
-    body:not(.is-touching) .profile-img-container:hover .profile-hover-layer {
-        opacity: 1; 
+    
+    /* 1. Fare Üstündeyken: Yumuşakça büyü (0.15s) */
+    body.animations-done .link-button:hover {
+        transform: scale(1.05);
+        transition: transform 0.15s ease-out !important;
     }
-    body:not(.is-touching) .profile-img-container:hover .profile-hover-layer i {
-        transform: scale(1); 
+    
+    /* 2. Fare Çekildiğinde: ANINDA eski haline dön */
+    body.animations-done .link-button:not(:hover) {
+        transform: scale(1);
+        transition: transform 0.15s !important;
     }
 }
 
@@ -601,17 +616,36 @@ body.animations-done .link-button {
     transition: none !important;
 }
 
+    /* ------------------------------------------------ */
+/* ÖZEL KAYDIRMA ÇUBUĞU (SCROLLBAR) */
+/* ------------------------------------------------ */
+::-webkit-scrollbar {
+    width: 5px; /* Çok ince ve zarif */
+}
+::-webkit-scrollbar-track {
+    background-color: var(--dark-bg); 
+}
+::-webkit-scrollbar-thumb {
+    background-color: rgba(157, 80, 255, 0.4); /* Mor renginin hafif şeffaf hali */
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(157, 80, 255, 0.8); /* Üstüne gelince parlar */
+}
+
            
     </style>
 </head>
 <body>
 
+    <canvas id="particle-canvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none;"></canvas>
+    
      <div class="profile-img-container">
         <div class="profile-img-visual">
             <div class="dim-overlay"></div>
         </div>
         
-       <img src="assets/Profile2.png" alt="Kazikate Profile Picture" class="downloadable-profile-img">
+       <img src="assets/Profile2.png" alt="Kazikate Profil Resmi" class="downloadable-profile-img">
         
         <div class="profile-hover-layer">
             <i class="fas fa-expand"></i>
@@ -727,7 +761,7 @@ body.animations-done .link-button {
     <div id="image-preview-modal" class="image-preview-modal">
         <div class="modal-content">
             <div class="modal-circle-mask">
-                <img src="assets/Profile2.png" alt="Kazikate Profile Picture" id="preview-image" />
+                <img src="https://iili.io/CxpvFxp.png" alt="Kazikate Profil Resmi" id="preview-image" />
             </div>
         </div>
     </div>
@@ -752,7 +786,7 @@ body.animations-done .link-button {
             });
         }, 50); 
         
-        // --- 2. PARALLAX, BLUR VE DIM EFEKTİ ---
+        // --- 2. KUSURSUZ PARALLAX VE BLUR EFEKTİ (LOKAL DOSYA ÇÖZÜMÜ) ---
         const profileImgContainer = document.querySelector('.profile-img-container');
         const profileImgVisual = document.querySelector('.profile-img-visual'); 
         const dimOverlay = document.querySelector('.dim-overlay');
@@ -762,29 +796,46 @@ body.animations-done .link-button {
         const maxBlur = 10;         
         const maxDimOpacity = 0.6;  
 
-        function updateParallaxAndBlurAndDim() {
-            const scrollY = window.scrollY;
-            const clampedScroll = Math.min(scrollY, maxScroll);
-            const scrollRatio = clampedScroll / maxScroll; 
-            
-            const newY = scrollY * parallaxRatio; 
-            profileImgContainer.style.transform = `translateY(${newY}px) translateX(-50%)`; 
-            
-            const blurValue = scrollRatio * maxBlur; 
-            profileImgVisual.style.filter = `blur(${blurValue}px)`;
-            const dimOpacityValue = scrollRatio * maxDimOpacity;
-            dimOverlay.style.opacity = dimOpacityValue;
+        let ticking = false;
 
-            // YENİ EKLENEN KISIM: Sayfa 30px'den fazla kaydırılırsa hover efektini devre dışı bırak
-            if (scrollY > 30) {
-                profileImgContainer.classList.add('scrolled-past');
-            } else {
-                profileImgContainer.classList.remove('scrolled-past');
+        function updateEffects() {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    // İŞTE SİHİRLİ SATIR BURASI: 
+                    // Tarayıcının bozuk scroll sensörü yerine, gövdenin (body) ekrana göre fiziksel konumunu milimetrik olarak ölçüyoruz. Asla şaşmaz!
+                    const bodyTop = document.body.getBoundingClientRect().top;
+                    const scrollY = Math.max(0, -bodyTop); 
+                    
+                    const clampedScroll = Math.min(scrollY, maxScroll);
+                    const scrollRatio = clampedScroll / maxScroll; 
+                    
+                    const newY = scrollY * parallaxRatio; 
+                    
+                    // Parallax, Blur (Bulanıklık) ve Kararma efektlerinin hepsi devrede
+                    profileImgContainer.style.transform = `translate3d(-50%, ${newY}px, 0)`; 
+                    profileImgVisual.style.filter = `blur(${scrollRatio * maxBlur}px)`;
+                    dimOverlay.style.opacity = scrollRatio * maxDimOpacity;
+
+                    if (scrollY > 30) {
+                        profileImgContainer.classList.add('scrolled-past');
+                    } else {
+                        profileImgContainer.classList.remove('scrolled-past');
+                    }
+                    
+                    ticking = false;
+                });
+                ticking = true;
             }
         }
 
-        window.addEventListener('scroll', updateParallaxAndBlurAndDim, { passive: true });
-        updateParallaxAndBlurAndDim(); 
+        // Hem ekran kaydırma hem de dokunmatik hareket olaylarını dinle
+        window.addEventListener('scroll', updateEffects, { passive: true });
+        window.addEventListener('touchmove', updateEffects, { passive: true });
+        
+        // Sayfa yüklendiğinde efektleri konumlandır
+        updateEffects();
+
+
         
         // --- 3. BUTON BASMA EFEKTİ VE ANİMASYON KONTROLÜ ---
         const linkButtons = document.querySelectorAll('.link-button');
@@ -990,6 +1041,109 @@ body.animations-done .link-button {
                 document.body.classList.remove('is-touching');
             }
         }, { passive: true });
+
+        // --- 6. MANYETİK BUTONLAR (HEM BÜYÜK LİNKLER HEM MİNİ İKONLAR İÇİN) ---
+        // Hem ana butonları hem de mini sosyal medya ikonlarını seçer
+        const magneticElements = document.querySelectorAll('.link-button, .social-icons-mini a');
+        
+        magneticElements.forEach(el => {
+            el.addEventListener('mousemove', (e) => {
+                if (!document.body.classList.contains('is-touching') && document.body.classList.contains('animations-done')) {
+                    const rect = el.getBoundingClientRect();
+                    const x = e.clientX - rect.left - rect.width / 2;
+                    const y = e.clientY - rect.top - rect.height / 2;
+                    
+                    // Elementin mini ikon mu yoksa büyük buton mu olduğunu anla
+                    const isMini = el.closest('.social-icons-mini') !== null;
+                    
+                    // Küçük ikonlar daha çok fırlasın (0.4), büyük butonlar daha ağır esnesin (0.25)
+                    const pull = isMini ? 0.4 : 0.25; 
+                    const scale = isMini ? 1.15 : 1.03;
+
+                    el.style.transform = `translate(${x * pull}px, ${y * pull}px) scale(${scale})`;
+                    el.style.transition = 'transform 0.1s ease-out';
+                }
+            });
+
+            // Fare üzerinden ayrıldığında yaylanarak orijinal konumuna geri döner
+            el.addEventListener('mouseleave', () => {
+                el.style.transform = ''; 
+                el.style.transition = 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+            });
+        });
+
+
+
+        // --- 7. GHIBLI IŞIK ZERRELERİ VE JİROSKOP (CİHAZ EĞİMİ) MOTORU ---
+        const canvas = document.getElementById('particle-canvas');
+        if (canvas) {
+            const ctx = canvas.getContext('2d');
+            let width, height;
+            let particles = [];
+            let tiltX = 0; let tiltY = 0;
+
+            // Ekran boyutunu ayarla
+            function resizeCanvas() {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+            }
+            window.addEventListener('resize', resizeCanvas);
+            resizeCanvas();
+
+            // Zerre (Partikül) Sınıfı
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * width;
+                    this.y = Math.random() * height;
+                    this.size = Math.random() * 2.0 + 1.0; // Çok ufak, göz yormaz
+                    this.speedX = Math.random() * 0.4 - 0.2; // Sağa sola çok yavaş
+                    this.speedY = Math.random() * -0.5 - 0.1; // Sadece yukarı doğru usulca süzülür
+                    this.opacity = Math.random() * 0.4 + 0.2; // Saydamlık çok düşük, dikkat dağıtmaz
+                }
+                update() {
+                    // Cihaz sensöründen gelen eğim (jiroskop) hızına eklenir
+                    this.x += this.speedX + (tiltX * 0.03);
+                    this.y += this.speedY + (tiltY * 0.03);
+
+                    // Ekrandan çıkan zerreleri zıt köşeden geri sok
+                    if (this.y < 0) this.y = height;
+                    if (this.x < 0) this.x = width;
+                    if (this.x > width) this.x = 0;
+                    if (this.y > height) this.y = 0;
+                }
+                draw() {
+                    ctx.fillStyle = `rgba(157, 80, 255, ${this.opacity})`; // Senin mor rengin
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            // Sadece 35 adet zerre üretir (Kalabalık yapıp siteyi ucuzlatmaması için)
+            for (let i = 0; i < 35; i++) {
+                particles.push(new Particle());
+            }
+
+            // Animasyon Döngüsü
+            function animateParticles() {
+                ctx.clearRect(0, 0, width, height);
+                particles.forEach(p => { p.update(); p.draw(); });
+                requestAnimationFrame(animateParticles);
+            }
+            animateParticles();
+
+            // Cihazın fiziksel eğimini (Jiroskop) dinle
+            window.addEventListener('deviceorientation', (e) => {
+                if(e.gamma !== null && e.beta !== null) {
+                    // gamma = Sol/Sağ eğim, beta = İleri/Geri eğim
+                    tiltX = e.gamma; 
+                    tiltY = e.beta;
+                }
+            }, { passive: true });
+        }
+    
+
+
 
 </script>
 
