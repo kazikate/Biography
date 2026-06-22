@@ -45,50 +45,52 @@
         }
 
         /* En Alt Katman: Siyah Arka Plan (Body) */
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--dark-bg); 
-            color: var(--text-light);
-            margin: 0;
-            padding: 0; 
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            position: relative; 
-            
-            /* Tüm sayfa tıklamalarında vurguyu kaldırır */
-            -webkit-tap-highlight-color: transparent; 
-        }
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--dark-bg); 
+    color: var(--text-light);
+    margin: 0;
+    padding: 0; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    position: relative; 
+    -webkit-tap-highlight-color: transparent; 
+    
+    /* YENİ EKLENEN: Sayfanın sağa-sola kaymasını kesin olarak engeller */
+    overflow-x: hidden; 
+}
+
+
         
         /* ------------------------------------------------ */
         /* TEMEL GENİŞLİK VE ORTALAMA AYARLARI (MASAÜSTÜ VE MOBİL İÇİN SABİT) */
         /* ------------------------------------------------ */
 
         .profile-img-container {
-            position: absolute;
-            top: 0;
-            left: 0; 
-            width: 100%;
-            height: var(--image-height-vh); 
-            z-index: 1; 
-            max-width: 600px;
-            
-            /* Masaüstü Ortalaması */
-            left: 50%;
-            transform: translateX(-50%); 
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%); 
+    width: 100%;
+    height: var(--image-height-vh); 
+    z-index: 1; 
+    max-width: 600px;
+    
+    mask-image: linear-gradient(to bottom, black var(--transition-start), transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black var(--transition-start), transparent 94%);
+    
+    transition: opacity 0.8s ease-out; 
+    opacity: 0; 
+    will-change: transform; 
+    cursor: pointer; 
+    -webkit-tap-highlight-color: transparent; 
+    
+    /* YENİ EKLENEN: Büyüyen resmin kutu dışına taşmasını makas gibi keser */
+    overflow: hidden; 
+}
 
-            /* SİYAHA YUMUŞAK GEÇİŞ EFEKTİ */
-            mask-image: linear-gradient(to bottom, black var(--transition-start), transparent 100%);
-            -webkit-mask-image: linear-gradient(to bottom, black var(--transition-start), transparent 94%);
-            
-            /* ANİMASYON VE PARALLAX AYARLARI */
-            transition: opacity 0.8s ease-out; 
-            opacity: 0; 
-            will-change: transform; 
-            cursor: pointer; 
-            -webkit-tap-highlight-color: transparent; 
-        }
 
         /* İçerik Katmanı (Ön Plan) */
         .content-wrapper {
