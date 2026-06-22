@@ -44,6 +44,22 @@
             --transition-start: 60%; 
         }
 
+    /* ------------------------------------------------ */
+/* YAZI SEÇİM (HIGHLIGHT) RENGİ */
+/* ------------------------------------------------ */
+
+/* Chrome, Safari, Edge ve Yeni Tarayıcılar İçin */
+::selection {
+    /* Sadece arka plan rengi var, yazı rengi orijinal kalır */
+    background-color: rgba(157, 80, 255, 0.35); 
+}
+
+/* Firefox Uyumluluğu İçin */
+::-moz-selection {
+    background-color: rgba(157, 80, 255, 0.35);
+}
+
+    
         /* En Alt Katman: Siyah Arka Plan (Body) */
 body {
     font-family: 'Poppins', sans-serif;
