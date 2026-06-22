@@ -68,7 +68,7 @@
         .profile-img-container {
             position: absolute;
             top: 0;
-            left: 0; /* Masaüstünde ortalamak için bu değeri JS ile güncelleyeceğiz veya alttaki kuralları kullanacağız */
+            left: 0; 
             width: 100%;
             height: var(--image-height-vh); 
             z-index: 1; 
@@ -76,7 +76,7 @@
             
             /* Masaüstü Ortalaması */
             left: 50%;
-            transform: translateX(-50%); /* Bu, yatayda ortalamayı sağlar */
+            transform: translateX(-50%); 
 
             /* SİYAHA YUMUŞAK GEÇİŞ EFEKTİ */
             mask-image: linear-gradient(to bottom, black var(--transition-start), transparent 100%);
@@ -93,7 +93,7 @@
         /* İçerik Katmanı (Ön Plan) */
         .content-wrapper {
             width: 100%;
-            max-width: 600px; /* İçeriği 600px'te sınırlar */
+            max-width: 600px; 
             margin-top: calc(var(--image-height-vh) * 0.8 - 10px); 
             z-index: 2; 
             position: relative;
@@ -150,8 +150,14 @@
             background-position: center top; 
             background-repeat: no-repeat;
             filter: blur(0px); 
-            transition: filter 0.1s linear; 
-            will-change: filter; 
+            /* GÜNCELLENDİ: Yaylı transform efekti eklendi */
+            transition: filter 0.1s linear, transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            will-change: filter, transform; 
+        }
+
+        /* YENİ: MODAL AÇILDIĞINDA ARKA PLANIN ÖNE DOĞRU BÜYÜMESİ İÇİN */
+        body.is-modal-open .profile-img-visual {
+            transform: scale(1.08); /* %8 oranında öne doğru esner */
         }
 
         /* Dinamik Dim/Karartma Katmanı */
@@ -500,7 +506,7 @@ body.animations-done .link-button {
 }
 
 .profile-hover-layer i {
-    color: rgba #DCBAF7; 
+    color: #DCBAF7; 
     font-size: 3.5em; 
     transform: scale(0.5); 
     transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
@@ -592,7 +598,6 @@ body.animations-done .link-button {
         <div class="profile-hover-layer">
             <i class="fas fa-expand"></i>
         </div>
-    </div>
     </div>
 
     <div class="content-wrapper"> 
@@ -819,6 +824,9 @@ body.animations-done .link-button {
             // BODY'den kaydırma engelleme sınıfını kaldır
             document.body.classList.remove('no-scroll'); 
             
+            // YENİ EKLENEN SATIR: Arka planı eski haline döndür
+            document.body.classList.remove('is-modal-open'); 
+            
             // Kapanırken transition'ı yaylı stile geri yükle
             modalContent.style.transition = SPRING_TRANSITION;
             modalContent.style.transform = `scale(0)`; // Kapanış animasyonunu tetikle
@@ -847,6 +855,10 @@ body.animations-done .link-button {
             }
             
             document.body.classList.add('no-scroll'); 
+            
+            // YENİ EKLENEN SATIR: Arka planı öne doğru büyüt
+            document.body.classList.add('is-modal-open'); 
+            
             modalContent.style.transition = SPRING_TRANSITION; 
             modalContent.style.transform = `scale(0)`; 
 
@@ -877,6 +889,9 @@ body.animations-done .link-button {
             if (modal.classList.contains('is-open') && (!e.state || e.state.modal !== MODAL_STATE_NAME)) {
                 modal.classList.remove('is-open');
                 document.body.classList.remove('no-scroll');
+                
+                // YENİ EKLENEN SATIR: Geri tuşuyla çıkıldığında da arka planı küçült
+                document.body.classList.remove('is-modal-open'); 
                 
                 // Animasyon için kapanış stilini ayarla
                 modalContent.style.transition = SPRING_TRANSITION;
