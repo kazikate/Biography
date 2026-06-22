@@ -145,7 +145,7 @@
             width: 100%;
             height: 100%;
             position: relative; 
-            background-image: url('https://iili.io/CxpksOx.png'); 
+            background-image: url('assets/Profile2.png'); 
             background-size: cover; 
             background-position: center top; 
             background-repeat: no-repeat;
@@ -532,6 +532,38 @@ body.animations-done .link-button {
     transform: scale(1) !important;
 }
 
+  /* ------------------------------------------------ */
+/* MİNİ İKONLARI LİNK MENÜSÜNE ZORLAMA */
+/* ------------------------------------------------ */
+.social-icons-mini img {
+    /* Tıklamaların resimden geçip arkadaki linke ulaşmasını sağlar */
+    pointer-events: none; 
+    /* Tarayıcının resmi indirme menüsünü kapatır */
+    -webkit-touch-callout: none; 
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+  /* ------------------------------------------------ */
+/* BÜYÜK PROFİL FOTOĞRAFI İNDİRME İZNİ */
+/* ------------------------------------------------ */
+.downloadable-profile-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    
+    /* Gözle görünmez ama tarayıcı onu algılar ve basılı tutmaya izin verir */
+    opacity: 0; 
+    z-index: 4; 
+    pointer-events: auto; 
+    
+    /* Resim indirme menüsünü zorla aktif eder */
+    -webkit-touch-callout: default !important; 
+}
+
            
     </style>
 </head>
@@ -541,6 +573,8 @@ body.animations-done .link-button {
         <div class="profile-img-visual">
             <div class="dim-overlay"></div>
         </div>
+        
+       <img src="assets/Profile2.png" alt="Kazikate Profil Resmi" class="downloadable-profile-img">
         
         <div class="profile-hover-layer">
             <i class="fas fa-expand"></i>
