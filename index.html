@@ -28,120 +28,40 @@
     <style>
         @import url('https://api.fontshare.com/css?f[]=chillax@300,400,500,600,700&display=swap');
 
-        :root {
-            color-scheme: dark; 
-            --dark-bg: #000000; 
-            --link-bg: #1F1925; 
-            --link-hover: #31283D; 
-            --text-light: #DCBAF7; 
-            --accent-purple: #9d50ff; 
-            --shadow-color: rgba(0, 0, 0, 0.4);
-            --image-height-vh: 450px; 
-            --transition-start: 60%; 
-        }
+        :root { color-scheme: dark; --dark-bg: #000000; --link-bg: #1F1925; --link-hover: #31283D; --text-light: #DCBAF7; --accent-purple: #9d50ff; --shadow-color: rgba(0, 0, 0, 0.4); --image-height-vh: 450px; --transition-start: 60%; }
+        ::selection { background-color: rgba(157, 80, 255, 0.35); } ::-moz-selection { background-color: rgba(157, 80, 255, 0.35); }
 
-::selection { background-color: rgba(157, 80, 255, 0.35); }
-::-moz-selection { background-color: rgba(157, 80, 255, 0.35); }
-
-body {
-    font-family: 'Poppins', sans-serif;
-    background-color: var(--dark-bg); 
-    color: var(--text-light);
-    margin: 0; padding: 0; 
-    display: flex; flex-direction: column; align-items: center;
-    min-height: 100vh; position: relative; 
-    -webkit-tap-highlight-color: transparent; 
-}
-
-        .profile-img-container {
-    position: absolute; top: 0; left: 50%; transform: translateX(-50%); 
-    width: 100%; height: var(--image-height-vh); z-index: 1; max-width: 600px;
-    mask-image: linear-gradient(to bottom, black var(--transition-start), transparent 100%);
-    -webkit-mask-image: linear-gradient(to bottom, black var(--transition-start), transparent 94%);
-    transition: opacity 0.8s ease-out; opacity: 0; will-change: transform; cursor: pointer; 
-    -webkit-tap-highlight-color: transparent; overflow: hidden; isolation: isolate; 
-        }
-
-        .content-wrapper {
-            width: 100%; max-width: 600px; margin-top: calc(var(--image-height-vh) * 0.8 - 10px); 
-            z-index: 2; position: relative; margin-left: auto; margin-right: auto;
-        }
-
-        .container {
-            width: 100%; max-width: 600px; padding: 0 20px 40px; text-align: center; box-sizing: border-box; margin: 0 auto;
-        }
-
-        .bottom-blur-layer {
-            position: fixed; bottom: 0; z-index: 9; pointer-events: none; height: 100px; 
-            width: 100%; max-width: 600px; left: 50%; transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(50px); -webkit-backdrop-filter: blur(50px);
-            mask-image: linear-gradient(to top, black 0%, transparent 100%); -webkit-mask-image: linear-gradient(to top, black 0%, transparent 100%);
-        }
-
+        body { font-family: 'Poppins', sans-serif; background-color: var(--dark-bg); color: var(--text-light); margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; position: relative; -webkit-tap-highlight-color: transparent; }
+        .profile-img-container { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 100%; height: var(--image-height-vh); z-index: 1; max-width: 600px; mask-image: linear-gradient(to bottom, black var(--transition-start), transparent 100%); -webkit-mask-image: linear-gradient(to bottom, black var(--transition-start), transparent 94%); transition: opacity 0.8s ease-out; opacity: 0; will-change: transform; cursor: pointer; -webkit-tap-highlight-color: transparent; overflow: hidden; isolation: isolate; }
+        .content-wrapper { width: 100%; max-width: 600px; margin-top: calc(var(--image-height-vh) * 0.8 - 10px); z-index: 2; position: relative; margin-left: auto; margin-right: auto; }
+        .container { width: 100%; max-width: 600px; padding: 0 20px 40px; text-align: center; box-sizing: border-box; margin: 0 auto; }
+        .bottom-blur-layer { position: fixed; bottom: 0; z-index: 9; pointer-events: none; height: 100px; width: 100%; max-width: 600px; left: 50%; transform: translateX(-50%); background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(50px); -webkit-backdrop-filter: blur(50px); mask-image: linear-gradient(to top, black 0%, transparent 100%); -webkit-mask-image: linear-gradient(to top, black 0%, transparent 100%); }
         .profile-img-container.is-visible { opacity: 1; transition-delay: 0.1s; }
-
-        .profile-img-visual {
-            width: 100%; height: 100%; position: relative; 
-            background-image: url('https://kazikate.github.io/Biography/assets/Profile2.png'); 
-            background-size: cover; background-position: center top; background-repeat: no-repeat;
-            filter: blur(0px); transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-            will-change: filter, transform; 
-        }
-
+        .profile-img-visual { width: 100%; height: 100%; position: relative; background-image: url('https://kazikate.github.io/Biography/assets/Profile2.png'); background-size: cover; background-position: center top; background-repeat: no-repeat; filter: blur(0px); transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); will-change: filter, transform; }
         body.is-modal-open .profile-img-visual { transform: scale(1.08); }
-
-        .dim-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--dark-bg); 
-            opacity: 0; transition: opacity 0.1s linear; will-change: opacity; 
-        }
-
-        .username {
-            font-family: 'Chillax', sans-serif; font-size: 2.5em; font-weight: 500; margin-top: 0px; 
-            text-shadow: 0 0 10px rgba(0,0,0,0.5); transform: translateY(50px); 
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out; opacity: 0; max-width: 600px;
-        }
+        .dim-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--dark-bg); opacity: 0; transition: opacity 0.1s linear; will-change: opacity; }
+        .username { font-family: 'Chillax', sans-serif; font-size: 2.5em; font-weight: 500; margin-top: 0px; text-shadow: 0 0 10px rgba(0,0,0,0.5); transform: translateY(50px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; opacity: 0; max-width: 600px; }
         .username.is-visible { opacity: 1; transform: translateY(30px); transition-delay: 0.3s; }
-
-        .bio {
-            font-size: 0.97em; font-weight: 550; opacity: 0; margin-top: 5px; margin-bottom: 20px;
-            transform: translateY(18px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; max-width: 600px;
-        }
+        .bio { font-size: 0.97em; font-weight: 550; opacity: 0; margin-top: 5px; margin-bottom: 20px; transform: translateY(18px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; max-width: 600px; }
         .bio.is-visible { opacity: 0.8; transform: translateY(0); transition-delay: 0.5s; }
-        
-        .social-icons-mini {
-            margin: 15px 0; opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; max-width: 600px;
-        }
+        .social-icons-mini { margin: 15px 0; opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; max-width: 600px; }
         .social-icons-mini.is-visible { opacity: 1; transform: translateY(0); transition-delay: 0.7s; }
-
-        .link-button {
-            display: flex; align-items: center; background-color: var(--link-bg); color: var(--text-light); text-decoration: none;
-            padding: 15px 20px; margin: 15px 0; border-radius: 38px; font-weight: 600; font-size: 1em; box-shadow: 0 0px 0px var(--shadow-color); 
-            height: 38px; position: relative; opacity: 0; transform: translateY(50px); 
-            transition: background-color 0s, box-shadow 0.2s, opacity 0.6s ease-out, transform 0.6s ease-out; -webkit-tap-highlight-color: transparent;
-        }
+        .link-button { display: flex; align-items: center; background-color: var(--link-bg); color: var(--text-light); text-decoration: none; padding: 15px 20px; margin: 15px 0; border-radius: 38px; font-weight: 600; font-size: 1em; box-shadow: 0 0px 0px var(--shadow-color); height: 38px; position: relative; opacity: 0; transform: translateY(50px); transition: background-color 0s, box-shadow 0.2s, opacity 0.6s ease-out, transform 0.6s ease-out; -webkit-tap-highlight-color: transparent; }
         .link-button.is-visible { opacity: 1; transform: translateY(0); }
-        
-        .link-button:nth-child(1) { transition-delay: 0.9s; } .link-button:nth-child(2) { transition-delay: 1.0s; }
-        .link-button:nth-child(3) { transition-delay: 1.1s; } .link-button:nth-child(4) { transition-delay: 1.2s; }
-        .link-button:nth-child(5) { transition-delay: 1.3s; } .link-button:nth-child(6) { transition-delay: 1.4s; }
-        .link-button:nth-child(7) { transition-delay: 1.5s; }
-
+        .link-button:nth-child(1) { transition-delay: 0.9s; } .link-button:nth-child(2) { transition-delay: 1.0s; } .link-button:nth-child(3) { transition-delay: 1.1s; } .link-button:nth-child(4) { transition-delay: 1.2s; } .link-button:nth-child(5) { transition-delay: 1.3s; } .link-button:nth-child(6) { transition-delay: 1.4s; } .link-button:nth-child(7) { transition-delay: 1.5s; }
         @keyframes press-link { 0% { transform: scale(1) translateZ(0); } 50% { transform: scale(0.98) translateZ(0); } 100% { transform: scale(1) translateZ(0); } }
         .link-button.press { animation: press-link 0.2s ease-out; pointer-events: none; }
-
         .social-icons-mini a { margin: 0px; display: inline-block; opacity: 1; transition: transform 0.2s, opacity 0.2s; line-height: 0; -webkit-tap-highlight-color: transparent; }
         .social-icons-mini a:hover { opacity: 1; transform: scale(1.1); }
-        
         .bio-emoji { width: 1.2em; height: 1.2em; vertical-align: -0.1em; margin: 0.1px; display: inline-block; }
         .link-img-placeholder { transform: translateX(-11px); width: 50px; height: 50px; border-radius: 50%; background-color: #1F1925; margin-right: 0px; background-size: cover; background-position: center; background-repeat: no-repeat; box-shadow: 0 0px 0px rgba(0, 0, 0, 0.2); }
         .link-text-details { flex-grow: 1; text-align: center; position: absolute; left:50%; transform: translateX(-50%); display: flex; flex-direction: column; justify-content: center; min-height: 40px; }
         .link-platform { font-weight: 600; display: block; }
         .link-username { font-size: 0.75em; opacity: 0.6; font-weight: 400; display: block; }
-        .footer-links { margin-top: 40px; font-size: 1em; font-weight: 400; margin-bottom: 40px; position: relative; z-index: 10; }
+        .footer-links { margin-top: 40px; font-size: 1em; font-weight: 400; margin-bottom: 0px; position: relative; z-index: 10; }
         .footer-links a { color: var(--text-light); opacity: 0.6; text-decoration: none; margin: 0 2px; }
         .footer-links a:hover { opacity: 1; text-decoration: underline; }
         .footer-links .footer-text { display: inline-block; }
-
         .mini-icon { border-radius: 50%; vertical-align: middle; transform: translateY(-13px); }
         .instagram-mini-icon .mini-icon { width: 47px; height: 47px; transform: translateY(-13px) translateX(16px); }
         .twitter-mini-icon .mini-icon { width: 55px; height: 55px; transform: translateY(-14px) translateX(7px); }
@@ -151,176 +71,100 @@ body {
         .youtube-music-mini-icon .mini-icon { width: 45px; height: 45px; transform: translateY(-13px) translateX(-14px); }
         .website-mini-icon .mini-icon { width: 48px; height: 48px; transform: translateY(-13px) translateX(-17px); }
 
-    .no-scroll { overflow: hidden; }
+        .no-scroll { overflow: hidden; }
+        @media (max-width: 480px) { body { padding: 0; } .container { padding: 0 20px 40px; } }
+        @media (min-width: 700px) { .profile-img-container, .content-wrapper, .bottom-blur-layer { max-width: 500px; } .container { max-width: 800px; padding: 0 0 40px 0; } }
 
-    @media (max-width: 480px) { body { padding: 0; } .container { padding: 0 20px 40px; } }
-    @media (min-width: 700px) {
-        .profile-img-container, .content-wrapper, .bottom-blur-layer { max-width: 500px; }
-        .container { max-width: 800px; padding: 0 0 40px 0; }
-    }
-
-        .image-preview-modal {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0); z-index: 1000;
-            display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease, background-color 0.3s ease;
-        }
+        .image-preview-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0); z-index: 1000; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease, background-color 0.3s ease; }
         .image-preview-modal.is-open { opacity: 1; background-color: rgba(0, 0, 0, 0.85); pointer-events: auto; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); background-color: rgba(0, 0, 0, 0.7); }
         .modal-content { transform: scale(0); transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         .modal-circle-mask { width: 400px; height: 400px; border-radius: 50%; overflow: hidden; box-shadow: 0 0 40px rgba(157, 80, 255, 0.4); }
         #preview-image { width: 100%; height: 100%; object-fit: cover; }   
-  
-body.animations-done .link-button { transition-delay: 0s !important; }
+        body.animations-done .link-button { transition-delay: 0s !important; }
+        @media (hover: hover) { body.animations-done .link-button:hover { transform: scale(1.05); transition: transform 0.15s ease-out !important; } body.animations-done .link-button:not(:hover) { transform: scale(1); transition: transform 0.15s !important; } }
+        .profile-hover-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; z-index: 5; background-color: rgba(0, 0, 0, 0.4); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+        .profile-hover-layer i { color: #DCBAF7; font-size: 3.5em; transform: scale(0.5); transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .profile-img-container.scrolled-past .profile-hover-layer { opacity: 0 !important; } .profile-img-container.scrolled-past .profile-hover-layer i { transform: scale(0.5) !important; } .profile-img-container.show-hint .profile-hover-layer { opacity: 1 !important; } .profile-img-container.show-hint .profile-hover-layer i { transform: scale(1) !important; }
+        .social-icons-mini img { pointer-events: none; -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
+        .downloadable-profile-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; z-index: 4; pointer-events: auto; -webkit-touch-callout: default !important; }
+        .profile-img-container.disable-hover .profile-hover-layer { opacity: 0 !important; transition: none !important; } .profile-img-container.disable-hover .profile-hover-layer i { transform: scale(0.5) !important; transition: none !important; }
+        ::-webkit-scrollbar { width: 5px; } ::-webkit-scrollbar-track { background-color: var(--dark-bg); } ::-webkit-scrollbar-thumb { background-color: rgba(157, 80, 255, 0.4); border-radius: 10px; } ::-webkit-scrollbar-thumb:hover { background-color: rgba(157, 80, 255, 0.8); }
 
-@media (hover: hover) {
-    body.animations-done .link-button:hover { transform: scale(1.05); transition: transform 0.15s ease-out !important; }
-    body.animations-done .link-button:not(:hover) { transform: scale(1); transition: transform 0.15s !important; }
-}
-  
-.profile-hover-layer {
-    position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; z-index: 5; background-color: rgba(0, 0, 0, 0.4); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); opacity: 0; pointer-events: none; transition: opacity 0.3s ease; 
-}
-.profile-hover-layer i { color: #DCBAF7; font-size: 3.5em; transform: scale(0.5); transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        /* ------------------------------------------------ */
+        /* DİNAMİK MÜZİK WIDGET'I (ULTIMATE V6 - KUSURSUZ ANİMASYON) */
+        /* ------------------------------------------------ */
 
-.profile-img-container.scrolled-past .profile-hover-layer { opacity: 0 !important; }
-.profile-img-container.scrolled-past .profile-hover-layer i { transform: scale(0.5) !important; }
-.profile-img-container.show-hint .profile-hover-layer { opacity: 1 !important; }
-.profile-img-container.show-hint .profile-hover-layer i { transform: scale(1) !important; }
+        #music-widget { position: fixed; top: 15px; left: 15px; z-index: 100; display: flex; align-items: center; width: 100%; }
 
-.social-icons-mini img { pointer-events: none; -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
-.downloadable-profile-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; z-index: 4; pointer-events: auto; -webkit-touch-callout: default !important; }
-.profile-img-container.disable-hover .profile-hover-layer { opacity: 0 !important; transition: none !important; }
-.profile-img-container.disable-hover .profile-hover-layer i { transform: scale(0.5) !important; transition: none !important; }
+        .music-cover-container {
+            width: 55px; height: 55px; border-radius: 50%; position: relative; z-index: 4; cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4); border: 2px solid #A48BB8; overflow: hidden;
+            background-color: transparent; transition: background-color 0.5s ease;
+            touch-action: none;
+            -webkit-touch-callout: none; -webkit-user-select: none; user-select: none;
+        }
+        .music-cover-container.solid-bg { background-color: #120e18; }
+        .default-glass-cover { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); display: flex; justify-content: center; align-items: center; z-index: 1; transition: opacity 0.4s ease; }
+        .default-glass-cover svg { width: 22px; height: 22px; color: #A48BB8; }
+        .track-cover-layer { width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; z-index: 2; opacity: 0; transition: opacity 0.6s ease-in-out; }
+        .spin-anim { animation: spin-record 5s linear infinite; }
+        @keyframes spin-record { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .music-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); display: flex; justify-content: center; align-items: center; z-index: 3; opacity: 0; transition: opacity 0.3s ease; }
+        .music-cover-container.is-active .music-overlay, .music-cover-container:hover .music-overlay { opacity: 1; }
+        .music-overlay svg { width: 20px; height: 20px; color: #A48BB8; position: absolute; opacity: 0; transform: scale(0.5); transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .music-overlay svg.show-icon { opacity: 1; transform: scale(1); }
+        .music-waves { display: flex; align-items: center; justify-content: center; gap: 3px; height: 20px; position: absolute; opacity: 0; transform: scale(0.5); transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .music-waves.show-wave { opacity: 1; transform: scale(1); }
+        .wave-line { width: 3px; height: 100%; background-color: #A48BB8; border-radius: 3px; animation: wave-bounce 1s ease-in-out infinite alternate; }
+        .wave-line:nth-child(1) { animation-delay: 0.0s; } .wave-line:nth-child(2) { animation-delay: 0.3s; height: 60%; } .wave-line:nth-child(3) { animation-delay: 0.6s; height: 80%; } .wave-line:nth-child(4) { animation-delay: 0.9s; height: 50%; }
+        @keyframes wave-bounce { 0% { height: 20%; opacity: 0.5; } 100% { height: 100%; opacity: 1; } }
 
-::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-track { background-color: var(--dark-bg); }
-::-webkit-scrollbar-thumb { background-color: rgba(157, 80, 255, 0.4); border-radius: 10px; }
-::-webkit-scrollbar-thumb:hover { background-color: rgba(157, 80, 255, 0.8); }
+        /* ŞARKI İSMİ HAPI */
+        .music-pill {
+            position: absolute; left: 27px; height: 45px; background: rgba(20, 15, 25, 0.6); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid #A48BB8; border-radius: 0 25px 25px 0; z-index: 3; display: flex; align-items: center; max-width: 0; padding: 0; overflow: hidden; white-space: nowrap; opacity: 0;
+            transition: max-width 0.5s cubic-bezier(0.5, 0, 0.1, 1), padding 0.5s cubic-bezier(0.5, 0, 0.1, 1), opacity 0s 0.5s; 
+        }
+        .music-pill.show-pill { 
+            max-width: 250px; padding: 0 20px 0 35px; opacity: 1; 
+            transition: max-width 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55), padding 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55), opacity 0.1s ease;
+        }
 
-/* ------------------------------------------------ */
-/* DİNAMİK MÜZİK WIDGET'I (ULTIMATE V4) */
-/* ------------------------------------------------ */
+        /* GÜNCELLENMİŞ ÖNCEKİ ŞARKI BUTONU */
+        .prev-btn {
+            position: absolute; left: 10px; top: 10px; width: 35px; height: 35px; 
+            background: rgba(20, 15, 25, 0.6); /* BUZLU CAM DÜZELTMESİ (0.8 -> 0.6) */
+            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid #A48BB8; border-radius: 50%; display: flex; justify-content: center; align-items: center; z-index: 1; opacity: 0; transform: translateY(0) scale(0.5); 
+            transition: transform 0.5s cubic-bezier(0.5, 0, 0.1, 1), opacity 0s 0.5s; /* KAPANMA FİZİĞİ DÜZELTMESİ */
+            cursor: pointer;
+        }
+        .prev-btn.show-prev { opacity: 1; transform: translateY(60px) scale(1); z-index: 2; transition: transform 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55), opacity 0.1s ease; }
+        .prev-btn svg { width: 16px; height: 16px; color: #A48BB8; }
 
-#music-widget {
-    position: fixed; top: 15px; left: 15px; z-index: 100; display: flex; align-items: center; width: 100%;
-}
+        /* GÜNCELLENMİŞ SEEKBAR HAPI */
+        .seek-pill {
+            position: absolute; left: 27px; top: 5px; height: 45px; 
+            background: rgba(20, 15, 25, 0.6); /* BUZLU CAM DÜZELTMESİ (0.85 -> 0.6) */
+            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid #A48BB8; border-radius: 0 25px 25px 0; z-index: 1; display: flex; align-items: center; max-width: 0; padding: 0; overflow: hidden; white-space: nowrap; opacity: 0;
+            width: 75vw; 
+            transition: max-width 0.5s cubic-bezier(0.5, 0, 0.1, 1), padding 0.5s cubic-bezier(0.5, 0, 0.1, 1), opacity 0s 0.5s; /* KAPANMA FİZİĞİ DÜZELTMESİ */
+        }
+        .seek-pill.show-seek {
+            max-width: 75vw; padding: 0 20px 0 45px; opacity: 1; z-index: 2; 
+            transition: max-width 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55), padding 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55), opacity 0.1s ease;
+        }
 
-/* ANA KAPAK ÇERÇEVESİ */
-.music-cover-container {
-    width: 55px; height: 55px; border-radius: 50%; position: relative; z-index: 3; cursor: pointer;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.4); border: 2px solid #A48BB8; overflow: hidden;
-    background-color: transparent; transition: background-color 0.5s ease;
-    -webkit-touch-callout: none; -webkit-user-select: none; user-select: none;
-}
-.music-cover-container.solid-bg { background-color: #120e18; }
+        .time-display { font-size: 0.75rem; color: #DCBAF7; font-weight: 600; font-family: 'Poppins', sans-serif; opacity: 0.9; width: 42px; text-align: center; font-variant-numeric: tabular-nums; flex-shrink: 0; display: inline-block; }
+        #seek-bar { -webkit-appearance: none; flex-grow: 1; margin: 0 10px; height: 5px; border-radius: 3px; outline: none; background: linear-gradient(to right, #DCBAF7 0%, rgba(164, 139, 184, 0.3) 0%); }
+        #seek-bar::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 14px; height: 14px; border-radius: 50%; background: #ffffff; cursor: pointer; box-shadow: 0 0 8px rgba(220, 186, 247, 0.8); transition: transform 0.2s; }
+        #seek-bar::-webkit-slider-thumb:active { transform: scale(1.3); }
 
-.default-glass-cover {
-    position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); display: flex; justify-content: center; align-items: center;
-    z-index: 1; transition: opacity 0.4s ease;
-}
-.default-glass-cover svg { width: 22px; height: 22px; color: #A48BB8; }
-
-.track-cover-layer {
-    width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; z-index: 2; opacity: 0; 
-    transition: opacity 0.6s ease-in-out;
-}
-
-.spin-anim { animation: spin-record 5s linear infinite; }
-@keyframes spin-record { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-.music-overlay {
-    position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); 
-    display: flex; justify-content: center; align-items: center; z-index: 3; opacity: 0; transition: opacity 0.3s ease;
-}
-.music-cover-container.is-active .music-overlay, .music-cover-container:hover .music-overlay { opacity: 1; }
-
-.music-overlay svg {
-    width: 20px; height: 20px; color: #A48BB8; position: absolute; opacity: 0; transform: scale(0.5);
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-.music-overlay svg.show-icon { opacity: 1; transform: scale(1); }
-
-.music-waves {
-    display: flex; align-items: center; justify-content: center; gap: 3px; height: 20px; position: absolute; opacity: 0; transform: scale(0.5);
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-.music-waves.show-wave { opacity: 1; transform: scale(1); }
-
-.wave-line {
-    width: 3px; height: 100%; background-color: #A48BB8; border-radius: 3px; animation: wave-bounce 1s ease-in-out infinite alternate;
-}
-.wave-line:nth-child(1) { animation-delay: 0.0s; }
-.wave-line:nth-child(2) { animation-delay: 0.3s; height: 60%; }
-.wave-line:nth-child(3) { animation-delay: 0.6s; height: 80%; }
-.wave-line:nth-child(4) { animation-delay: 0.9s; height: 50%; }
-@keyframes wave-bounce { 0% { height: 20%; opacity: 0.5; } 100% { height: 100%; opacity: 1; } }
-
-/* ŞARKI İSMİ HAPI (ÜSTTE ÇIKAN) */
-.music-pill {
-    position: absolute; left: 27px; height: 45px; background: rgba(20, 15, 25, 0.6); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-    border: 1px solid #A48BB8; border-radius: 0 25px 25px 0; z-index: 1; display: flex; align-items: center;
-    max-width: 0; padding: 0; overflow: hidden; white-space: nowrap; opacity: 0;
-    transition: max-width 0.5s cubic-bezier(0.5, 0, 0.1, 1), padding 0.5s cubic-bezier(0.5, 0, 0.1, 1), opacity 0s 0.5s; 
-}
-.music-pill.show-pill { 
-    max-width: 200px; padding: 0 20px 0 35px; opacity: 1; z-index: 2;
-    transition: max-width 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55), padding 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55), opacity 0.1s ease;
-}
-
-/* YENİ: ÖNCEKİ ŞARKI BUTONU (KAPAĞIN ALTINA DÜŞER) */
-.prev-btn {
-    position: absolute; left: 10px; top: 10px; width: 35px; height: 35px; background: rgba(20, 15, 25, 0.8);
-    backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid #A48BB8; border-radius: 50%;
-    display: flex; justify-content: center; align-items: center; z-index: 1; opacity: 0; transform: translateY(0) scale(0.5);
-    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); cursor: pointer;
-}
-.prev-btn.show-prev { opacity: 1; transform: translateY(60px) scale(1); z-index: 2; }
-.prev-btn svg { width: 16px; height: 16px; color: #A48BB8; }
-
-/* YENİ: SEEKBAR HAPI (KUSURSUZ İÇİNDEN ÇIKMA VE UZAMA) */
-.seek-pill {
-    position: absolute; left: 27px; top: 5px; height: 45px; background: rgba(20, 15, 25, 0.85);
-    backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid #A48BB8; border-radius: 0 25px 25px 0;
-    z-index: 0; display: flex; align-items: center; max-width: 0; padding: 0; overflow: hidden; white-space: nowrap; opacity: 0;
-    transition: max-width 0.5s cubic-bezier(0.5, 0, 0.1, 1), padding 0.5s cubic-bezier(0.5, 0, 0.1, 1), opacity 0.2s ease; 
-}
-.seek-pill.show-seek {
-    max-width: 75vw; /* %75 UZUNLUK */
-    width: 75vw;
-    padding: 0 20px 0 45px; /* Kapağın arkasından kurtulması için sol boşluk */
-    opacity: 1; z-index: 2; 
-    transition: max-width 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55), padding 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55), opacity 0.1s ease;
-}
-
-/* ZAMAN SAYACILARI */
-.time-display {
-    font-size: 0.75rem; color: #DCBAF7; font-weight: 600; font-family: 'Poppins', sans-serif; opacity: 0.9;
-}
-
-/* SENKRONİZE EDİLMİŞ DİNAMİK DOLGULU RANGE */
-#seek-bar {
-    -webkit-appearance: none; flex-grow: 1; margin: 0 10px; height: 5px; border-radius: 3px; outline: none;
-    background: linear-gradient(to right, #DCBAF7 0%, rgba(164, 139, 184, 0.3) 0%); /* Dinamik Arka Plan */
-}
-#seek-bar::-webkit-slider-thumb {
-    -webkit-appearance: none; appearance: none; width: 14px; height: 14px; border-radius: 50%; background: #ffffff; cursor: pointer;
-    box-shadow: 0 0 8px rgba(220, 186, 247, 0.8); transition: transform 0.2s;
-}
-#seek-bar::-webkit-slider-thumb:active { transform: scale(1.3); }
-
-.cover-bounce { animation: hit-bounce 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-@keyframes hit-bounce { 0% { transform: scale(1); } 40% { transform: scale(1.05); } 100% { transform: scale(1); } }
-
-.music-info { display: flex; flex-direction: column; justify-content: center; transition: opacity 0.3s ease; }
-.music-info.fade-out { opacity: 0; }
-#track-title { color: white; font-size: 0.85rem; font-weight: 600; }
-#track-artist { color: rgba(255, 255, 255, 0.6); font-size: 0.7rem; }
-.pause-anim { animation-play-state: paused !important; }
-
-#forward-icon {
-    width: 20px; height: 20px; color: #A48BB8; position: absolute; opacity: 0; transform: translateX(-15px) scale(0.5); 
-    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-}
-#forward-icon.show-forward { opacity: 1; transform: translateX(0) scale(1); }
+        .cover-bounce { animation: hit-bounce 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        @keyframes hit-bounce { 0% { transform: scale(1); } 40% { transform: scale(1.05); } 100% { transform: scale(1); } }
+        .music-info { display: flex; flex-direction: column; justify-content: center; transition: opacity 0.3s ease; } .music-info.fade-out { opacity: 0; }
+        #track-title { color: white; font-size: 0.85rem; font-weight: 600; } #track-artist { color: rgba(255, 255, 255, 0.6); font-size: 0.7rem; }
+        .pause-anim { animation-play-state: paused !important; }
+        #forward-icon { width: 20px; height: 20px; color: #A48BB8; position: absolute; opacity: 0; transform: translateX(-15px) scale(0.5); transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+        #forward-icon.show-forward { opacity: 1; transform: translateX(0) scale(1); }
 
     </style>
 </head>
@@ -329,10 +173,7 @@ body.animations-done .link-button { transition-delay: 0s !important; }
     <div id="music-widget">
         
         <div class="music-pill">
-            <div class="music-info">
-                <div id="track-title">Bekleniyor...</div>
-                <div id="track-artist">Müzik Çalar</div>
-            </div>
+            <div class="music-info"><div id="track-title">Bekleniyor...</div><div id="track-artist">Müzik Çalar</div></div>
         </div>
 
         <div class="seek-pill" id="seek-pill">
@@ -343,229 +184,95 @@ body.animations-done .link-button { transition-delay: 0s !important; }
 
         <div class="prev-btn" id="prev-btn">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <polygon points="19 20 9 12 19 4 19 20"></polygon>
-                <line x1="5" y1="19" x2="5" y2="5"></line>
+                <polygon points="19 20 9 12 19 4 19 20"></polygon><line x1="5" y1="19" x2="5" y2="5"></line>
             </svg>
         </div>
         
         <div class="music-cover-container" id="music-toggle">
-            <div class="default-glass-cover" id="default-cover">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
-            </div>
-            
+            <div class="default-glass-cover" id="default-cover"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg></div>
             <img src="" id="track-cover-1" class="track-cover-layer" alt="Album Cover">
             <img src="" id="track-cover-2" class="track-cover-layer" alt="Album Cover">
-            
             <div class="music-overlay">
                 <svg id="play-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                 <svg id="pause-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
                 <svg id="forward-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 4 15 12 5 20 5 4"></polygon><line x1="19" y1="5" x2="19" y2="19"></line></svg>
-                
-                <div class="music-waves" id="wave-icon">
-                    <div class="wave-line"></div>
-                    <div class="wave-line"></div>
-                    <div class="wave-line"></div>
-                    <div class="wave-line"></div>
-                </div>
+                <div class="music-waves" id="wave-icon"><div class="wave-line"></div><div class="wave-line"></div><div class="wave-line"></div><div class="wave-line"></div></div>
             </div>
         </div>
-        
         <audio id="audio-player"></audio>
     </div>
-
-
 
    <canvas id="particle-canvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none;"></canvas>
 
      <div class="profile-img-container">
-        <div class="profile-img-visual">
-            <div class="dim-overlay"></div>
-        </div>
-        
-       <img src="assets/Profile2.png" alt="Kazikate Profil Resmi" class="downloadable-profile-img">
-        
-        <div class="profile-hover-layer">
-            <i class="fas fa-expand"></i>
-        </div>
+        <div class="profile-img-visual"><div class="dim-overlay"></div></div>
+        <img src="assets/Profile2.png" alt="Kazikate Profil Resmi" class="downloadable-profile-img">
+        <div class="profile-hover-layer"><i class="fas fa-expand"></i></div>
     </div>
 
     <div class="content-wrapper"> 
         <div class="container">
-            
             <header class="profile-header">
-                
                 <h1 class="username">Kazikate</h1>
-                <p class="bio">
-                    Future RN 
-                    <img src="assets/Syringe.png" alt="Şırınga Emojisi" class="bio-emoji"> 
-                    • Lost in Music 
-                    <img src="assets/Music.png" alt="Müzik Emojisi" class="bio-emoji">
-                </p>
-
-                
+                <p class="bio">Future RN <img src="assets/Syringe.png" alt="Şırınga Emojisi" class="bio-emoji"> • Lost in Music <img src="assets/Music.png" alt="Müzik Emojisi" class="bio-emoji"></p>
                 <div class="social-icons-mini">
-                    <a href="https://www.instagram.com/azadaltunnn?igsh=ZW5lNDZpbGFjNnY5" aria-label="Instagram" class="instagram-mini-icon">
-                        <img src="assets/Instagrammini.png" alt="Instagram" class="mini-icon">
-                    </a>
-                    <a href="https://x.com/kazikate1" aria-label="Twitter (X)" class="twitter-mini-icon">
-                        <img src="assets/Twittermini.png" alt="Twitter" class="mini-icon">
-                    </a>
-                     <a href="https://www.threads.com/@azadaltunnn" aria-label="Threads" class="threads-mini-icon">
-                        <img src="assets/Threadsmini.png" alt="Threads" class="mini-icon">
-                    </a>
-                    <a href="https://www.tiktok.com/@kazikate1" aria-label="TikTok" class="tiktok-mini-icon">
-                        <img src="assets/Tiktokmini.png" alt="TikTok" class="mini-icon">
-                    </a>
-                    
-                    <a href="https://open.spotify.com/user/31pdqunuwoyquyi7zehdstr67usa" aria-label="Spotify" class="spotify-mini-icon">
-                        <img src="assets/Spotifymini.png" alt="Spotify" class="mini-icon">
-                    </a>
-                    <a href="https://music.youtube.com/channel/UCtvvu-chsDwmnMvsb_1Lr7A?si=krFvASE0MXbVfw0s" aria-label="YouTube Music" class="youtube-music-mini-icon">
-                        <img src="assets/YTMusicmini.png" alt="YouTube Music" class="mini-icon">
-                    </a>
-                    <a href="https://github.com/kazikate" aria-label="Website" class="website-mini-icon">
-                        <img src="assets/Githubmini.png" alt="Website" class="mini-icon">
-                    </a>
+                    <a href="https://www.instagram.com/azadaltunnn?igsh=ZW5lNDZpbGFjNnY5" aria-label="Instagram" class="instagram-mini-icon"><img src="assets/Instagrammini.png" alt="Instagram" class="mini-icon"></a>
+                    <a href="https://x.com/kazikate1" aria-label="Twitter (X)" class="twitter-mini-icon"><img src="assets/Twittermini.png" alt="Twitter" class="mini-icon"></a>
+                    <a href="https://www.threads.com/@azadaltunnn" aria-label="Threads" class="threads-mini-icon"><img src="assets/Threadsmini.png" alt="Threads" class="mini-icon"></a>
+                    <a href="https://www.tiktok.com/@kazikate1" aria-label="TikTok" class="tiktok-mini-icon"><img src="assets/Tiktokmini.png" alt="TikTok" class="mini-icon"></a>
+                    <a href="https://open.spotify.com/user/31pdqunuwoyquyi7zehdstr67usa" aria-label="Spotify" class="spotify-mini-icon"><img src="assets/Spotifymini.png" alt="Spotify" class="mini-icon"></a>
+                    <a href="https://music.youtube.com/channel/UCtvvu-chsDwmnMvsb_1Lr7A?si=krFvASE0MXbVfw0s" aria-label="YouTube Music" class="youtube-music-mini-icon"><img src="assets/YTMusicmini.png" alt="YouTube Music" class="mini-icon"></a>
+                    <a href="https://github.com/kazikate" aria-label="Website" class="website-mini-icon"><img src="assets/Githubmini.png" alt="Website" class="mini-icon"></a>
                 </div>
             </header>
-            
             <div class="links-section">
-                
-                <a href="https://www.instagram.com/azadaltunnn?igsh=ZW5lNDZpbGFjNnY5" target="_blank" class="link-button">
-                    <div class="link-img-placeholder" style="background-image: url('assets/Instagram.png');"></div>
-                    <div class="link-text-details">
-                        <span class="link-platform">Instagram</span>
-                        <span class="link-username">@azadaltunnn</span>
-                    </div>
-                </a>
-
-                <a href="https://x.com/kazikate1" target="_blank" class="link-button">
-                    <div class="link-img-placeholder" style="background-image: url('assets/Twitter.png');"></div>
-                    <div class="link-text-details">
-                        <span class="link-platform">Twitter</span>
-                         <span class="link-username">@kazikate1</span>
-                    </div>
-                </a>
-                
-                <a href="https://www.threads.com/@azadaltunnn" target="_blank" class="link-button">
-                    <div class="link-img-placeholder" style="background-image: url('assets/Threads.png');"></div>
-                    <div class="link-text-details">
-                        <span class="link-platform">Threads</span>
-                         <span class="link-username">@azadaltunnn</span>
-                    </div>
-                </a>
-
-                <a href="https://www.tiktok.com/@kazikate1" target="_blank" class="link-button">
-                    <div class="link-img-placeholder" style="background-image: url('assets/Tiktok.png');"></div>
-                    <div class="link-text-details">
-                        <span class="link-platform">TikTok</span>
-                        <span class="link-username">@kazikate1</span>
-                    </div>
-                </a>
-                
-                <a href="https://open.spotify.com/user/31pdqunuwoyquyi7zehdstr67usa" target="_blank" class="link-button">
-                    <div class="link-img-placeholder" style="background-image: url('assets/Spotify.png');"></div>
-                    <div class="link-text-details">
-                        <span class="link-platform">Spotify</span>
-                    </div>
-                </a>
-
-                <a href="https://music.youtube.com/channel/UCtvvu-chsDwmnMvsb_1Lr7A?si=krFvASE0MXbVfw0s" target="_blank" class="link-button">
-                    <div class="link-img-placeholder" style="background-image: url('assets/YTMusic.png');"></div>
-                    <div class="link-text-details">
-                        <span class="link-platform">Youtube Music</span>
-                    </div>
-                </a>
-                
-                <a href="https://github.com/kazikate" target="_blank" class="link-button">
-                    <div class="link-img-placeholder" style="background-image: url('assets/Github.png');"></div>
-                    <div class="link-text-details">
-                        <span class="link-platform">GitHub</span>
-                    </div>
-                </a>
-
+                <a href="https://www.instagram.com/azadaltunnn?igsh=ZW5lNDZpbGFjNnY5" target="_blank" class="link-button"><div class="link-img-placeholder" style="background-image: url('assets/Instagram.png');"></div><div class="link-text-details"><span class="link-platform">Instagram</span><span class="link-username">@azadaltunnn</span></div></a>
+                <a href="https://x.com/kazikate1" target="_blank" class="link-button"><div class="link-img-placeholder" style="background-image: url('assets/Twitter.png');"></div><div class="link-text-details"><span class="link-platform">Twitter</span><span class="link-username">@kazikate1</span></div></a>
+                <a href="https://www.threads.com/@azadaltunnn" target="_blank" class="link-button"><div class="link-img-placeholder" style="background-image: url('assets/Threads.png');"></div><div class="link-text-details"><span class="link-platform">Threads</span><span class="link-username">@azadaltunnn</span></div></a>
+                <a href="https://www.tiktok.com/@kazikate1" target="_blank" class="link-button"><div class="link-img-placeholder" style="background-image: url('assets/Tiktok.png');"></div><div class="link-text-details"><span class="link-platform">TikTok</span><span class="link-username">@kazikate1</span></div></a>
+                <a href="https://open.spotify.com/user/31pdqunuwoyquyi7zehdstr67usa" target="_blank" class="link-button"><div class="link-img-placeholder" style="background-image: url('assets/Spotify.png');"></div><div class="link-text-details"><span class="link-platform">Spotify</span></div></a>
+                <a href="https://music.youtube.com/channel/UCtvvu-chsDwmnMvsb_1Lr7A?si=krFvASE0MXbVfw0s" target="_blank" class="link-button"><div class="link-img-placeholder" style="background-image: url('assets/YTMusic.png');"></div><div class="link-text-details"><span class="link-platform">Youtube Music</span></div></a>
+                <a href="https://github.com/kazikate" target="_blank" class="link-button"><div class="link-img-placeholder" style="background-image: url('assets/Github.png');"></div><div class="link-text-details"><span class="link-platform">GitHub</span></div></a>
             </div>
-
-            <footer class="footer-links">
-                <span style="opacity: 0.8;">●</span>
-                <span class="footer-text" style="margin: 0 1px;">Created by Kazikate</span> 
-            </footer>
-
-            
+            <footer class="footer-links"><span style="opacity: 0.8;">●</span><span class="footer-text" style="margin: 0 1px;">Created by Kazikate</span></footer>
         </div>
     </div>
     
-    <div id="image-preview-modal" class="image-preview-modal">
-        <div class="modal-content">
-            <div class="modal-circle-mask">
-                <img src="https://iili.io/CxpvFxp.png" alt="Kazikate Profil Resmi" id="preview-image" />
-            </div>
-        </div>
-    </div>
+    <div id="image-preview-modal" class="image-preview-modal"><div class="modal-content"><div class="modal-circle-mask"><img src="https://iili.io/CxpvFxp.png" alt="Kazikate Profil Resmi" id="preview-image" /></div></div></div>
 
 <script>
     const SPRING_TRANSITION = 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
     const MODAL_STATE_NAME = 'image_preview_open';
 
     document.addEventListener('DOMContentLoaded', () => {
-        const elementsToAnimate = [
-            document.querySelector('.profile-img-container'), document.querySelector('.username'), document.querySelector('.bio'),                  
-            document.querySelector('.social-icons-mini'), ...document.querySelectorAll('.link-button')     
-        ].filter(el => el != null); 
+        const elementsToAnimate = [document.querySelector('.profile-img-container'), document.querySelector('.username'), document.querySelector('.bio'), document.querySelector('.social-icons-mini'), ...document.querySelectorAll('.link-button')].filter(el => el != null); 
         setTimeout(() => { elementsToAnimate.forEach(el => { el.classList.add('is-visible'); }); }, 50); 
         
-        const profileImgContainer = document.querySelector('.profile-img-container');
-        const profileImgVisual = document.querySelector('.profile-img-visual'); 
-        const dimOverlay = document.querySelector('.dim-overlay');
-
-        const parallaxRatio = 0.4; const maxScroll = 200; const maxBlur = 10; const maxDimOpacity = 0.6;  
-        let ticking = false;
+        const profileImgContainer = document.querySelector('.profile-img-container'); const profileImgVisual = document.querySelector('.profile-img-visual'); const dimOverlay = document.querySelector('.dim-overlay');
+        const parallaxRatio = 0.4; const maxScroll = 200; const maxBlur = 10; const maxDimOpacity = 0.6;  let ticking = false;
 
         function updateEffects() {
             if (!ticking) {
                 window.requestAnimationFrame(() => {
-                    const bodyTop = document.body.getBoundingClientRect().top;
-                    const scrollY = Math.max(0, -bodyTop); 
-                    const clampedScroll = Math.min(scrollY, maxScroll);
-                    const scrollRatio = clampedScroll / maxScroll; 
-                    const newY = scrollY * parallaxRatio; 
-                    
-                    profileImgContainer.style.transform = `translate3d(-50%, ${newY}px, 0)`; 
-                    profileImgVisual.style.filter = `blur(${scrollRatio * maxBlur}px)`;
-                    dimOverlay.style.opacity = scrollRatio * maxDimOpacity;
-
-                    if (scrollY > 30) { profileImgContainer.classList.add('scrolled-past'); } 
-                    else { profileImgContainer.classList.remove('scrolled-past'); }
+                    const scrollY = Math.max(0, -document.body.getBoundingClientRect().top); const scrollRatio = Math.min(scrollY, maxScroll) / maxScroll; 
+                    profileImgContainer.style.transform = `translate3d(-50%, ${scrollY * parallaxRatio}px, 0)`; 
+                    profileImgVisual.style.filter = `blur(${scrollRatio * maxBlur}px)`; dimOverlay.style.opacity = scrollRatio * maxDimOpacity;
+                    if (scrollY > 30) { profileImgContainer.classList.add('scrolled-past'); } else { profileImgContainer.classList.remove('scrolled-past'); }
                     ticking = false;
-                });
-                ticking = true;
+                }); ticking = true;
             }
         }
-
-        window.addEventListener('scroll', updateEffects, { passive: true });
-        window.addEventListener('touchmove', updateEffects, { passive: true });
-        updateEffects();
+        window.addEventListener('scroll', updateEffects, { passive: true }); window.addEventListener('touchmove', updateEffects, { passive: true }); updateEffects();
 
         const linkButtons = document.querySelectorAll('.link-button');
-        linkButtons.forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                btn.classList.remove('press'); void btn.offsetWidth; btn.classList.add('press');
-                setTimeout(() => { btn.classList.remove('press'); }, 200);
-            });
-        });
+        linkButtons.forEach(btn => { btn.addEventListener('click', () => { btn.classList.remove('press'); void btn.offsetWidth; btn.classList.add('press'); setTimeout(() => { btn.classList.remove('press'); }, 200); }); });
 
         setTimeout(() => {
             document.body.classList.add('animations-done');
-            if (profileImgContainer) {
-                setTimeout(() => {
-                    profileImgContainer.classList.add('show-hint');
-                    setTimeout(() => { profileImgContainer.classList.remove('show-hint'); }, 1000); 
-                }, 300);
-            }
+            if (profileImgContainer) { setTimeout(() => { profileImgContainer.classList.add('show-hint'); setTimeout(() => { profileImgContainer.classList.remove('show-hint'); }, 1000); }, 300); }
         }, 2200);
 
-        const modal = document.getElementById('image-preview-modal');
-        const modalContent = document.querySelector('.modal-content'); 
+        const modal = document.getElementById('image-preview-modal'); const modalContent = document.querySelector('.modal-content'); 
         let initialDistance = 0; let currentScale = 1; let isPinching = false; const MIN_TOUCHES_FOR_PINCH = 2;
 
         function closeModal() {
@@ -574,51 +281,23 @@ body.animations-done .link-button { transition-delay: 0s !important; }
             document.body.classList.remove('no-scroll'); document.body.classList.remove('is-modal-open'); 
             modalContent.style.transition = SPRING_TRANSITION; modalContent.style.transform = `scale(0)`; 
             currentScale = 1; isPinching = false;
-            
-            if (history.state && history.state.modal === MODAL_STATE_NAME) {
-                 if (history.length > 0) { history.back(); }
-            }
+            if (history.state && history.state.modal === MODAL_STATE_NAME) { if (history.length > 0) { history.back(); } }
         }
-        
         function openModal() {
             if (modal.classList.contains('is-open')) return;
             if (!history.state || history.state.modal !== MODAL_STATE_NAME) { history.pushState({ modal: MODAL_STATE_NAME }, '', window.location.href); }
             document.body.classList.add('no-scroll'); document.body.classList.add('is-modal-open'); 
             modalContent.style.transition = SPRING_TRANSITION; modalContent.style.transform = `scale(0)`; 
             modal.classList.add('is-open'); setTimeout(() => { modalContent.style.transform = `scale(1)`; }, 10);
-            modal.addEventListener('click', (event) => { if (event.target.id === 'image-preview-modal') { closeModal(); } }, { once: true }); 
-            document.addEventListener('keydown', handleEscape, { once: true });
+            modal.addEventListener('click', (event) => { if (event.target.id === 'image-preview-modal') { closeModal(); } }, { once: true }); document.addEventListener('keydown', handleEscape, { once: true });
         }
-
         function handleEscape(e) { if (e.key === 'Escape') closeModal(); }
-        
-        window.addEventListener('popstate', (e) => {
-            if (modal.classList.contains('is-open') && (!e.state || e.state.modal !== MODAL_STATE_NAME)) {
-                modal.classList.remove('is-open'); document.body.classList.remove('no-scroll'); document.body.classList.remove('is-modal-open'); 
-                modalContent.style.transition = SPRING_TRANSITION; modalContent.style.transform = `scale(0)`;
-            }
-        });
-
+        window.addEventListener('popstate', (e) => { if (modal.classList.contains('is-open') && (!e.state || e.state.modal !== MODAL_STATE_NAME)) { modal.classList.remove('is-open'); document.body.classList.remove('no-scroll'); document.body.classList.remove('is-modal-open'); modalContent.style.transition = SPRING_TRANSITION; modalContent.style.transform = `scale(0)`; } });
         profileImgContainer.addEventListener('click', openModal);
         
-        modal.addEventListener('touchstart', (e) => {
-            if (e.touches.length === MIN_TOUCHES_FOR_PINCH) {
-                e.preventDefault(); modalContent.style.transition = 'none'; 
-                initialDistance = getDistance(e.touches); isPinching = true;
-            } else { isPinching = false; }
-        }, { passive: false }); 
-
-        modal.addEventListener('touchmove', (e) => {
-            if (!isPinching) return; e.preventDefault(); 
-            const newDistance = getDistance(e.touches); const scaleFactor = newDistance / initialDistance;
-            currentScale = Math.min(Math.max(scaleFactor, 0.5), 4.0); modalContent.style.transform = `scale(${currentScale})`;
-        }, { passive: false }); 
-
-        modal.addEventListener('touchend', (e) => {
-            if (!isPinching) return; isPinching = false; 
-            modalContent.style.transition = SPRING_TRANSITION; modalContent.style.transform = `scale(1)`; currentScale = 1;
-        });
-        
+        modal.addEventListener('touchstart', (e) => { if (e.touches.length === MIN_TOUCHES_FOR_PINCH) { e.preventDefault(); modalContent.style.transition = 'none'; initialDistance = getDistance(e.touches); isPinching = true; } else { isPinching = false; } }, { passive: false }); 
+        modal.addEventListener('touchmove', (e) => { if (!isPinching) return; e.preventDefault(); const newDistance = getDistance(e.touches); const scaleFactor = newDistance / initialDistance; currentScale = Math.min(Math.max(scaleFactor, 0.5), 4.0); modalContent.style.transform = `scale(${currentScale})`; }, { passive: false }); 
+        modal.addEventListener('touchend', (e) => { if (!isPinching) return; isPinching = false; modalContent.style.transition = SPRING_TRANSITION; modalContent.style.transform = `scale(1)`; currentScale = 1; });
         function getDistance(touches) { return Math.sqrt(Math.pow(touches[1].clientX - touches[0].clientX, 2) + Math.pow(touches[1].clientY - touches[0].clientY, 2)); }
     });
 
@@ -641,123 +320,141 @@ body.animations-done .link-button { transition-delay: 0s !important; }
             const ctx = canvas.getContext('2d'); let width, height; let particles = []; let tiltX = 0; let tiltY = 0;
             function resizeCanvas() { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; }
             window.addEventListener('resize', resizeCanvas); resizeCanvas();
-
             class Particle {
-                constructor() {
-                    this.x = Math.random() * width; this.y = Math.random() * height; this.size = Math.random() * 2.0 + 1.0; 
-                    this.speedX = Math.random() * 0.5 - 0.2; this.speedY = Math.random() * -0.5 - 0.2; this.opacity = Math.random() * 0.35 + 0.15; 
-                }
+                constructor() { this.x = Math.random() * width; this.y = Math.random() * height; this.size = Math.random() * 2.0 + 1.0; this.speedX = Math.random() * 0.5 - 0.2; this.speedY = Math.random() * -0.5 - 0.2; this.opacity = Math.random() * 0.35 + 0.15; }
                 update() {
                     const depth = this.size * 0.4; this.x += this.speedX + (tiltX * 0.02 * depth); this.y += this.speedY + (tiltY * 0.02 * depth);
-                    if (this.y < -10) this.y = height + 10; if (this.x < -10) this.x = width + 10;
-                    if (this.x > width + 10) this.x = -10; if (this.y > height + 10) this.y = -10;
+                    if (this.y < -10) this.y = height + 10; if (this.x < -10) this.x = width + 10; if (this.x > width + 10) this.x = -10; if (this.y > height + 10) this.y = -10;
                 }
                 draw() { ctx.fillStyle = `rgba(157, 80, 255, ${this.opacity})`; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); }
             }
-
             for (let i = 0; i < 45; i++) { particles.push(new Particle()); }
             function animateParticles() { ctx.clearRect(0, 0, width, height); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animateParticles); }
             animateParticles();
-
             window.addEventListener('deviceorientation', (e) => { if(e.gamma !== null && e.beta !== null) { tiltX = e.gamma; tiltY = e.beta; } }, { passive: true });
         }
     
-        // --- DİNAMİK MÜZİK MOTORU ---
-        const audioPlayer = document.getElementById('audio-player');
-        const toggleBtn = document.getElementById('music-toggle');
-        const defaultCover = document.getElementById('default-cover');
-        const trackTitle = document.getElementById('track-title');
-        const trackArtist = document.getElementById('track-artist');
-        
-        const trackCover1 = document.getElementById('track-cover-1');
-        const trackCover2 = document.getElementById('track-cover-2');
-        let activeCover = 1;
-        
-        const playIcon = document.getElementById('play-icon');
-        const pauseIcon = document.getElementById('pause-icon');
-        const waveIcon = document.getElementById('wave-icon');
+        // --- DİNAMİK MÜZİK MOTORU (STATE MACHINE V6) ---
+        const audioPlayer = document.getElementById('audio-player'); const toggleBtn = document.getElementById('music-toggle');
+        const defaultCover = document.getElementById('default-cover'); const trackTitle = document.getElementById('track-title'); const trackArtist = document.getElementById('track-artist');
+        const trackCover1 = document.getElementById('track-cover-1'); const trackCover2 = document.getElementById('track-cover-2'); let activeCover = 1;
+        const playIcon = document.getElementById('play-icon'); const pauseIcon = document.getElementById('pause-icon'); const waveIcon = document.getElementById('wave-icon');
         const musicPill = document.querySelector('.music-pill');
 
         let isPlaying = false; let isFirstPlay = true; let pillTimeout; let iconTimeout; let clickTimer; 
         let shuffledQueue = []; let currentQueueIndex = 0; let pillCloseTimer; let trackLoadTicket = 0;
 
         let pressTimer; let isLongPress = false; let isSeeking = false;
+        let advancedControlsTimer; let advCloseTimer; let shouldReopenAdvanced = false; 
+        
         const seekPill = document.getElementById('seek-pill'); const prevBtn = document.getElementById('prev-btn'); const seekBar = document.getElementById('seek-bar');
         const currentTimeDisplay = document.getElementById('current-time'); const totalTimeDisplay = document.getElementById('total-time');
 
-        // SÜRE FORMATLAMA FONKSİYONU
         function formatTime(seconds) {
             if (isNaN(seconds)) return "00:00";
             const min = Math.floor(seconds / 60); const sec = Math.floor(seconds % 60);
             return `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
         }
 
-        function toggleAdvancedControls() { seekPill.classList.toggle('show-seek'); prevBtn.classList.toggle('show-prev'); }
+        // GÜNCELLENMİŞ KAPANMA VE BOUNCE MOTORU
+        function closeAdvancedControls(skipBounce = false) {
+            seekPill.classList.remove('show-seek'); prevBtn.classList.remove('show-prev');
+            clearTimeout(advancedControlsTimer); clearTimeout(advCloseTimer);
+
+            if (!skipBounce) {
+                // Kapanma animasyonu 500ms sürüyor. Bitince bounce yap.
+                advCloseTimer = setTimeout(() => {
+                    toggleBtn.classList.add('cover-bounce');
+                    setTimeout(() => { toggleBtn.classList.remove('cover-bounce'); }, 400);
+                }, 350);
+            }
+        }
+
+        function openAdvancedControls() { seekPill.classList.add('show-seek'); prevBtn.classList.add('show-prev'); resetAdvancedControlsTimer(); }
+        function resetAdvancedControlsTimer() { clearTimeout(advancedControlsTimer); advancedControlsTimer = setTimeout(() => { closeAdvancedControls(); }, 4000); }
 
         toggleBtn.addEventListener('contextmenu', (e) => e.preventDefault());
 
         function handlePressStart(e) {
             if(e.type === 'mousedown' && e.button !== 0) return;
             isLongPress = false;
-            pressTimer = setTimeout(() => { isLongPress = true; if (navigator.vibrate) navigator.vibrate(50); toggleAdvancedControls(); }, 400); 
+            pressTimer = setTimeout(() => { 
+                isLongPress = true; if (navigator.vibrate) navigator.vibrate(50); 
+                if (seekPill.classList.contains('show-seek')) {
+                    closeAdvancedControls(); shouldReopenAdvanced = false; 
+                } else {
+                    if (musicPill.classList.contains('show-pill')) {
+                        clearTimeout(pillTimeout); closePill(); shouldReopenAdvanced = true;
+                    } else { openAdvancedControls(); }
+                }
+            }, 400); 
         }
+        function handlePressStart(e) {
+            // Sadece fare sağ tıkını engeller, dokunmatiği tertemiz alır
+            if(e.pointerType === 'mouse' && e.button !== 0) return;
+            
+            isLongPress = false;
+            pressTimer = setTimeout(() => { 
+                isLongPress = true; 
+                if (navigator.vibrate) navigator.vibrate(50); 
+                
+                if (seekPill.classList.contains('show-seek')) {
+                    closeAdvancedControls(); 
+                    shouldReopenAdvanced = false; 
+                } else {
+                    if (musicPill.classList.contains('show-pill')) {
+                        clearTimeout(pillTimeout); 
+                        closePill(); 
+                        shouldReopenAdvanced = true;
+                    } else { 
+                        openAdvancedControls(); 
+                    }
+                }
+            }, 400); 
+        }
+
         function handlePressEnd() { clearTimeout(pressTimer); }
 
-        toggleBtn.addEventListener('mousedown', handlePressStart); toggleBtn.addEventListener('touchstart', handlePressStart, {passive: true});
-        toggleBtn.addEventListener('mouseup', handlePressEnd); toggleBtn.addEventListener('touchend', handlePressEnd);
-        toggleBtn.addEventListener('mouseleave', handlePressEnd); toggleBtn.addEventListener('touchcancel', handlePressEnd);
+        // Bütün o eski mouse/touch kalabalığı yerine sadece Pointer sensörleri:
+        toggleBtn.addEventListener('pointerdown', handlePressStart);
+        toggleBtn.addEventListener('pointerup', handlePressEnd);
+        toggleBtn.addEventListener('pointerleave', handlePressEnd);
+        toggleBtn.addEventListener('pointercancel', handlePressEnd);
 
-        // SEEKBAR SENKRONİZASYON VE DOLGU MOTORU
-        seekBar.addEventListener('mousedown', () => isSeeking = true);
-        seekBar.addEventListener('touchstart', () => isSeeking = true, {passive: true});
-        
-        seekBar.addEventListener('input', () => {
-            isSeeking = true; const val = seekBar.value;
-            seekBar.style.background = `linear-gradient(to right, #DCBAF7 ${val}%, rgba(164, 139, 184, 0.3) ${val}%)`;
-            if(audioPlayer.duration) { currentTimeDisplay.textContent = formatTime((val / 100) * audioPlayer.duration); }
-        });
-
-        seekBar.addEventListener('change', () => {
-            if (audioPlayer.duration) audioPlayer.currentTime = (seekBar.value / 100) * audioPlayer.duration;
-            isSeeking = false;
-        });
-        seekBar.addEventListener('touchend', () => {
-            if (audioPlayer.duration) audioPlayer.currentTime = (seekBar.value / 100) * audioPlayer.duration;
-            isSeeking = false;
-        });
-
-        audioPlayer.addEventListener('timeupdate', () => {
-            if (audioPlayer.duration) {
-                const progress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
-                if (!isSeeking) {
-                    seekBar.value = progress;
-                    seekBar.style.background = `linear-gradient(to right, #DCBAF7 ${progress}%, rgba(164, 139, 184, 0.3) ${progress}%)`;
-                }
-                currentTimeDisplay.textContent = formatTime(audioPlayer.currentTime);
-            }
-        });
-
-        audioPlayer.addEventListener('loadedmetadata', () => {
-            totalTimeDisplay.textContent = formatTime(audioPlayer.duration);
-            currentTimeDisplay.textContent = "00:00";
-            seekBar.value = 0;
-            seekBar.style.background = `linear-gradient(to right, #DCBAF7 0%, rgba(164, 139, 184, 0.3) 0%)`;
-        });
-
-        prevBtn.addEventListener('click', () => {
+                prevBtn.addEventListener('click', () => {
             if (currentQueueIndex >= 2) { currentQueueIndex -= 2; } else { currentQueueIndex = 0; }
-            toggleAdvancedControls(); 
-            if (musicPill.classList.contains('show-pill')) { clearTimeout(pillTimeout); closePill(); }
-            setTimeout(() => { loadRandomTrack(); isFirstPlay = false; showPill(); playTrack(true); }, 500);
+            
+            // 1. 4 saniyelik kapanma sayacını sıfırla
+            resetAdvancedControlsTimer(); 
+            
+            // 2. Şarkı isim hapının araya girip çakışma yapmasını engelle
+            clearTimeout(pillTimeout); 
+            clearTimeout(pillCloseTimer);
+            musicPill.classList.remove('show-pill'); 
+
+            // 3. Menüyü ASLA KAPATMADAN ve beklemeden şarkıyı anında değiştir
+            loadRandomTrack(); 
+            isFirstPlay = false; 
+            playTrack(true); 
         });
+
 
         function closePill() {
             musicPill.classList.remove('show-pill'); clearTimeout(pillCloseTimer);
-            pillCloseTimer = setTimeout(() => { toggleBtn.classList.add('cover-bounce'); setTimeout(() => { toggleBtn.classList.remove('cover-bounce'); }, 400); }, 500); 
+            pillCloseTimer = setTimeout(() => { 
+                toggleBtn.classList.add('cover-bounce'); setTimeout(() => { toggleBtn.classList.remove('cover-bounce'); }, 400); 
+                if (shouldReopenAdvanced) { shouldReopenAdvanced = false; openAdvancedControls(); }
+            }, 400); 
         }
-        function showPill() {
-            musicPill.classList.add('show-pill'); clearTimeout(pillTimeout); clearTimeout(pillCloseTimer);
-            pillTimeout = setTimeout(() => { closePill(); }, 3000);
+
+                function showPill() {
+            // GÜVENLİK DUVARI: Şarkı hapı açılırken seekbar kesinlikle kapalı olmalı!
+            closeAdvancedControls(true); 
+
+            musicPill.classList.add('show-pill'); 
+            clearTimeout(pillTimeout); 
+            clearTimeout(pillCloseTimer); 
+            pillTimeout = setTimeout(() => { closePill(); }, 3000); 
         }
 
         const playlist = [
@@ -923,12 +620,23 @@ body.animations-done .link-button { transition-delay: 0s !important; }
             }
         });
 
-        toggleBtn.addEventListener('dblclick', () => {
+                toggleBtn.addEventListener('dblclick', () => {
             clearTimeout(clickTimer); resetIcons(); 
             const forwardIcon = document.getElementById('forward-icon'); forwardIcon.classList.add('show-forward');
-            if (musicPill.classList.contains('show-pill')) { clearTimeout(pillTimeout); closePill(); }
+            
+            if (seekPill.classList.contains('show-seek')) { 
+                closeAdvancedControls(true); 
+                shouldReopenAdvanced = true; 
+            }
+            
+            // ÇAKIŞMA ENGELLEYİCİ: Üst üste hızlı geçişlerde önceki sayaçları anında öldür
+            clearTimeout(pillTimeout); 
+            clearTimeout(pillCloseTimer);
+            musicPill.classList.remove('show-pill'); 
+            
             setTimeout(() => { forwardIcon.classList.remove('show-forward'); loadRandomTrack(); isFirstPlay = false; showPill(); playTrack(true); }, 500); 
         });
+
 
         audioPlayer.addEventListener('ended', () => {
             isPlaying = false; trackCover1.classList.remove('spin-anim'); trackCover2.classList.remove('spin-anim');
