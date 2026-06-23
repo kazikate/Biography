@@ -371,7 +371,7 @@
         }
 
         function openAdvancedControls() { seekPill.classList.add('show-seek'); prevBtn.classList.add('show-prev'); resetAdvancedControlsTimer(); }
-        function resetAdvancedControlsTimer() { clearTimeout(advancedControlsTimer); advancedControlsTimer = setTimeout(() => { closeAdvancedControls(); }, 4000); }
+        function resetAdvancedControlsTimer() { clearTimeout(advancedControlsTimer); advancedControlsTimer = setTimeout(() => { closeAdvancedControls(); }, 10000); }
 
         toggleBtn.addEventListener('contextmenu', (e) => e.preventDefault());
 
@@ -458,106 +458,120 @@
         }
 
         const playlist = [
-            { title: "Bodies", artist: "Drowning Pool", file: "music/Bodies.opus" },
-            { title: "Courtesy Call", artist: "Thousand Foot Krutch", file: "music/Courtesy Call.opus" },
-            { title: "Flying (Remastered)", artist: "Anathema", file: "music/Flying (Remastered).opus" },
-            { title: "Sonne", artist: "Rammstein", file: "music/Sonne.opus" },
-            { title: "Stricken", artist: "Disturbed", file: "music/Stricken.opus" },
-            { title: "The Sound of Silence", artist: "Disturbed", file: "music/The Sound of Silence.opus" },
-            { title: "Decadence", artist: "Disturbed", file: "music/Decadence.opus" },
-            { title: "Sirens", artist: "Saint Asonia", file: "music/Sirens.opus" },
-            { title: "Dying Slowly", artist: "Saint Asonia", file: "music/Dying Slowly.opus", customCover: "https://i.scdn.co/image/ab67616d0000b273ce96f4fcaf09b2e1bf8350aa" },
-            { title: "Ghost", artist: "Saint Asonia", file: "music/Ghost.opus" },
-            { title: "Devastate", artist: "Saint Asonia", file: "music/Devastate.opus" },
-            { title: "O Come, O Come Emmanuel", artist: "Skillet", file: "music/O Come, O Come Emmanuel.opus" },
-            { title: "Ash In The Wind", artist: "Skillet", file: "music/Ash In The Wind.opus" },
-            { title: "Fire Inside of Me", artist: "Skillet", file: "music/Fire Inside of Me.opus" },
-            { title: "Psycho In My Head", artist: "Skillet", file: "music/Psycho In My Head.opus" },
-            { title: "Angels Fall Down (Live)", artist: "Skillet", file: "music/Angels Fall Down (Live).opus" },
-            { title: "You Are My Hope", artist: "Skillet", file: "music/You Are My Hope.opus" },
-            { title: "One Day Too Late", artist: "Skillet", file: "music/One Day Too Late.opus" },
-            { title: "Awake and Alive", artist: "Skillet", file: "music/Awake and Alive.opus" },
-            { title: "Everything Goes Black", artist: "Skillet", file: "music/Everything Goes Black.opus" },
-            { title: "American Noise", artist: "Skillet", file: "music/American Noise.opus" },
-            { title: "Good to Be Alive", artist: "Skillet", file: "music/Good to Be Alive.opus" },
-            { title: "Valley of Death", artist: "Skillet", file: "music/Valley of Death.opus" },
-            { title: "Lucy", artist: "Skillet", file: "music/Lucy.opus" },
-            { title: "Feel Invincible", artist: "Skillet", file: "music/Feel Invincible.opus" },
-            { title: "Legendary", artist: "Skillet", file: "music/Legendary.opus" },
-            { title: "Stars", artist: "Skillet", file: "music/Stars.opus" },
-            { title: "Victorious", artist: "Skillet", file: "music/Victorious.opus" },
-            { title: "The Last Night", artist: "Skillet", file: "music/The Last Night.opus" },
-            { title: "Rebirthing", artist: "Skillet", file: "music/Rebirthing.opus" },
-            { title: "It's Not Me, It's You", artist: "Skillet", file: "music/It's Not Me, It's You.opus" },
-            { title: "Dead Inside", artist: "Skillet", file: "music/Dead Inside.opus" },
-            { title: "Freakshow", artist: "Skillet", file: "music/Freakshow.opus" },
-            { title: "What I Believe", artist: "Skillet", file: "music/What I Believe.opus" },
-            { title: "The Resistance", artist: "Skillet", file: "music/The Resistance.opus" },
-            { title: "Not Gonna Die", artist: "Skillet", file: "music/Not Gonna Die.opus" },
-            { title: "Whispers in the Dark", artist: "Skillet", file: "music/Whispers in the Dark.opus" },
-            { title: "Comatose", artist: "Skillet", file: "music/Comatose.opus" },
-            { title: "Monster", artist: "Skillet", file: "music/Monster.opus" },
-            { title: "Hero", artist: "Skillet", file: "music/Hero.opus" },
-            { title: "Fighting Myself", artist: "Linkin Park", file: "music/Fighting Myself.opus" },
-            { title: "Let Down", artist: "Dead By Sunrise", file: "music/Let Down.opus" },
-            { title: "Until It's Gone", artist: "Linkin Park", file: "music/Until It's Gone.opus" },
-            { title: "Up From the Bottom", artist: "Linkin Park", file: "music/Up From the Bottom.opus" },
-            { title: "Two Faced", artist: "Linkin Park", file: "music/Two Faced.opus" },
-            { title: "Good Things Go", artist: "Linkin Park", file: "music/Good Things Go.opus" },
-            { title: "Lying from You", artist: "Linkin Park", file: "music/Lying from You.opus" },
-            { title: "A Place for My Head", artist: "Linkin Park", file: "music/A Place for My Head.opus" },
-            { title: "The Emptiness Machine", artist: "Linkin Park", file: "music/The Emptiness Machine.opus" },
-            { title: "Heavy Is the Crown", artist: "Linkin Park", file: "music/Heavy Is the Crown.opus" },
-            { title: "New Divide", artist: "Linkin Park", file: "music/New Divide.opus" },
-            { title: "One More Light", artist: "Linkin Park", file: "music/One More Light.opus" },
-            { title: "ROADS UNTRAVELED", artist: "Linkin Park", file: "music/ROADS UNTRAVELED.opus" },
-            { title: "CASTLE OF GLASS", artist: "Linkin Park", file: "music/CASTLE OF GLASS.opus" },
-            { title: "What I've Done", artist: "Linkin Park", file: "music/What I've Done.opus" },
-            { title: "Given Up", artist: "Linkin Park", file: "music/Given Up.opus" },
-            { title: "Papercut", artist: "Linkin Park", file: "music/Papercut.opus" },
-            { title: "One Step Closer", artist: "Linkin Park", file: "music/One Step Closer.opus" },
-            { title: "In the End", artist: "Linkin Park", file: "music/In the End.opus" },
-            { title: "Somewhere I Belong", artist: "Linkin Park", file: "music/Somewhere I Belong.opus" },
-            { title: "Breaking the Habit", artist: "Linkin Park", file: "music/Breaking the Habit.opus" },
-            { title: "Faint", artist: "Linkin Park", file: "music/Faint.opus" },
-            { title: "Numb", artist: "Linkin Park", file: "music/Numb.opus" },
-            { title: "I Don't Care", artist: "Apocalyptica", file: "music/I Don't Care.opus" },
-            { title: "Kill Me Fast", artist: "Three Days Grace", file: "music/Kill Me Fast.opus" },
-            { title: "One X", artist: "Three Days Grace", file: "music/One X.opus" },
-            { title: "Lifetime", artist: "Three Days Grace", file: "music/Lifetime.opus" },
-            { title: "Fallen Angel", artist: "Three Days Grace", file: "music/Fallen Angel.opus" },
-            { title: "Life Starts Now", artist: "Three Days Grace", file: "music/Life Starts Now.opus" },
-            { title: "World so Cold", artist: "Three Days Grace", file: "music/World so Cold.opus" },
-            { title: "Home", artist: "Three Days Grace", file: "music/Home.opus" },
-            { title: "Get Out Alive", artist: "Three Days Grace", file: "music/Get Out Alive.opus" },
-            { title: "Pain", artist: "Three Days Grace", file: "music/Pain.opus" },
-            { title: "Time of Dying", artist: "Three Days Grace", file: "music/Time of Dying.opus" },
-            { title: "Never Too Late", artist: "Three Days Grace", file: "music/Never Too Late.opus" },
-            { title: "Riot", artist: "Three Days Grace", file: "music/Riot.opus" },
-            { title: "Animal I Have Become", artist: "Three Days Grace", file: "music/Animal I Have Become.opus" },
-            { title: "I Hate Everything About You", artist: "Three Days Grace", file: "music/I Hate Everything About You.opus" },
-            { title: "Solway Firth", artist: "Slipknot", file: "music/Solway Firth.opus" },
-            { title: "[sic]", artist: "Slipknot", file: "music/[sic].opus", customCover: "https://i.scdn.co/image/ab67616d0000b27310dfb0b9dbf8da6db290e2fe" },
-            { title: "Eyeless", artist: "Slipknot", file: "music/Eyeless.opus", customCover: "https://i.scdn.co/image/ab67616d0000b27310dfb0b9dbf8da6db290e2fe" },
-            { title: "Unsainted", artist: "Slipknot", file: "music/Unsainted.opus", customCover: "https://i.scdn.co/image/ab67616d0000b2731998f8cc4259b95dfc0bfb27" },
-            { title: "Nero Forte", artist: "Slipknot", file: "music/Nero Forte.opus", customCover: "https://i.scdn.co/image/ab67616d0000b2731998f8cc4259b95dfc0bfb27" },
-            { title: "Custer", artist: "Slipknot", file: "music/Custer.opus" },
-            { title: "Left Behind", artist: "Slipknot", file: "music/Left Behind.opus" },
-            { title: "People = Shit", artist: "Slipknot", file: "music/People = Shit.opus", customCover: "https://i.scdn.co/image/ab67616d0000b2738b55227181c251457102dbaf" },
-            { title: "Afraid Of The Dark", artist: "Motionless In White", file: "music/Afraid Of The Dark.opus" },
-            { title: "Voices", artist: "Motionless In White", file: "music/Voices.opus" },
-            { title: "Another Life", artist: "Motionless In White", file: "music/Another Life.opus" },
-            { title: "Until The End", artist: "Breaking Benjamin", file: "music/Until The End.opus" },
-            { title: "Evil Angel", artist: "Breaking Benjamin", file: "music/Evil Angel.opus" },
-            { title: "Dance With The Devil", artist: "Breaking Benjamin", file: "music/Dance With The Devil.opus" },
-            { title: "Awaken", artist: "Breaking Benjamin", file: "music/Awaken.opus" },
-            { title: "Circle With Me", artist: "Spiritbox", file: "music/Circle With Me.opus" },
-            { title: "Decay With Me", artist: "Deathly Hours", file: "music/Decay With Me.opus" },
-            { title: "Dying in Your Arms", artist: "Deathly Hours", file: "music/Dying in Your Arms.opus" }
+            // Karma & Nu-Metal Başlangıç
+            { title: "Bodies", artist: "Drowning Pool", file: "https://kazikate.github.io/Biography/music/Bodies.opus" },
+            { title: "Courtesy Call", artist: "Thousand Foot Krutch", file: "https://kazikate.github.io/Biography/music/Courtesy Call.opus" },
+            { title: "Flying (Remastered)", artist: "Anathema", file: "https://kazikate.github.io/Biography/music/Flying (Remastered).opus" },
+            { title: "Sonne", artist: "Rammstein", file: "https://kazikate.github.io/Biography/music/Sonne.opus" },
+            { title: "Stricken", artist: "Disturbed", file: "https://kazikate.github.io/Biography/music/Stricken.opus" },
+            { title: "The Sound of Silence", artist: "Disturbed", file: "https://kazikate.github.io/Biography/music/The Sound of Silence.opus" },
+            { title: "Decadence", artist: "Disturbed", file: "https://kazikate.github.io/Biography/music/Decadence.opus" },
+            { title: "Sirens", artist: "Saint Asonia", file: "https://kazikate.github.io/Biography/music/Sirens.opus" },
+            { title: "Dying Slowly", artist: "Saint Asonia", file: "https://kazikate.github.io/Biography/music/Dying Slowly.opus" },
+            { title: "Ghost", artist: "Saint Asonia", file: "https://kazikate.github.io/Biography/music/Ghost.opus" },
+            { title: "Devastate", artist: "Saint Asonia", file: "https://kazikate.github.io/Biography/music/Devastate.opus" },
+            { title: "O Come, O Come Emmanuel", artist: "Skillet", file: "https://kazikate.github.io/Biography/music/O Come, O Come Emmanuel.opus" },
+            { title: "Ash In The Wind", artist: "Skillet", file: "https://kazikate.github.io/Biography/music/Ash In The Wind.opus" },
+            
+            // Skillet Bloğu
+            { title: "Fire Inside of Me", artist: "Skillet", file: "https://kazikate.github.io/Biography/music/Fire Inside of Me.opus" },
+            { title: "Psycho In My Head", artist: "Skillet", file: "https://kazikate.github.io/Biography/music/Psycho In My Head.opus" },
+            { title: "Angels Fall Down (Live)", artist: "Skillet", file: "https://kazikate.github.io/Biography/music/Angels Fall Down (Live).opus" },
+            { title: "You Are My Hope", artist: "Skillet", file: "https://kazikate.github.io/Biography/music/You Are My Hope.opus" },
+            { title: "One Day Too Late", artist: "Skillet", file: "https://kazikate.github.io/Biography/music/One Day Too Late.opus" },
+            { title: "Awake and Alive", artist: "Skillet", file: "https://kazikate.github.io/Biography/music/Awake and Alive.opus" },
+            { title: "Everything Goes Black", artist: "Skillet", file: "https://kazikate.github.io/Biography/music/Everything Goes Black.opus" },
+            { title: "American Noise", artist: "Skillet", file: "https://kazikate.github.io/Biography/music/American Noise.opus" },
+            { title: "Good to Be Alive", artist: "Skillet", file: "https://kazikate.github.io/Biography/music/Good to Be Alive.opus" },
+            { title: "Valley of Death", artist: "Skillet", file: "https://kazikate.github.io/Biography/music/Valley of Death.opus" },
+            { title: "Lucy", artist: "Skillet", file: "https://kazikate.github.io/Biography/music/Lucy.opus" },
+            { title: "Feel Invincible", artist: "Skillet", file: "https://kazikate.github.io/Biography/music/Feel Invincible.opus" },
+            { title: "Legendary", artist: "Skillet", file: "https://kazikate.github.io/Biography/music/Legendary.opus" },
+            { title: "Stars", artist: "Skillet", file: "https://kazikate.github.io/Biography/music/Stars.opus" },
+            { title: "Victorious", artist: "Skillet", file: "https://kazikate.github.io/Biography/music/Victorious.opus" },
+            { title: "The Last Night", artist: "Skillet", file: "https://kazikate.github.io/Biography/music/The Last Night.opus" },
+            { title: "Rebirthing", artist: "Skillet", file: "https://kazikate.github.io/Biography/music/Rebirthing.opus" },
+            { title: "It's Not Me, It's You", artist: "Skillet", file: "https://kazikate.github.io/Biography/music/It's Not Me, It's You.opus" },
+            { title: "Dead Inside", artist: "Skillet", file: "https://kazikate.github.io/Biography/music/Dead Inside.opus" },
+            { title: "Freakshow", artist: "Skillet", file: "https://kazikate.github.io/Biography/music/Freakshow.opus" },
+            { title: "What I Believe", artist: "Skillet", file: "https://kazikate.github.io/Biography/music/What I Believe.opus" },
+            { title: "The Resistance", artist: "Skillet", file: "https://kazikate.github.io/Biography/music/The Resistance.opus" },
+            { title: "Not Gonna Die", artist: "Skillet", file: "https://kazikate.github.io/Biography/music/Not Gonna Die.opus" },
+            { title: "Whispers in the Dark", artist: "Skillet", file: "https://kazikate.github.io/Biography/music/Whispers in the Dark.opus" },
+            { title: "Comatose", artist: "Skillet", file: "https://kazikate.github.io/Biography/music/Comatose.opus" },
+            { title: "Monster", artist: "Skillet", file: "https://kazikate.github.io/Biography/music/Monster.opus" },
+            { title: "Hero", artist: "Skillet", file: "https://kazikate.github.io/Biography/music/Hero.opus" },
+            
+            // Linkin Park Bloğu
+            { title: "Fighting Myself", artist: "Linkin Park", file: "https://kazikate.github.io/Biography/music/Fighting Myself.opus" },
+            { title: "Let Down", artist: "Dead By Sunrise", file: "https://kazikate.github.io/Biography/music/Let Down.opus" },
+            { title: "Until It's Gone", artist: "Linkin Park", file: "https://kazikate.github.io/Biography/music/Until It's Gone.opus" },
+            { title: "Up From the Bottom", artist: "Linkin Park", file: "https://kazikate.github.io/Biography/music/Up From the Bottom.opus" },
+            { title: "Two Faced", artist: "Linkin Park", file: "https://kazikate.github.io/Biography/music/Two Faced.opus" },
+            { title: "Good Things Go", artist: "Linkin Park", file: "https://kazikate.github.io/Biography/music/Good Things Go.opus" },
+            { title: "Lying from You", artist: "Linkin Park", file: "https://kazikate.github.io/Biography/music/Lying from You.opus" },
+            { title: "A Place for My Head", artist: "Linkin Park", file: "https://kazikate.github.io/Biography/music/A Place for My Head.opus" },
+            { title: "The Emptiness Machine", artist: "Linkin Park", file: "https://kazikate.github.io/Biography/music/The Emptiness Machine.opus" },
+            { title: "Heavy Is the Crown", artist: "Linkin Park", file: "https://kazikate.github.io/Biography/music/Heavy Is the Crown.opus" },
+            { title: "New Divide", artist: "Linkin Park", file: "https://kazikate.github.io/Biography/music/New Divide.opus" },
+            { title: "One More Light", artist: "Linkin Park", file: "https://kazikate.github.io/Biography/music/One More Light.opus" },
+            { title: "ROADS UNTRAVELED", artist: "Linkin Park", file: "https://kazikate.github.io/Biography/music/ROADS UNTRAVELED.opus" },
+            { title: "CASTLE OF GLASS", artist: "Linkin Park", file: "https://kazikate.github.io/Biography/music/CASTLE OF GLASS.opus" },
+            { title: "What I've Done", artist: "Linkin Park", file: "https://kazikate.github.io/Biography/music/What I've Done.opus" },
+            { title: "Given Up", artist: "Linkin Park", file: "https://kazikate.github.io/Biography/music/Given Up.opus" },
+            { title: "Papercut", artist: "Linkin Park", file: "https://kazikate.github.io/Biography/music/Papercut.opus" },
+            { title: "One Step Closer", artist: "Linkin Park", file: "https://kazikate.github.io/Biography/music/One Step Closer.opus" },
+            { title: "In the End", artist: "Linkin Park", file: "https://kazikate.github.io/Biography/music/In the End.opus" },
+            { title: "Somewhere I Belong", artist: "Linkin Park", file: "https://kazikate.github.io/Biography/music/Somewhere I Belong.opus" },
+            { title: "Breaking the Habit", artist: "Linkin Park", file: "https://kazikate.github.io/Biography/music/Breaking the Habit.opus" },
+            { title: "Faint", artist: "Linkin Park", file: "https://kazikate.github.io/Biography/music/Faint.opus" },
+            { title: "Numb", artist: "Linkin Park", file: "https://kazikate.github.io/Biography/music/Numb.opus" },
+            
+            // Three Days Grace Bloğu
+            { title: "I Don't Care", artist: "Apocalyptica", file: "https://kazikate.github.io/Biography/music/I Don't Care.opus" },
+            { title: "Kill Me Fast", artist: "Three Days Grace", file: "https://kazikate.github.io/Biography/music/Kill Me Fast.opus" },
+            { title: "One X", artist: "Three Days Grace", file: "https://kazikate.github.io/Biography/music/One X.opus" },
+            { title: "Lifetime", artist: "Three Days Grace", file: "https://kazikate.github.io/Biography/music/Lifetime.opus" },
+            { title: "Fallen Angel", artist: "Three Days Grace", file: "https://kazikate.github.io/Biography/music/Fallen Angel.opus" },
+            { title: "Life Starts Now", artist: "Three Days Grace", file: "https://kazikate.github.io/Biography/music/Life Starts Now.opus" },
+            { title: "World so Cold", artist: "Three Days Grace", file: "https://kazikate.github.io/Biography/music/World so Cold.opus" },
+            { title: "Home", artist: "Three Days Grace", file: "https://kazikate.github.io/Biography/music/Home.opus" },
+            { title: "Get Out Alive", artist: "Three Days Grace", file: "https://kazikate.github.io/Biography/music/Get Out Alive.opus" },
+            { title: "Pain", artist: "Three Days Grace", file: "https://kazikate.github.io/Biography/music/Pain.opus" },
+            { title: "Time of Dying", artist: "Three Days Grace", file: "https://kazikate.github.io/Biography/music/Time of Dying.opus" },
+            { title: "Never Too Late", artist: "Three Days Grace", file: "https://kazikate.github.io/Biography/music/Never Too Late.opus" },
+            { title: "Riot", artist: "Three Days Grace", file: "https://kazikate.github.io/Biography/music/Riot.opus" },
+            { title: "Animal I Have Become", artist: "Three Days Grace", file: "https://kazikate.github.io/Biography/music/Animal I Have Become.opus" },
+            { title: "I Hate Everything About You", artist: "Three Days Grace", file: "https://kazikate.github.io/Biography/music/I Hate Everything About You.opus" },
+            
+            // Slipknot Bloğu
+            { title: "Solway Firth", artist: "Slipknot", file: "https://kazikate.github.io/Biography/music/Solway Firth.opus" },
+            { title: "[sic]", artist: "Slipknot", file: "https://kazikate.github.io/Biography/music/[sic].opus" },
+            { title: "Eyeless", artist: "Slipknot", file: "https://kazikate.github.io/Biography/music/Eyeless.opus" },
+            { title: "Unsainted", artist: "Slipknot", file: "https://kazikate.github.io/Biography/music/Unsainted.opus" },
+            { title: "Nero Forte", artist: "Slipknot", file: "https://kazikate.github.io/Biography/music/Nero Forte.opus" },
+            { title: "Custer", artist: "Slipknot", file: "https://kazikate.github.io/Biography/music/Custer.opus" },
+            { title: "Left Behind", artist: "Slipknot", file: "https://kazikate.github.io/Biography/music/Left Behind.opus" },
+            { title: "People = Shit", artist: "Slipknot", file: "https://kazikate.github.io/Biography/music/People = Shit.opus" },
+            
+            // Metalcore / Alt Metal Kapanış
+            { title: "Afraid Of The Dark", artist: "Motionless In White", file: "https://kazikate.github.io/Biography/music/Afraid Of The Dark.opus" },
+            { title: "Voices", artist: "Motionless In White", file: "https://kazikate.github.io/Biography/music/Voices.opus" },
+            { title: "Another Life", artist: "Motionless In White", file: "https://kazikate.github.io/Biography/music/Another Life.opus" },
+            { title: "Until The End", artist: "Breaking Benjamin", file: "https://kazikate.github.io/Biography/music/Until The End.opus" },
+            { title: "Evil Angel", artist: "Breaking Benjamin", file: "https://kazikate.github.io/Biography/music/Evil Angel.opus" },
+            { title: "Dance With The Devil", artist: "Breaking Benjamin", file: "https://kazikate.github.io/Biography/music/Dance With The Devil.opus" },
+            { title: "Awaken", artist: "Breaking Benjamin", file: "https://kazikate.github.io/Biography/music/Awaken.opus" },
+            { title: "Circle With Me", artist: "Spiritbox", file: "https://kazikate.github.io/Biography/music/Circle With Me.opus" },
+            { title: "Decay With Me", artist: "Deathly Hours", file: "https://kazikate.github.io/Biography/music/Decay With Me.opus" },
+            { title: "Dying in Your Arms", artist: "Deathly Hours", file: "https://kazikate.github.io/Biography/music/Dying in Your Arms.opus" }
         ];
 
-        async function loadRandomTrack() {
-            toggleBtn.classList.add('solid-bg'); trackLoadTicket++; const myTicket = trackLoadTicket;
+
+                async function loadRandomTrack() {
+            toggleBtn.classList.add('solid-bg'); 
+            trackLoadTicket++; 
+            const myTicket = trackLoadTicket;
 
             if (shuffledQueue.length === 0 || currentQueueIndex >= shuffledQueue.length) {
                 shuffledQueue = Array.from({length: playlist.length}, (_, i) => i);
@@ -568,29 +582,62 @@
                 currentQueueIndex = 0;
             }
 
-            const trackIndex = shuffledQueue[currentQueueIndex]; currentQueueIndex++; const randomTrack = playlist[trackIndex];
-            trackTitle.textContent = randomTrack.title; trackArtist.textContent = randomTrack.artist; audioPlayer.src = randomTrack.file; 
+            const trackIndex = shuffledQueue[currentQueueIndex]; 
+            currentQueueIndex++; 
+            const randomTrack = playlist[trackIndex];
             
-            const nextCover = activeCover === 1 ? trackCover2 : trackCover1; const currentCover = activeCover === 1 ? trackCover1 : trackCover2;
+            trackTitle.textContent = randomTrack.title; 
+            trackArtist.textContent = randomTrack.artist; 
+            audioPlayer.src = randomTrack.file; 
+            
+            // Hata tespiti için konsol uyarısı (İsim hatalarında 404 yakalar)
+            audioPlayer.onerror = () => { console.error("Ses yüklenemedi: ", randomTrack.file); };
+            
+            const nextCover = activeCover === 1 ? trackCover2 : trackCover1; 
+            const currentCover = activeCover === 1 ? trackCover1 : trackCover2;
+            
+            // VARSAYILAN SPOTIFY KAPAĞI (Apple API patlarsa bu yüklenecek)
             let finalCoverUrl = "https://i.scdn.co/image/ab67616d0000b27341e97ee9cf2ee378519e4875"; 
 
-            if (randomTrack.customCover) { finalCoverUrl = randomTrack.customCover; } 
-            else {
-                try {
-                    const response = await fetch(`https://itunes.apple.com/search?term=${randomTrack.artist}+${randomTrack.title}&entity=song&limit=1`);
-                    const data = await response.json(); if(data.results.length > 0) { finalCoverUrl = data.results[0].artworkUrl100.replace('100x100bb', '600x600bb'); }
-                } catch(e) { console.log("Kapak çekilemedi."); }
+            try {
+                // ŞARKI İSMİNİ URL FORMATINA ÇEVİRME (Hatalı aramaları önler)
+                const searchQuery = encodeURIComponent(randomTrack.artist + " " + randomTrack.title);
+                const response = await fetch(`https://itunes.apple.com/search?term=${searchQuery}&entity=song&limit=1`);
+                
+                if(response.ok) {
+                    const data = await response.json(); 
+                    if(data.results.length > 0) { 
+                        finalCoverUrl = data.results[0].artworkUrl100.replace('100x100bb', '600x600bb'); 
+                    }
+                }
+            } catch(e) { 
+                console.log("Apple API reddetti, varsayılan kapak çekiliyor."); 
             }
 
             if (myTicket !== trackLoadTicket) return;
 
-            nextCover.onload = () => {
+            // ÖN YÜKLEYİCİ
+            const preloader = new Image();
+            preloader.onload = () => {
                 if (myTicket !== trackLoadTicket) return; 
-                nextCover.style.opacity = '1'; currentCover.style.opacity = '0'; defaultCover.style.opacity = '0'; activeCover = activeCover === 1 ? 2 : 1; 
+                nextCover.src = finalCoverUrl; 
+                nextCover.style.opacity = '1'; 
+                currentCover.style.opacity = '0'; 
+                defaultCover.style.opacity = '0'; 
+                activeCover = activeCover === 1 ? 2 : 1; 
             };
-
-            if (nextCover.src === finalCoverUrl) { nextCover.onload(); } else { nextCover.src = finalCoverUrl; }
+            
+            preloader.onerror = () => {
+                if (myTicket !== trackLoadTicket) return; 
+                nextCover.style.opacity = '0'; 
+                currentCover.style.opacity = '0'; 
+                defaultCover.style.opacity = '1'; 
+            };
+            
+            preloader.src = finalCoverUrl; 
         }
+
+
 
         function resetIcons() { playIcon.classList.remove('show-icon'); pauseIcon.classList.remove('show-icon'); waveIcon.classList.remove('show-wave'); }
 
@@ -637,11 +684,63 @@
             setTimeout(() => { forwardIcon.classList.remove('show-forward'); loadRandomTrack(); isFirstPlay = false; showPill(); playTrack(true); }, 500); 
         });
 
-
-        audioPlayer.addEventListener('ended', () => {
-            isPlaying = false; trackCover1.classList.remove('spin-anim'); trackCover2.classList.remove('spin-anim');
-            resetIcons(); playIcon.classList.add('show-icon');
+        // SEEKBAR KUSURSUZ İLERLETME VE SÜRE SIFIRLAMA MOTORU
+        seekBar.addEventListener('pointerdown', () => {
+            isSeeking = true;
+            resetAdvancedControlsTimer(); // Süreyi sıfırla
         });
+
+        seekBar.addEventListener('input', () => {
+            isSeeking = true; 
+            const val = seekBar.value;
+            // Çubuğun arkasındaki mor dolguyu anlık güncelle
+            seekBar.style.background = `linear-gradient(to right, #DCBAF7 ${val}%, rgba(164, 139, 184, 0.3) ${val}%)`;
+            
+            if(audioPlayer.duration && !isNaN(audioPlayer.duration) && audioPlayer.duration !== Infinity) { 
+                currentTimeDisplay.textContent = formatTime((val / 100) * audioPlayer.duration); 
+            }
+            resetAdvancedControlsTimer(); // Kaydırırken de süreyi sürekli sıfırla
+        });
+
+        seekBar.addEventListener('pointerup', () => {
+            isSeeking = false;
+            // Parmağını/Mouse'u bıraktığın an şarkıyı o saniyeye fırlat
+            if (audioPlayer.duration && !isNaN(audioPlayer.duration) && audioPlayer.duration !== Infinity) {
+                audioPlayer.currentTime = (seekBar.value / 100) * audioPlayer.duration;
+            }
+            resetAdvancedControlsTimer(); // Süreyi son kez sıfırla (10 saniye başlasın)
+        });
+
+                // SEEKBAR SENKRONİZASYON VE MATEMATİK FİXİ
+        audioPlayer.addEventListener('timeupdate', () => {
+            const duration = audioPlayer.duration;
+            const currentTime = audioPlayer.currentTime;
+            
+            // Eğer süre NaN (Hata) veya Infinity (Sonsuz) değilse çubuğu ilerlet
+            if (!isNaN(duration) && duration > 0 && duration !== Infinity) {
+                const progress = (currentTime / duration) * 100;
+                
+                if (!isSeeking) {
+                    seekBar.value = progress;
+                    seekBar.style.background = `linear-gradient(to right, #DCBAF7 ${progress}%, rgba(164, 139, 184, 0.3) ${progress}%)`;
+                }
+                
+                currentTimeDisplay.textContent = formatTime(currentTime);
+                // Opus dosyaları streaming olduğu için toplam süre aniden yüklenebilir, sürekli yeniliyoruz
+                totalTimeDisplay.textContent = formatTime(duration); 
+            }
+        });
+
+        audioPlayer.addEventListener('loadedmetadata', () => {
+            const duration = audioPlayer.duration;
+            if (!isNaN(duration) && duration > 0 && duration !== Infinity) {
+                totalTimeDisplay.textContent = formatTime(duration);
+            }
+            currentTimeDisplay.textContent = "00:00";
+            seekBar.value = 0;
+            seekBar.style.background = `linear-gradient(to right, #DCBAF7 0%, rgba(164, 139, 184, 0.3) 0%)`;
+        });
+
 
 </script>
 
