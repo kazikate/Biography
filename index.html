@@ -574,7 +574,7 @@
         ];
 
 
-                async function loadRandomTrack() {
+        async function loadRandomTrack() {
             toggleBtn.classList.add('solid-bg'); 
             trackLoadTicket++; 
             const myTicket = trackLoadTicket;
@@ -596,39 +596,35 @@
             trackArtist.textContent = randomTrack.artist; 
             audioPlayer.src = randomTrack.file; 
             
-            // Hata tespiti için konsol uyarısı (İsim hatalarında 404 yakalar)
             audioPlayer.onerror = () => { console.error("Ses yüklenemedi: ", randomTrack.file); };
             
             const nextCover = activeCover === 1 ? trackCover2 : trackCover1; 
             const currentCover = activeCover === 1 ? trackCover1 : trackCover2;
             
-            // VARSAYILAN SPOTIFY KAPAĞI (Apple API patlarsa bu yüklenecek)
+            // VARSAYILAN KAPAK
             let finalCoverUrl = "https://i.scdn.co/image/ab67616d0000b27341e97ee9cf2ee378519e4875"; 
 
-                        // ESKİ APPLE API YERİNE DEEZER API MOTORU
-                        try {
-                const searchQuery = encodeURIComponent(randomTrack.artist + " " + randomTrack.title);
-                const response = await fetch(`https://api.deezer.com/search?q=artist:"${randomTrack.artist}" track:"${randomTrack.title}"&limit=1`);
+            // LAST.FM API MOTORU (Sadece burası kaldı)
+            try {
+                const apiKey = "e89647614d33a0179a5e806df860cc4b"; // Last.fm public key
+                const url = `https://ws.audioscrobbler.com/2.0/?method=track.getInfo&api_key=${apiKey}&artist=${encodeURIComponent(randomTrack.artist)}&track=${encodeURIComponent(randomTrack.title)}&format=json`;
                 
-                if(response.ok) {
-                    const data = await response.json(); 
-                    if(data.data && data.data.length > 0) { 
-                        finalCoverUrl = data.data[0].album.cover_big.replace(/^http:/, 'https:'); 
-                    } else {
-                        logDebug("Kapak bulunamadı: " + randomTrack.title);
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                if (data.track && data.track.album && data.track.album.image) {
+                    // Last.fm'den gelen en büyük boyutu al (index 3 genelde extralarge)
+                    const img = data.track.album.image.find(i => i.size === 'extralarge') || data.track.album.image[3];
+                    if (img && img['#text']) {
+                        finalCoverUrl = img['#text'].replace(/^http:/, 'https:');
                     }
-                } else {
-                    logDebug("API Hatası: " + response.status);
                 }
             } catch(e) { 
-                logDebug("Bağlantı Hatası: " + e.message); 
+                console.error("Last.fm Hatası: ", e); 
             }
-
-
 
             if (myTicket !== trackLoadTicket) return;
 
-            // ÖN YÜKLEYİCİ
             const preloader = new Image();
             preloader.onload = () => {
                 if (myTicket !== trackLoadTicket) return; 
@@ -648,6 +644,7 @@
             
             preloader.src = finalCoverUrl; 
         }
+
 
 
 
