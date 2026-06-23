@@ -241,6 +241,12 @@
     <div id="image-preview-modal" class="image-preview-modal"><div class="modal-content"><div class="modal-circle-mask"><img src="https://iili.io/CxpvFxp.png" alt="Kazikate Profil Resmi" id="preview-image" /></div></div></div>
 
 <script>
+            // MOBİL DEBUGGER: Hataları ekranın sol altında gösterir
+        const debugBox = document.createElement('div');
+        debugBox.style.cssText = 'position:fixed; bottom:50px; left:10px; z-index:9999; background:rgba(0,0,0,0.8); color:lime; font-size:10px; padding:5px; pointer-events:none; max-width:80vw;';
+        document.body.appendChild(debugBox);
+        function logDebug(msg) { debugBox.innerText = msg; console.log(msg); }
+
     const SPRING_TRANSITION = 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
     const MODAL_STATE_NAME = 'image_preview_open';
 
@@ -600,20 +606,24 @@
             let finalCoverUrl = "https://i.scdn.co/image/ab67616d0000b27341e97ee9cf2ee378519e4875"; 
 
                         // ESKİ APPLE API YERİNE DEEZER API MOTORU
-            try {
-                // Deezer API'si çok daha kararlı ve hızlı
+                        try {
+                const searchQuery = encodeURIComponent(randomTrack.artist + " " + randomTrack.title);
                 const response = await fetch(`https://api.deezer.com/search?q=artist:"${randomTrack.artist}" track:"${randomTrack.title}"&limit=1`);
                 
                 if(response.ok) {
                     const data = await response.json(); 
-                    // Deezer'dan gelen JSON yapısı farklıdır (data dizisinin içinde döner)
                     if(data.data && data.data.length > 0) { 
-                        finalCoverUrl = data.data[0].album.cover_big; 
+                        finalCoverUrl = data.data[0].album.cover_big.replace(/^http:/, 'https:'); 
+                    } else {
+                        logDebug("Kapak bulunamadı: " + randomTrack.title);
                     }
+                } else {
+                    logDebug("API Hatası: " + response.status);
                 }
             } catch(e) { 
-                console.log("Deezer API başarısız, varsayılan kapak."); 
+                logDebug("Bağlantı Hatası: " + e.message); 
             }
+
 
 
             if (myTicket !== trackLoadTicket) return;
