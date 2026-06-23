@@ -26,10 +26,8 @@
  
 
     <style>
-        /* 🚀 CHILLAX FONTUNU İÇE AKTARMA 🚀 */
         @import url('https://api.fontshare.com/css?f[]=chillax@300,400,500,600,700&display=swap');
 
-        /* Renk Değişkenleri */
         :root {
             color-scheme: dark; 
             --dark-bg: #000000; 
@@ -38,698 +36,217 @@
             --text-light: #DCBAF7; 
             --accent-purple: #9d50ff; 
             --shadow-color: rgba(0, 0, 0, 0.4);
-            
-            /* GÖRSEL YERLEŞİM AYARLARI */
             --image-height-vh: 450px; 
             --transition-start: 60%; 
         }
 
-    /* ------------------------------------------------ */
-/* YAZI SEÇİM (HIGHLIGHT) RENGİ */
-/* ------------------------------------------------ */
+::selection { background-color: rgba(157, 80, 255, 0.35); }
+::-moz-selection { background-color: rgba(157, 80, 255, 0.35); }
 
-/* Chrome, Safari, Edge ve Yeni Tarayıcılar İçin */
-::selection {
-    /* Sadece arka plan rengi var, yazı rengi orijinal kalır */
-    background-color: rgba(157, 80, 255, 0.35); 
-}
-
-/* Firefox Uyumluluğu İçin */
-::-moz-selection {
-    background-color: rgba(157, 80, 255, 0.35);
-}
-
-    
-        /* En Alt Katman: Siyah Arka Plan (Body) */
 body {
     font-family: 'Poppins', sans-serif;
     background-color: var(--dark-bg); 
     color: var(--text-light);
-    margin: 0;
-    padding: 0; 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 100vh;
-    position: relative; 
+    margin: 0; padding: 0; 
+    display: flex; flex-direction: column; align-items: center;
+    min-height: 100vh; position: relative; 
     -webkit-tap-highlight-color: transparent; 
-    /* Burada overflow ile ilgili hiçbir satır KALMASIN, tamamen silin */
 }
-    
-        /* ------------------------------------------------ */
-        /* TEMEL GENİŞLİK VE ORTALAMA AYARLARI (MASAÜSTÜ VE MOBİL İÇİN SABİT) */
-        /* ------------------------------------------------ */
 
         .profile-img-container {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%); 
-    width: 100%;
-    height: var(--image-height-vh); 
-    z-index: 1; 
-    max-width: 600px;
-    
+    position: absolute; top: 0; left: 50%; transform: translateX(-50%); 
+    width: 100%; height: var(--image-height-vh); z-index: 1; max-width: 600px;
     mask-image: linear-gradient(to bottom, black var(--transition-start), transparent 100%);
     -webkit-mask-image: linear-gradient(to bottom, black var(--transition-start), transparent 94%);
-    
-    transition: opacity 0.8s ease-out; 
-    opacity: 0; 
-    will-change: transform; 
-    cursor: pointer; 
-    -webkit-tap-highlight-color: transparent; 
-    
-    /* YENİ EKLENEN: Büyüyen resmin kutu dışına taşmasını makas gibi keser */
-    overflow: hidden;    
-            isolation: isolate; /* Sihirli dokunuş */
+    transition: opacity 0.8s ease-out; opacity: 0; will-change: transform; cursor: pointer; 
+    -webkit-tap-highlight-color: transparent; overflow: hidden; isolation: isolate; 
         }
 
-
-        /* İçerik Katmanı (Ön Plan) */
         .content-wrapper {
-            width: 100%;
-            max-width: 600px; 
-            margin-top: calc(var(--image-height-vh) * 0.8 - 10px); 
-            z-index: 2; 
-            position: relative;
-            
-            /* Masaüstü Ortalaması */
-            margin-left: auto;
-            margin-right: auto;
+            width: 100%; max-width: 600px; margin-top: calc(var(--image-height-vh) * 0.8 - 10px); 
+            z-index: 2; position: relative; margin-left: auto; margin-right: auto;
         }
 
         .container {
-            width: 100%;
-            max-width: 600px; 
-            padding: 0 20px 40px; 
-            text-align: center;
-            box-sizing: border-box;
-            margin: 0 auto;
+            width: 100%; max-width: 600px; padding: 0 20px 40px; text-align: center; box-sizing: border-box; margin: 0 auto;
         }
 
-        /* Sabit Blur Katmanını da İçerik ile Eşle ve Ortala */
         .bottom-blur-layer {
-            position: fixed;
-            bottom: 0;
-            z-index: 9;
-            pointer-events: none;
-            height: 100px; 
-            
-            /* İçerik ile Eşleme */
-            width: 100%;
-            max-width: 600px;
-            left: 50%;
-            transform: translateX(-50%);
-
-            /* Efektler */
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(50px); 
-            -webkit-backdrop-filter: blur(50px);
-            mask-image: linear-gradient(to top, black 0%, transparent 100%);
-            -webkit-mask-image: linear-gradient(to top, black 0%, transparent 100%);
+            position: fixed; bottom: 0; z-index: 9; pointer-events: none; height: 100px; 
+            width: 100%; max-width: 600px; left: 50%; transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(50px); -webkit-backdrop-filter: blur(50px);
+            mask-image: linear-gradient(to top, black 0%, transparent 100%); -webkit-mask-image: linear-gradient(to top, black 0%, transparent 100%);
         }
 
-        /* Diğer Bileşenler */
-        .profile-img-container.is-visible {
-            opacity: 1; 
-            transition-delay: 0.1s; 
-        }
+        .profile-img-container.is-visible { opacity: 1; transition-delay: 0.1s; }
 
-        /* Bulanırlık Uygulanacak Görsel Katmanı */
-        /* Bulanırlık Uygulanacak Görsel Katmanı */
         .profile-img-visual {
-            width: 100%;
-            height: 100%;
-            position: relative; 
+            width: 100%; height: 100%; position: relative; 
             background-image: url('https://kazikate.github.io/Biography/assets/Profile2.png'); 
-            background-size: cover; 
-            background-position: center top; 
-            background-repeat: no-repeat;
-            filter: blur(0px); 
-            
-            /* GÜNCELLENDİ: "filter 0.1s" silindi! Sadece büyüme efekti animasyonlu kaldı */
-            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            background-size: cover; background-position: center top; background-repeat: no-repeat;
+            filter: blur(0px); transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
             will-change: filter, transform; 
         }
 
+        body.is-modal-open .profile-img-visual { transform: scale(1.08); }
 
-        /* YENİ: MODAL AÇILDIĞINDA ARKA PLANIN ÖNE DOĞRU BÜYÜMESİ İÇİN */
-        body.is-modal-open .profile-img-visual {
-            transform: scale(1.08); /* %8 oranında öne doğru esner */
-        }
-
-        /* Dinamik Dim/Karartma Katmanı */
         .dim-overlay {
-            position: absolute; 
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: var(--dark-bg); 
-            opacity: 0; 
-            transition: opacity 0.1s linear; 
-            will-change: opacity; 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--dark-bg); 
+            opacity: 0; transition: opacity 0.1s linear; will-change: opacity; 
         }
 
-        /* 2. Kullanıcı Adı (Başlık) */
         .username {
-            font-family: 'Chillax', sans-serif; 
-            font-size: 2.5em;
-            font-weight: 500; 
-            margin-top: 0px; 
-            text-shadow: 0 0 10px rgba(0,0,0,0.5); 
-            transform: translateY(50px); 
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-            opacity: 0; 
-            max-width: 600px;
+            font-family: 'Chillax', sans-serif; font-size: 2.5em; font-weight: 500; margin-top: 0px; 
+            text-shadow: 0 0 10px rgba(0,0,0,0.5); transform: translateY(50px); 
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out; opacity: 0; max-width: 600px;
         }
+        .username.is-visible { opacity: 1; transform: translateY(30px); transition-delay: 0.3s; }
 
-        .username.is-visible {
-            opacity: 1; 
-            transform: translateY(30px); 
-            transition-delay: 0.3s; 
-        }
-
-        /* 3. Biyografi */
         .bio {
-            font-size: 0.97em;
-            font-weight: 550;
-            opacity: 0; 
-            margin-top: 5px;
-            margin-bottom: 20px;
-            transform: translateY(18px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-            max-width: 600px;
+            font-size: 0.97em; font-weight: 550; opacity: 0; margin-top: 5px; margin-bottom: 20px;
+            transform: translateY(18px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; max-width: 600px;
         }
-        .bio.is-visible {
-            opacity: 0.8; 
-            transform: translateY(0); 
-            transition-delay: 0.5s; 
-        }
+        .bio.is-visible { opacity: 0.8; transform: translateY(0); transition-delay: 0.5s; }
         
-        /* 4. Küçük Sosyal İkonlar */
         .social-icons-mini {
-            margin: 15px 0;
-            opacity: 0; 
-            transform: translateY(20px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-            max-width: 600px;
+            margin: 15px 0; opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; max-width: 600px;
         }
-        .social-icons-mini.is-visible {
-            opacity: 1; 
-            transform: translateY(0); 
-            transition-delay: 0.7s; 
-        }
+        .social-icons-mini.is-visible { opacity: 1; transform: translateY(0); transition-delay: 0.7s; }
 
-        /* Link Kapsülleri (5. ve sonrası) */
         .link-button {
-            display: flex;
-            align-items: center; 
-            background-color: var(--link-bg);
-            color: var(--text-light);
-            text-decoration: none;
-            padding: 15px 20px; 
-            margin: 15px 0;
-            border-radius: 38px; 
-            font-weight: 600;
-            font-size: 1em;
-            box-shadow: 0 0px 0px var(--shadow-color); 
-            
-            height: 38px; 
-            position: relative;
-            
-            opacity: 0; 
-            transform: translateY(50px); 
-            
-            transition: background-color 0s, box-shadow 0.2s, opacity 0.6s ease-out, transform 0.6s ease-out;
-            
-            -webkit-tap-highlight-color: transparent;
+            display: flex; align-items: center; background-color: var(--link-bg); color: var(--text-light); text-decoration: none;
+            padding: 15px 20px; margin: 15px 0; border-radius: 38px; font-weight: 600; font-size: 1em; box-shadow: 0 0px 0px var(--shadow-color); 
+            height: 38px; position: relative; opacity: 0; transform: translateY(50px); 
+            transition: background-color 0s, box-shadow 0.2s, opacity 0.6s ease-out, transform 0.6s ease-out; -webkit-tap-highlight-color: transparent;
         }
-            
-        .link-button.is-visible {
-            opacity: 1; 
-            transform: translateY(0); 
-        }
+        .link-button.is-visible { opacity: 1; transform: translateY(0); }
         
-        /* SIRALI GECİKME STİLLERİ */
-        .link-button:nth-child(1) { transition-delay: 0.9s; } 
-        .link-button:nth-child(2) { transition-delay: 1.0s; }
-        .link-button:nth-child(3) { transition-delay: 1.1s; }
-        .link-button:nth-child(4) { transition-delay: 1.2s; }
-        .link-button:nth-child(5) { transition-delay: 1.3s; }
-        .link-button:nth-child(6) { transition-delay: 1.4s; }
+        .link-button:nth-child(1) { transition-delay: 0.9s; } .link-button:nth-child(2) { transition-delay: 1.0s; }
+        .link-button:nth-child(3) { transition-delay: 1.1s; } .link-button:nth-child(4) { transition-delay: 1.2s; }
+        .link-button:nth-child(5) { transition-delay: 1.3s; } .link-button:nth-child(6) { transition-delay: 1.4s; }
         .link-button:nth-child(7) { transition-delay: 1.5s; }
 
-        /* YENİ EKLENEN BUTON BASMA ANİMASYONU CSS'İ */
-        @keyframes press-link { 
-          0% { transform: scale(1) translateZ(0); } 
-          50% { transform: scale(0.98) translateZ(0); } /* Hafifçe küçülür */
-          100% { transform: scale(1) translateZ(0); } 
-        }
-        
-        .link-button.press {
-          animation: press-link 0.2s ease-out;
-          pointer-events: none; 
-        }
-        /* ------------------------------------------------ */
-        /* TEMEL STİLLER (GÜNCELLENDİ) */
-        /* ------------------------------------------------ */
+        @keyframes press-link { 0% { transform: scale(1) translateZ(0); } 50% { transform: scale(0.98) translateZ(0); } 100% { transform: scale(1) translateZ(0); } }
+        .link-button.press { animation: press-link 0.2s ease-out; pointer-events: none; }
 
-        .social-icons-mini a {
-            margin: 0px; display: inline-block; opacity: 1; transition: transform 0.2s, opacity 0.2s; line-height: 0; 
-            -webkit-tap-highlight-color: transparent;
-        }
+        .social-icons-mini a { margin: 0px; display: inline-block; opacity: 1; transition: transform 0.2s, opacity 0.2s; line-height: 0; -webkit-tap-highlight-color: transparent; }
         .social-icons-mini a:hover { opacity: 1; transform: scale(1.1); }
         
-        .bio-emoji {
-            width: 1.2em; height: 1.2em; vertical-align: -0.1em; margin: 0.1px; display: inline-block;
-        }
-        .link-img-placeholder {
-            transform: translateX(-11px); width: 50px; height: 50px; border-radius: 50%; background-color: #1F1925; margin-right: 0px; background-size: cover; background-position: center; background-repeat: no-repeat; box-shadow: 0 0px 0px rgba(0, 0, 0, 0.2);
-        }
-        .link-text-details {
-            flex-grow: 1; text-align: center; position: absolute; left:50%; transform: translateX(-50%); display: flex; flex-direction: column; justify-content: center; min-height: 40px; 
-        }
+        .bio-emoji { width: 1.2em; height: 1.2em; vertical-align: -0.1em; margin: 0.1px; display: inline-block; }
+        .link-img-placeholder { transform: translateX(-11px); width: 50px; height: 50px; border-radius: 50%; background-color: #1F1925; margin-right: 0px; background-size: cover; background-position: center; background-repeat: no-repeat; box-shadow: 0 0px 0px rgba(0, 0, 0, 0.2); }
+        .link-text-details { flex-grow: 1; text-align: center; position: absolute; left:50%; transform: translateX(-50%); display: flex; flex-direction: column; justify-content: center; min-height: 40px; }
         .link-platform { font-weight: 600; display: block; }
         .link-username { font-size: 0.75em; opacity: 0.6; font-weight: 400; display: block; }
-        .footer-links { 
-            margin-top: 40px; 
-            font-size: 1em; 
-            font-weight: 400; 
-            
-            margin-bottom: 40px; 
-            position: relative;
-            z-index: 10; 
-        }
-
-
+        .footer-links { margin-top: 40px; font-size: 1em; font-weight: 400; margin-bottom: 40px; position: relative; z-index: 10; }
         .footer-links a { color: var(--text-light); opacity: 0.6; text-decoration: none; margin: 0 2px; }
         .footer-links a:hover { opacity: 1; text-decoration: underline; }
-        .footer-links .footer-text {
-          
-            display: inline-block; 
-        }
+        .footer-links .footer-text { display: inline-block; }
 
-        /* Ortak İkon Stilleri */
-        .mini-icon {
-            border-radius: 50%;
-            vertical-align: middle;
-            transform: translateY(-13px);
-        }
+        .mini-icon { border-radius: 50%; vertical-align: middle; transform: translateY(-13px); }
+        .instagram-mini-icon .mini-icon { width: 47px; height: 47px; transform: translateY(-13px) translateX(16px); }
+        .twitter-mini-icon .mini-icon { width: 55px; height: 55px; transform: translateY(-14px) translateX(7px); }
+        .threads-mini-icon .mini-icon { width: 49px; height: 49px; transform: translateY(-13px) translateX(-2px); }
+        .tiktok-mini-icon .mini-icon { width: 47px; height: 47px; transform: translateY(-13px) translateX(-12px); }
+        .spotify-mini-icon .mini-icon { width: 42px; height: 42px; transform: translateY(-13px) translateX(-14px); }
+        .youtube-music-mini-icon .mini-icon { width: 45px; height: 45px; transform: translateY(-13px) translateX(-14px); }
+        .website-mini-icon .mini-icon { width: 48px; height: 48px; transform: translateY(-13px) translateX(-17px); }
 
-        /* PLATFORM BAZLI İKON BOYUTLARI */
-        .instagram-mini-icon .mini-icon {
-            width: 47px; 
-            height: 47px;
-            transform: translateY(-13px) translateX(16px);
-        }
+    .no-scroll { overflow: hidden; }
 
-        .twitter-mini-icon .mini-icon {
-            width: 55px; 
-            height: 55px;
-            transform: translateY(-14px) translateX(7px);
-        }
-
-    .threads-mini-icon .mini-icon {
-            width: 49px; 
-            height: 49px;
-            transform: translateY(-13px) translateX(-2px);
-        }
-    
-        .tiktok-mini-icon .mini-icon {
-            width: 47px; 
-            height: 47px;
-            transform: translateY(-13px) translateX(-12px);
-        }
-
-        .spotify-mini-icon .mini-icon {
-            width: 42px; 
-            height: 42px;
-            transform: translateY(-13px) translateX(-14px);
-        }
-
-        .youtube-music-mini-icon .mini-icon {
-            width: 45px; 
-            height: 45px;
-            transform: translateY(-13px) translateX(-14px);
-        }
-
-        .website-mini-icon .mini-icon {
-            width: 48px; 
-            height: 48px;
-            transform: translateY(-13px) translateX(-17px);
-        }
-
-    /* ------------------------------------------------ */
-    /* YENİ STİL: KAYDIRMAYI ENGELLEME SINIFI */
-    /* ------------------------------------------------ */
-    .no-scroll {
-        overflow: hidden; 
-    }
-
-    /* ------------------------------------------------ */
-    /* FOOTER BLUR VE MEDYA SORGUSU */
-    /* ------------------------------------------------ */
-
-    /* FOOTER'IN ALT BLUR KATMANI İLE ÇAKIŞMAMASI İÇİN */
-    .footer-links {
-        margin-bottom: 0px; 
-        position: relative; 
-        z-index: 10; 
-    }
-
-    /* Medya Sorgusu */
-    @media (max-width: 480px) {
-        body { padding: 0; }
-        .container { padding: 0 20px 40px; }
-    }
-
-    /* ------------------------------------------------ */
-    /* SADECE MASAÜSTÜ GENİŞLİĞİ AYARI */
-    /* ------------------------------------------------ */
+    @media (max-width: 480px) { body { padding: 0; } .container { padding: 0 20px 40px; } }
     @media (min-width: 700px) {
-        /*
-        Sayfanın içeriği 700px genişliğini geçtiğinde, 
-        maksimum genişliği 800px olarak ayarla ve ortala.
-        */
-        
-        .profile-img-container,
-        .content-wrapper,
-        .bottom-blur-layer {
-            max-width: 500px; /* 👈 SADECE MASAÜSTÜNDE GEÇERLİ GENİŞLİK */
-            /* Diğer ortalama kuralları (left:50% ve margin:auto) zaten kodunuzda var. */
-        }
-
-        /* Container içindeki linkler de 800px'i geçmesin */
-        .container {
-             max-width: 800px; 
-             padding: 0 0 40px 0; /* Masaüstünde kenar boşluğunu kaldırırız */
-        }
+        .profile-img-container, .content-wrapper, .bottom-blur-layer { max-width: 500px; }
+        .container { max-width: 800px; padding: 0 0 40px 0; }
     }
-
-        /* ------------------------------------------------ */
-        /* INSTAGRAM TARZI PROFİL BÜYÜTME MODALI STİLLERİ */
-        /* ------------------------------------------------ */
 
         .image-preview-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0); 
-            z-index: 1000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0; 
-            pointer-events: none; 
-            transition: opacity 0.3s ease, background-color 0.3s ease;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0); z-index: 1000;
+            display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease, background-color 0.3s ease;
         }
-
-        .image-preview-modal.is-open {
-            opacity: 1;
-            background-color: rgba(0, 0, 0, 0.85); 
-            pointer-events: auto; 
-            backdrop-filter: blur(10px); 
-            -webkit-backdrop-filter: blur(10px); 
-            background-color: rgba(0, 0, 0, 0.7); 
-        }
-
-        .modal-content {
-            transform: scale(0); 
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-        }
-
-        .modal-circle-mask {
-            width: 400px; 
-            height: 400px;
-            border-radius: 50%;
-            overflow: hidden; 
-            box-shadow: 0 0 40px rgba(157, 80, 255, 0.4); 
-        }
-
-        #preview-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover; 
-        }   
+        .image-preview-modal.is-open { opacity: 1; background-color: rgba(0, 0, 0, 0.85); pointer-events: auto; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); background-color: rgba(0, 0, 0, 0.7); }
+        .modal-content { transform: scale(0); transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .modal-circle-mask { width: 400px; height: 400px; border-radius: 50%; overflow: hidden; box-shadow: 0 0 40px rgba(157, 80, 255, 0.4); }
+        #preview-image { width: 100%; height: 100%; object-fit: cover; }   
   
-      /* ------------------------------------------------ */
-/* LİNK BUTONLARI KUSURSUZ HOVER EFEKTİ */
-/* ------------------------------------------------ */
+body.animations-done .link-button { transition-delay: 0s !important; }
 
-/* Giriş animasyonları bittikten sonra gecikmeleri (delay) devre dışı bırakıyoruz */
-body.animations-done .link-button {
-    transition-delay: 0s !important; 
-}
-
-/* @media (hover: hover) -> Sadece mouse olan cihazlarda çalışır. 
-   Bu sayede mobilde ekranı kaydırırken asla takılı kalmaz veya büyümez! */
 @media (hover: hover) {
-    
-    /* 1. Fare Üstündeyken: Yumuşakça büyü (0.15s) */
-    body.animations-done .link-button:hover {
-        transform: scale(1.05);
-        transition: transform 0.15s ease-out !important;
-    }
-    
-    /* 2. Fare Çekildiğinde: ANINDA eski haline dön (0s) */
-    body.animations-done .link-button:not(:hover) {
-        transform: scale(1);
-        transition: transform 0.15s !important;
-    }
+    body.animations-done .link-button:hover { transform: scale(1.05); transition: transform 0.15s ease-out !important; }
+    body.animations-done .link-button:not(:hover) { transform: scale(1); transition: transform 0.15s !important; }
 }
   
-/* ------------------------------------------------ */
-/* PROFİL FOTOĞRAFI TAM EKRAN VE İPUCU (FLASH) EFEKTİ */
-/* ------------------------------------------------ */
-
 .profile-hover-layer {
-    position: absolute;
-    top: 0; 
-    left: 0; 
-    width: 100%; 
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 5;
-    background-color: rgba(0, 0, 0, 0.4); 
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    opacity: 0; 
-    pointer-events: none; 
-    transition: opacity 0.3s ease; 
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; z-index: 5; background-color: rgba(0, 0, 0, 0.4); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); opacity: 0; pointer-events: none; transition: opacity 0.3s ease; 
 }
+.profile-hover-layer i { color: #DCBAF7; font-size: 3.5em; transform: scale(0.5); transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
 
-.profile-hover-layer i {
-    color: #DCBAF7; 
-    font-size: 3.5em; 
-    transform: scale(0.5); 
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-}
+.profile-img-container.scrolled-past .profile-hover-layer { opacity: 0 !important; }
+.profile-img-container.scrolled-past .profile-hover-layer i { transform: scale(0.5) !important; }
+.profile-img-container.show-hint .profile-hover-layer { opacity: 1 !important; }
+.profile-img-container.show-hint .profile-hover-layer i { transform: scale(1) !important; }
+
+.social-icons-mini img { pointer-events: none; -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
+.downloadable-profile-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; z-index: 4; pointer-events: auto; -webkit-touch-callout: default !important; }
+.profile-img-container.disable-hover .profile-hover-layer { opacity: 0 !important; transition: none !important; }
+.profile-img-container.disable-hover .profile-hover-layer i { transform: scale(0.5) !important; transition: none !important; }
+
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background-color: var(--dark-bg); }
+::-webkit-scrollbar-thumb { background-color: rgba(157, 80, 255, 0.4); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background-color: rgba(157, 80, 255, 0.8); }
 
 /* ------------------------------------------------ */
-/* LİNK BUTONLARI KUSURSUZ HOVER EFEKTİ (ORİJİNAL) */
-/* ------------------------------------------------ */
-
-/* Giriş animasyonları bittikten sonra gecikmeleri (delay) devre dışı bırakıyoruz */
-body.animations-done .link-button {
-    transition-delay: 0s !important; 
-}
-
-/* @media (hover: hover) -> Sadece mouse olan cihazlarda çalışır. 
-   Bu sayede mobilde ekranı kaydırırken asla takılı kalmaz veya büyümez! */
-@media (hover: hover) {
-    
-    /* 1. Fare Üstündeyken: Yumuşakça büyü (0.15s) */
-    body.animations-done .link-button:hover {
-        transform: scale(1.05);
-        transition: transform 0.15s ease-out !important;
-    }
-    
-    /* 2. Fare Çekildiğinde: ANINDA eski haline dön */
-    body.animations-done .link-button:not(:hover) {
-        transform: scale(1);
-        transition: transform 0.15s !important;
-    }
-}
-
-
-/* 2. KAYDIRINCA ZORLA KAPAT (Görüntü bozulmasın diye) */
-.profile-img-container.scrolled-past .profile-hover-layer {
-    opacity: 0 !important;
-}
-.profile-img-container.scrolled-past .profile-hover-layer i {
-    transform: scale(0.5) !important;
-}
-
-/* 3. JS'NİN ÇALIŞTIRACAĞI 0.5 SANİYELİK İPUCU (TUTORIAL FLASH) */
-.profile-img-container.show-hint .profile-hover-layer {
-    opacity: 1 !important;
-}
-.profile-img-container.show-hint .profile-hover-layer i {
-    transform: scale(1) !important;
-}
-
-  /* ------------------------------------------------ */
-/* MİNİ İKONLARI LİNK MENÜSÜNE ZORLAMA */
-/* ------------------------------------------------ */
-.social-icons-mini img {
-    /* Tıklamaların resimden geçip arkadaki linke ulaşmasını sağlar */
-    pointer-events: none; 
-    /* Tarayıcının resmi indirme menüsünü kapatır */
-    -webkit-touch-callout: none; 
-    -webkit-user-select: none;
-    user-select: none;
-}
-
-  /* ------------------------------------------------ */
-/* BÜYÜK PROFİL FOTOĞRAFI İNDİRME İZNİ */
-/* ------------------------------------------------ */
-.downloadable-profile-img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    
-    /* Gözle görünmez ama tarayıcı onu algılar ve basılı tutmaya izin verir */
-    opacity: 0; 
-    z-index: 4; 
-    pointer-events: auto; 
-    
-    /* Resim indirme menüsünü zorla aktif eder */
-    -webkit-touch-callout: default !important; 
-}
-
-  /* ------------------------------------------------ */
-/* DOKUNMA (BASILI TUTMA) ESNASINDA HOVER'I ZORLA KAPAT */
-/* ------------------------------------------------ */
-.profile-img-container.disable-hover .profile-hover-layer {
-    opacity: 0 !important;
-    transition: none !important; /* Beklemeden anında yok olsun */
-}
-.profile-img-container.disable-hover .profile-hover-layer i {
-    transform: scale(0.5) !important;
-    transition: none !important;
-}
-
-    /* ------------------------------------------------ */
-/* ÖZEL KAYDIRMA ÇUBUĞU (SCROLLBAR) */
-/* ------------------------------------------------ */
-::-webkit-scrollbar {
-    width: 5px; /* Çok ince ve zarif */
-}
-::-webkit-scrollbar-track {
-    background-color: var(--dark-bg); 
-}
-::-webkit-scrollbar-thumb {
-    background-color: rgba(157, 80, 255, 0.4); /* Mor renginin hafif şeffaf hali */
-    border-radius: 10px;
-}
-::-webkit-scrollbar-thumb:hover {
-    background-color: rgba(157, 80, 255, 0.8); /* Üstüne gelince parlar */
-}
-
-/* ------------------------------------------------ */
-/* DİNAMİK MÜZİK WIDGET'I (CAM EFEKTLİ V2) */
+/* DİNAMİK MÜZİK WIDGET'I (ULTIMATE V4) */
 /* ------------------------------------------------ */
 
 #music-widget {
-    position: fixed;
-    top: 15px; left: 15px;
-    z-index: 100;
-    display: flex;
-    align-items: center;
+    position: fixed; top: 15px; left: 15px; z-index: 100; display: flex; align-items: center; width: 100%;
 }
 
-/* Ana Konteyneri Bul ve Şeffaf Yap */
+/* ANA KAPAK ÇERÇEVESİ */
 .music-cover-container {
-    width: 55px; height: 55px;
-    border-radius: 50%;
-    position: relative;
-    z-index: 2; 
-    cursor: pointer;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.4);
-    border: 2px solid #A48BB8;
-    overflow: hidden;
-    
-    background-color: transparent; /* Geri şeffaf yapıyoruz! */
-    transition: background-color 0.5s ease; /* Renk değişimi tereyağı gibi olsun */
+    width: 55px; height: 55px; border-radius: 50%; position: relative; z-index: 3; cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.4); border: 2px solid #A48BB8; overflow: hidden;
+    background-color: transparent; transition: background-color 0.5s ease;
+    -webkit-touch-callout: none; -webkit-user-select: none; user-select: none;
 }
+.music-cover-container.solid-bg { background-color: #120e18; }
 
-/* YENİ: Müzik başlayınca devreye girecek katı arka plan sınıfı */
-.music-cover-container.solid-bg {
-    background-color: #120e18; /* O kusursuz koyu renk */
-}
-
-
-/* 1. KATMAN: Başlangıçtaki Cam ve İkon */
 .default-glass-cover {
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(255, 255, 255, 0.05); /* Premium koyu cam */
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    display: flex; justify-content: center; align-items: center;
-    z-index: 1;
-    transition: opacity 0.4s ease;
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); display: flex; justify-content: center; align-items: center;
+    z-index: 1; transition: opacity 0.4s ease;
 }
+.default-glass-cover svg { width: 22px; height: 22px; color: #A48BB8; }
 
-.default-glass-cover svg {
-    width: 22px; height: 22px;
-    color: #A48BB8;
-}
-
-/* 2. KATMAN: Albüm Kapağı (Crossfade destekli) */
 .track-cover-layer {
-    width: 100%; height: 100%;
-    object-fit: cover;
-    position: absolute;
-    top: 0; left: 0;
-    z-index: 2;
-    opacity: 0; 
-    /* Crossfade efekti için pürüzsüz geçiş */
+    width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; z-index: 2; opacity: 0; 
     transition: opacity 0.6s ease-in-out;
 }
 
 .spin-anim { animation: spin-record 5s linear infinite; }
 @keyframes spin-record { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-/* 3. KATMAN: Karartma ve Kontrol İkonları */
 .music-overlay {
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.5); 
-    display: flex; justify-content: center; align-items: center;
-    z-index: 3;
-    opacity: 0; 
-    transition: opacity 0.3s ease;
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); 
+    display: flex; justify-content: center; align-items: center; z-index: 3; opacity: 0; transition: opacity 0.3s ease;
 }
-
-.music-cover-container.is-active .music-overlay,
-.music-cover-container:hover .music-overlay { opacity: 1; }
+.music-cover-container.is-active .music-overlay, .music-cover-container:hover .music-overlay { opacity: 1; }
 
 .music-overlay svg {
-    width: 20px; height: 20px; color: #A48BB8;
-    position: absolute; opacity: 0; transform: scale(0.5);
+    width: 20px; height: 20px; color: #A48BB8; position: absolute; opacity: 0; transform: scale(0.5);
     transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 .music-overlay svg.show-icon { opacity: 1; transform: scale(1); }
 
 .music-waves {
-    display: flex; align-items: center; justify-content: center; gap: 3px;
-    height: 20px; position: absolute; opacity: 0; transform: scale(0.5);
+    display: flex; align-items: center; justify-content: center; gap: 3px; height: 20px; position: absolute; opacity: 0; transform: scale(0.5);
     transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 .music-waves.show-wave { opacity: 1; transform: scale(1); }
 
 .wave-line {
-    width: 3px; height: 100%; background-color: var(--primary-color, #A48BB8);
-    border-radius: 3px; animation: wave-bounce 1s ease-in-out infinite alternate;
+    width: 3px; height: 100%; background-color: #A48BB8; border-radius: 3px; animation: wave-bounce 1s ease-in-out infinite alternate;
 }
 .wave-line:nth-child(1) { animation-delay: 0.0s; }
 .wave-line:nth-child(2) { animation-delay: 0.3s; height: 60%; }
@@ -737,93 +254,101 @@ body.animations-done .link-button {
 .wave-line:nth-child(4) { animation-delay: 0.9s; height: 50%; }
 @keyframes wave-bounce { 0% { height: 20%; opacity: 0.5; } 100% { height: 100%; opacity: 1; } }
 
-/* Yandan Uzayan Cam Hap Panel */
-/* Hap Panel Ana Ayarı (KAPANMIŞ VE GERİ ÇEKİLİRKEN) */
+/* ŞARKI İSMİ HAPI (ÜSTTE ÇIKAN) */
 .music-pill {
-    position: absolute; left: 27px; height: 45px;
-    background: rgba(20, 15, 25, 0.6);
-    backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-    border: 1px solid #A48BB8; border-radius: 0 25px 25px 0;
-    z-index: 1; display: flex; align-items: center;
-    max-width: 0; padding: 0; overflow: hidden; white-space: nowrap; 
-    opacity: 0;
-    
-    /* İŞTE SİHİR BURADA: Kutu geri çekilirken (0.5s), opacity transition'ına 0.5s GECİKME veriyoruz. 
-       Yani kutu tamamen büzülene kadar opacity 1 kalıyor (sönmüyor), iş bitince şak diye 0 oluyor. */
-    transition: max-width 0.5s cubic-bezier(0.5, 0, 0.1, 1), 
-                padding 0.5s cubic-bezier(0.5, 0, 0.1, 1), 
-                opacity 0s 0.5s; 
+    position: absolute; left: 27px; height: 45px; background: rgba(20, 15, 25, 0.6); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+    border: 1px solid #A48BB8; border-radius: 0 25px 25px 0; z-index: 1; display: flex; align-items: center;
+    max-width: 0; padding: 0; overflow: hidden; white-space: nowrap; opacity: 0;
+    transition: max-width 0.5s cubic-bezier(0.5, 0, 0.1, 1), padding 0.5s cubic-bezier(0.5, 0, 0.1, 1), opacity 0s 0.5s; 
 }
-
-/* Hap Panel Çıkışı (FIRLARKEN) */
 .music-pill.show-pill { 
-    max-width: 200px; padding: 0 20px 0 35px; opacity: 1; 
-    
-    transition: max-width 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55),
-                padding 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55), 
-                opacity 0.1s ease;
+    max-width: 200px; padding: 0 20px 0 35px; opacity: 1; z-index: 2;
+    transition: max-width 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55), padding 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55), opacity 0.1s ease;
 }
 
-/* Kapağın Darbeyi Emip Yaylanma (Bounce) Efekti */
-.cover-bounce {
-    animation: hit-bounce 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+/* YENİ: ÖNCEKİ ŞARKI BUTONU (KAPAĞIN ALTINA DÜŞER) */
+.prev-btn {
+    position: absolute; left: 10px; top: 10px; width: 35px; height: 35px; background: rgba(20, 15, 25, 0.8);
+    backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid #A48BB8; border-radius: 50%;
+    display: flex; justify-content: center; align-items: center; z-index: 1; opacity: 0; transform: translateY(0) scale(0.5);
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); cursor: pointer;
+}
+.prev-btn.show-prev { opacity: 1; transform: translateY(60px) scale(1); z-index: 2; }
+.prev-btn svg { width: 16px; height: 16px; color: #A48BB8; }
+
+/* YENİ: SEEKBAR HAPI (KUSURSUZ İÇİNDEN ÇIKMA VE UZAMA) */
+.seek-pill {
+    position: absolute; left: 27px; top: 5px; height: 45px; background: rgba(20, 15, 25, 0.85);
+    backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid #A48BB8; border-radius: 0 25px 25px 0;
+    z-index: 0; display: flex; align-items: center; max-width: 0; padding: 0; overflow: hidden; white-space: nowrap; opacity: 0;
+    transition: max-width 0.5s cubic-bezier(0.5, 0, 0.1, 1), padding 0.5s cubic-bezier(0.5, 0, 0.1, 1), opacity 0.2s ease; 
+}
+.seek-pill.show-seek {
+    max-width: 75vw; /* %75 UZUNLUK */
+    width: 75vw;
+    padding: 0 20px 0 45px; /* Kapağın arkasından kurtulması için sol boşluk */
+    opacity: 1; z-index: 2; 
+    transition: max-width 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55), padding 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55), opacity 0.1s ease;
 }
 
-@keyframes hit-bounce {
-    0% { transform: scale(1); }
-    40% { transform: scale(1.05); } /* Daha erken şişip tok bir şekilde geri otursun */
-    100% { transform: scale(1); }
+/* ZAMAN SAYACILARI */
+.time-display {
+    font-size: 0.75rem; color: #DCBAF7; font-weight: 600; font-family: 'Poppins', sans-serif; opacity: 0.9;
 }
 
-   /* 2. Yazıların Bulunduğu Konteyneri Bul ve Güncelle (Yumuşak geçiş ekliyoruz) */
-.music-info { 
-    display: flex; 
-    flex-direction: column; 
-    justify-content: center; 
-    /* YENİ: Yazı değiştiğinde yumuşak bir sönme/parlama efekti verecek */
-    transition: opacity 0.3s ease; 
+/* SENKRONİZE EDİLMİŞ DİNAMİK DOLGULU RANGE */
+#seek-bar {
+    -webkit-appearance: none; flex-grow: 1; margin: 0 10px; height: 5px; border-radius: 3px; outline: none;
+    background: linear-gradient(to right, #DCBAF7 0%, rgba(164, 139, 184, 0.3) 0%); /* Dinamik Arka Plan */
 }
+#seek-bar::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none; width: 14px; height: 14px; border-radius: 50%; background: #ffffff; cursor: pointer;
+    box-shadow: 0 0 8px rgba(220, 186, 247, 0.8); transition: transform 0.2s;
+}
+#seek-bar::-webkit-slider-thumb:active { transform: scale(1.3); }
 
-/* 3. CSS'in herhangi bir yerine şu yeni sınıfı ekle (Yazıları geçici olarak görünmez yapmak için) */
-.music-info.fade-out {
-    opacity: 0;
-}
-    #track-title { color: white; font-size: 0.85rem; font-weight: 600; }
+.cover-bounce { animation: hit-bounce 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+@keyframes hit-bounce { 0% { transform: scale(1); } 40% { transform: scale(1.05); } 100% { transform: scale(1); } }
+
+.music-info { display: flex; flex-direction: column; justify-content: center; transition: opacity 0.3s ease; }
+.music-info.fade-out { opacity: 0; }
+#track-title { color: white; font-size: 0.85rem; font-weight: 600; }
 #track-artist { color: rgba(255, 255, 255, 0.6); font-size: 0.7rem; }
+.pause-anim { animation-play-state: paused !important; }
 
-/* DÖNEN KAPAĞI OLDUĞU YERDE DONDURMA KİLİDİ */
-.pause-anim {
-    animation-play-state: paused !important;
-}
-
-/* İLERİ SARMA (FORWARD) İKONU ANİMASYONU */
 #forward-icon {
-    width: 20px; height: 20px; color: #A48BB8; position: absolute;
-    opacity: 0; 
-    transform: translateX(-15px) scale(0.5); /* Soldan başlar */
+    width: 20px; height: 20px; color: #A48BB8; position: absolute; opacity: 0; transform: translateX(-15px) scale(0.5); 
     transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
+#forward-icon.show-forward { opacity: 1; transform: translateX(0) scale(1); }
 
-#forward-icon.show-forward {
-    opacity: 1; 
-    transform: translateX(0) scale(1); /* Sağa kayarak yerine oturur */
-}
-
-
-           
     </style>
 </head>
 <body>
+
     <div id="music-widget">
+        
         <div class="music-pill">
             <div class="music-info">
                 <div id="track-title">Bekleniyor...</div>
                 <div id="track-artist">Müzik Çalar</div>
             </div>
         </div>
+
+        <div class="seek-pill" id="seek-pill">
+            <span class="time-display" id="current-time">00:00</span>
+            <input type="range" id="seek-bar" min="0" max="100" value="0">
+            <span class="time-display" id="total-time">00:00</span>
+        </div>
+
+        <div class="prev-btn" id="prev-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="19 20 9 12 19 4 19 20"></polygon>
+                <line x1="5" y1="19" x2="5" y2="5"></line>
+            </svg>
+        </div>
         
         <div class="music-cover-container" id="music-toggle">
-            
             <div class="default-glass-cover" id="default-cover">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
             </div>
@@ -977,399 +502,173 @@ body.animations-done .link-button {
             </div>
         </div>
     </div>
-   <script>
+
+<script>
     const SPRING_TRANSITION = 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
     const MODAL_STATE_NAME = 'image_preview_open';
 
     document.addEventListener('DOMContentLoaded', () => {
-        
-        // --- 1. GİRİŞ ANİMASYONU ---
         const elementsToAnimate = [
-            document.querySelector('.profile-img-container'), 
-            document.querySelector('.username'),             
-            document.querySelector('.bio'),                  
-            document.querySelector('.social-icons-mini'),    
-            ...document.querySelectorAll('.link-button')     
+            document.querySelector('.profile-img-container'), document.querySelector('.username'), document.querySelector('.bio'),                  
+            document.querySelector('.social-icons-mini'), ...document.querySelectorAll('.link-button')     
         ].filter(el => el != null); 
-
-        setTimeout(() => {
-            elementsToAnimate.forEach(el => {
-                el.classList.add('is-visible');
-            });
-        }, 50); 
+        setTimeout(() => { elementsToAnimate.forEach(el => { el.classList.add('is-visible'); }); }, 50); 
         
-        // --- 2. KUSURSUZ PARALLAX VE BLUR EFEKTİ (LOKAL DOSYA ÇÖZÜMÜ) ---
         const profileImgContainer = document.querySelector('.profile-img-container');
         const profileImgVisual = document.querySelector('.profile-img-visual'); 
         const dimOverlay = document.querySelector('.dim-overlay');
 
-        const parallaxRatio = 0.4; 
-        const maxScroll = 200;      
-        const maxBlur = 10;         
-        const maxDimOpacity = 0.6;  
-
+        const parallaxRatio = 0.4; const maxScroll = 200; const maxBlur = 10; const maxDimOpacity = 0.6;  
         let ticking = false;
 
         function updateEffects() {
             if (!ticking) {
                 window.requestAnimationFrame(() => {
-                    // İŞTE SİHİRLİ SATIR BURASI: 
-                    // Tarayıcının bozuk scroll sensörü yerine, gövdenin (body) ekrana göre fiziksel konumunu milimetrik olarak ölçüyoruz. Asla şaşmaz!
                     const bodyTop = document.body.getBoundingClientRect().top;
                     const scrollY = Math.max(0, -bodyTop); 
-                    
                     const clampedScroll = Math.min(scrollY, maxScroll);
                     const scrollRatio = clampedScroll / maxScroll; 
-                    
                     const newY = scrollY * parallaxRatio; 
                     
-                    // Parallax, Blur (Bulanıklık) ve Kararma efektlerinin hepsi devrede
                     profileImgContainer.style.transform = `translate3d(-50%, ${newY}px, 0)`; 
                     profileImgVisual.style.filter = `blur(${scrollRatio * maxBlur}px)`;
                     dimOverlay.style.opacity = scrollRatio * maxDimOpacity;
 
-                    if (scrollY > 30) {
-                        profileImgContainer.classList.add('scrolled-past');
-                    } else {
-                        profileImgContainer.classList.remove('scrolled-past');
-                    }
-                    
+                    if (scrollY > 30) { profileImgContainer.classList.add('scrolled-past'); } 
+                    else { profileImgContainer.classList.remove('scrolled-past'); }
                     ticking = false;
                 });
                 ticking = true;
             }
         }
 
-        // Hem ekran kaydırma hem de dokunmatik hareket olaylarını dinle
         window.addEventListener('scroll', updateEffects, { passive: true });
         window.addEventListener('touchmove', updateEffects, { passive: true });
-        
-        // Sayfa yüklendiğinde efektleri konumlandır
         updateEffects();
 
-
-        
-        // --- 3. BUTON BASMA EFEKTİ VE ANİMASYON KONTROLÜ ---
         const linkButtons = document.querySelectorAll('.link-button');
-
         linkButtons.forEach(btn => {
             btn.addEventListener('click', (e) => {
-                btn.classList.remove('press');
-                void btn.offsetWidth;
-                btn.classList.add('press');
-                setTimeout(() => {
-                    btn.classList.remove('press');
-                }, 200);
+                btn.classList.remove('press'); void btn.offsetWidth; btn.classList.add('press');
+                setTimeout(() => { btn.classList.remove('press'); }, 200);
             });
         });
 
-        // SİHİRLİ DOKUNUŞ: Giriş animasyonları bittikten sonra (2.2 sn) devreye girer
         setTimeout(() => {
             document.body.classList.add('animations-done');
-            
-            // YENİ EKLENEN: MOBİL/MASAÜSTÜ İÇİN İPUCU FLAŞI (TUTORIAL FLASH)
-            // Sadece sayfa ilk açıldığında 1 kere çalışır
             if (profileImgContainer) {
                 setTimeout(() => {
-                    // İpucunu (Tam ekran ikonu ve bluru) göster
                     profileImgContainer.classList.add('show-hint');
-                    
-                    // Tam olarak 0.5 saniye (500ms) sonra ipucunu kapat
-                    setTimeout(() => {
-                        profileImgContainer.classList.remove('show-hint');
-                    }, 1000); 
-                    
-                }, 300); // Animasyonlar bittikten sonra gözün alışması için 0.3 saniye bekler
+                    setTimeout(() => { profileImgContainer.classList.remove('show-hint'); }, 1000); 
+                }, 300);
             }
-
         }, 2200);
 
-        
-        // --- 4. PROFİL RESMİ MODALI VE PINCH-TO-ZOOM ÖZELLİĞİ ---
         const modal = document.getElementById('image-preview-modal');
         const modalContent = document.querySelector('.modal-content'); 
-        
-        // Zoom değişkenleri
-        let initialDistance = 0;
-        let currentScale = 1;
-        let isPinching = false;
-        const MIN_TOUCHES_FOR_PINCH = 2;
+        let initialDistance = 0; let currentScale = 1; let isPinching = false; const MIN_TOUCHES_FOR_PINCH = 2;
 
-        // KAPATMA İŞLEVİ
         function closeModal() {
             if (!modal.classList.contains('is-open')) return;
-
-            modal.classList.remove('is-open');
-            document.removeEventListener('keydown', handleEscape);
+            modal.classList.remove('is-open'); document.removeEventListener('keydown', handleEscape);
+            document.body.classList.remove('no-scroll'); document.body.classList.remove('is-modal-open'); 
+            modalContent.style.transition = SPRING_TRANSITION; modalContent.style.transform = `scale(0)`; 
+            currentScale = 1; isPinching = false;
             
-            // BODY'den kaydırma engelleme sınıfını kaldır
-            document.body.classList.remove('no-scroll'); 
-            
-            // YENİ EKLENEN SATIR: Arka planı eski haline döndür
-            document.body.classList.remove('is-modal-open'); 
-            
-            // Kapanırken transition'ı yaylı stile geri yükle
-            modalContent.style.transition = SPRING_TRANSITION;
-            modalContent.style.transform = `scale(0)`; // Kapanış animasyonunu tetikle
-            currentScale = 1;
-            isPinching = false;
-            
-            setTimeout(() => {
-                 modalContent.style.transform = `scale(0)`;
-            }, 400); 
-
-            // GEÇMİŞTEN ÇIKIŞ: Eğer modal açıksa ve geçmişte bir durum varsa, geri git
             if (history.state && history.state.modal === MODAL_STATE_NAME) {
-                 if (history.length > 0) {
-                     history.back();
-                 }
+                 if (history.length > 0) { history.back(); }
             }
         }
         
-        // YENİ İŞLEV: Modalı AÇMA (Geri tuşu entegrasyonu için)
         function openModal() {
             if (modal.classList.contains('is-open')) return;
-            
-            // GEÇMİŞE EKLEME: Tarayıcı geçmişine yeni bir durum ekle
-            if (!history.state || history.state.modal !== MODAL_STATE_NAME) {
-                history.pushState({ modal: MODAL_STATE_NAME }, '', window.location.href);
-            }
-            
-            document.body.classList.add('no-scroll'); 
-            
-            // YENİ EKLENEN SATIR: Arka planı öne doğru büyüt
-            document.body.classList.add('is-modal-open'); 
-            
-            modalContent.style.transition = SPRING_TRANSITION; 
-            modalContent.style.transform = `scale(0)`; 
-
-            modal.classList.add('is-open');
-             setTimeout(() => {
-                modalContent.style.transform = `scale(1)`;
-            }, 10);
-            
-            // Kapatma olaylarını ayarla
-            modal.addEventListener('click', (event) => {
-                if (event.target.id === 'image-preview-modal') {
-                    closeModal();
-                }
-            }, { once: true }); 
-
+            if (!history.state || history.state.modal !== MODAL_STATE_NAME) { history.pushState({ modal: MODAL_STATE_NAME }, '', window.location.href); }
+            document.body.classList.add('no-scroll'); document.body.classList.add('is-modal-open'); 
+            modalContent.style.transition = SPRING_TRANSITION; modalContent.style.transform = `scale(0)`; 
+            modal.classList.add('is-open'); setTimeout(() => { modalContent.style.transform = `scale(1)`; }, 10);
+            modal.addEventListener('click', (event) => { if (event.target.id === 'image-preview-modal') { closeModal(); } }, { once: true }); 
             document.addEventListener('keydown', handleEscape, { once: true });
         }
 
-        // ESC TUŞU İŞLEVİ
-        function handleEscape(e) {
-            if (e.key === 'Escape') {
-                closeModal();
-            }
-        }
+        function handleEscape(e) { if (e.key === 'Escape') closeModal(); }
         
-        // YENİ İŞLEV: Geri Tuşu Olayını Dinleme
         window.addEventListener('popstate', (e) => {
             if (modal.classList.contains('is-open') && (!e.state || e.state.modal !== MODAL_STATE_NAME)) {
-                modal.classList.remove('is-open');
-                document.body.classList.remove('no-scroll');
-                
-                // YENİ EKLENEN SATIR: Geri tuşuyla çıkıldığında da arka planı küçült
-                document.body.classList.remove('is-modal-open'); 
-                
-                // Animasyon için kapanış stilini ayarla
-                modalContent.style.transition = SPRING_TRANSITION;
-                modalContent.style.transform = `scale(0)`;
+                modal.classList.remove('is-open'); document.body.classList.remove('no-scroll'); document.body.classList.remove('is-modal-open'); 
+                modalContent.style.transition = SPRING_TRANSITION; modalContent.style.transform = `scale(0)`;
             }
         });
 
-        // GÖRSELİN ÜZERİNE TIKLANINCA
         profileImgContainer.addEventListener('click', openModal);
         
-        // ------------------------------------------------------------------
-        // A. TOUCHSTART (Başlangıç) Olayı
-        // ------------------------------------------------------------------
         modal.addEventListener('touchstart', (e) => {
             if (e.touches.length === MIN_TOUCHES_FOR_PINCH) {
-                e.preventDefault(); 
-                modalContent.style.transition = 'none'; 
-                initialDistance = getDistance(e.touches);
-                isPinching = true;
-            } else {
-                isPinching = false;
-            }
+                e.preventDefault(); modalContent.style.transition = 'none'; 
+                initialDistance = getDistance(e.touches); isPinching = true;
+            } else { isPinching = false; }
         }, { passive: false }); 
 
-        // ------------------------------------------------------------------
-        // B. TOUCHMOVE (Hareket) Olayı
-        // ------------------------------------------------------------------
         modal.addEventListener('touchmove', (e) => {
-            if (!isPinching) return;
-
-            e.preventDefault(); 
-            
-            const newDistance = getDistance(e.touches);
-            const scaleFactor = newDistance / initialDistance;
-            
-            currentScale = Math.min(Math.max(scaleFactor, 0.5), 4.0);
-            
-            modalContent.style.transform = `scale(${currentScale})`;
+            if (!isPinching) return; e.preventDefault(); 
+            const newDistance = getDistance(e.touches); const scaleFactor = newDistance / initialDistance;
+            currentScale = Math.min(Math.max(scaleFactor, 0.5), 4.0); modalContent.style.transform = `scale(${currentScale})`;
         }, { passive: false }); 
 
-        // ------------------------------------------------------------------
-        // C. TOUCHEND (Bitiş) Olayı
-        // ------------------------------------------------------------------
         modal.addEventListener('touchend', (e) => {
-            if (!isPinching) return;
-            
-            isPinching = false; 
-            
-            // 1. Animasyonu geri aç (yaylı animasyon)
-            modalContent.style.transition = SPRING_TRANSITION;
-            
-            // 2. Ölçeği 1'e (başlangıç boyutuna) geri döndür
-            modalContent.style.transform = `scale(1)`;
-            currentScale = 1;
+            if (!isPinching) return; isPinching = false; 
+            modalContent.style.transition = SPRING_TRANSITION; modalContent.style.transform = `scale(1)`; currentScale = 1;
         });
         
-        // İki nokta arasındaki mesafeyi hesaplayan fonksiyon (pinch to zoom için)
-        function getDistance(touches) {
-            const touch1 = touches[0];
-            const touch2 = touches[1];
-            return Math.sqrt(
-                Math.pow(touch2.clientX - touch1.clientX, 2) +
-                Math.pow(touch2.clientY - touch1.clientY, 2)
-            );
-        }
-
+        function getDistance(touches) { return Math.sqrt(Math.pow(touches[1].clientX - touches[0].clientX, 2) + Math.pow(touches[1].clientY - touches[0].clientY, 2)); }
     });
 
-        // --- 5. KESİN ÇÖZÜM: MOBİLDE SAHTE HOVER ENGELLEYİCİ ---
-        // Kullanıcı ekrana dokunduğu an 'is-touching' sınıfı eklenir ve hover CSS'i kilitlenir.
-        document.addEventListener('touchstart', () => {
-            document.body.classList.add('is-touching');
-        }, { passive: true });
+        document.addEventListener('touchstart', () => { document.body.classList.add('is-touching'); }, { passive: true });
+        document.addEventListener('mousemove', (e) => { if (e.movementX !== 0 || e.movementY !== 0) { document.body.classList.remove('is-touching'); } }, { passive: true });
 
-        // Sadece gerçek bir fare (veya aktif S-Pen) hareketi algılanırsa kilit açılır.
-        document.addEventListener('mousemove', (e) => {
-            if (e.movementX !== 0 || e.movementY !== 0) {
-                document.body.classList.remove('is-touching');
-            }
-        }, { passive: true });
-
-        // --- 6. MANYETİK HOVER MOTORU (SADECE MİNİ İKONLAR İÇİN) ---
-        // Sadece küçük sosyal medya ikonlarının linklerini seçer
         const miniIcons = document.querySelectorAll('.social-icons-mini a');
-        
         miniIcons.forEach(icon => {
             icon.addEventListener('mousemove', (e) => {
-                // Dokunmatik ekranda değilsek ve giriş animasyonları bittiyse çalış
                 if (!document.body.classList.contains('is-touching') && document.body.classList.contains('animations-done')) {
-                    const rect = icon.getBoundingClientRect();
-                    
-                    // Farenin ikonun merkezine olan mesafesini milimetrik hesapla
-                    const x = e.clientX - rect.left - rect.width / 2;
-                    const y = e.clientY - rect.top - rect.height / 2;
-                    
-                    // İkonlar küçük olduğu için fırlama oranını (0.4) ve büyüme oranını (1.15) yüksek tuttuk
-                    icon.style.transform = `translate(${x * 0.4}px, ${y * 0.4}px) scale(1.15)`;
-                    icon.style.transition = 'transform 0.1s ease-out';
+                    const rect = icon.getBoundingClientRect(); const x = e.clientX - rect.left - rect.width / 2; const y = e.clientY - rect.top - rect.height / 2;
+                    icon.style.transform = `translate(${x * 0.4}px, ${y * 0.4}px) scale(1.15)`; icon.style.transition = 'transform 0.1s ease-out';
                 }
             });
-
-            // Fare ikonun üzerinden ayrılınca "blup" diye yaylanarak yerine otursun
-            icon.addEventListener('mouseleave', () => {
-                icon.style.transform = ''; 
-                icon.style.transition = 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
-            });
+            icon.addEventListener('mouseleave', () => { icon.style.transform = ''; icon.style.transition = 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)'; });
         });
 
-
-
-
-        // --- 7. GHIBLI IŞIK ZERRELERİ VE JİROSKOP (CİHAZ EĞİMİ) MOTORU ---
         const canvas = document.getElementById('particle-canvas');
         if (canvas) {
-            const ctx = canvas.getContext('2d');
-            let width, height;
-            let particles = [];
-            let tiltX = 0; let tiltY = 0;
+            const ctx = canvas.getContext('2d'); let width, height; let particles = []; let tiltX = 0; let tiltY = 0;
+            function resizeCanvas() { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; }
+            window.addEventListener('resize', resizeCanvas); resizeCanvas();
 
-            // Ekran boyutunu ayarla
-            function resizeCanvas() {
-                width = canvas.width = window.innerWidth;
-                height = canvas.height = window.innerHeight;
-            }
-            window.addEventListener('resize', resizeCanvas);
-            resizeCanvas();
-
-            // Zerre (Partikül) Sınıfı - 3 BOYUTLU VE YAVAŞ MOTOR
             class Particle {
                 constructor() {
-                    this.x = Math.random() * width;
-                    this.y = Math.random() * height;
-                    this.size = Math.random() * 2.0 + 1.0; 
-                    
-                    // Hızları artık mikroskobik seviyede
-                    this.speedX = Math.random() * 0.5 - 0.2; 
-                    this.speedY = Math.random() * -0.5 - 0.2;                     
-                    this.opacity = Math.random() * 0.35 + 0.15; 
+                    this.x = Math.random() * width; this.y = Math.random() * height; this.size = Math.random() * 2.0 + 1.0; 
+                    this.speedX = Math.random() * 0.5 - 0.2; this.speedY = Math.random() * -0.5 - 0.2; this.opacity = Math.random() * 0.35 + 0.15; 
                 }
                 update() {
-                    // SİHİRLİ DOKUNUŞ: Derinlik (Z-Ekseni) hissi. 
-                    // Büyük zerreler jiroskoptan daha çok etkilenir, küçükler daha az. 
-                    // Bu sayede hepsi aynı anda kaymaz, aralarında BOŞLUK oluşmaz!
-                    const depth = this.size * 0.4; 
-                    
-                    this.x += this.speedX + (tiltX * 0.02 * depth);
-                    this.y += this.speedY + (tiltY * 0.02 * depth);
-
-                    // Sınırları ekranın tam kenarı değil, 10px dışarısı yaptık ki 
-                    // zerreler aniden "pop" diye yok olup boşluk yaratmasın, yumuşakça girsin.
-                    if (this.y < -10) this.y = height + 10;
-                    if (this.x < -10) this.x = width + 10;
-                    if (this.x > width + 10) this.x = -10;
-                    if (this.y > height + 10) this.y = -10;
+                    const depth = this.size * 0.4; this.x += this.speedX + (tiltX * 0.02 * depth); this.y += this.speedY + (tiltY * 0.02 * depth);
+                    if (this.y < -10) this.y = height + 10; if (this.x < -10) this.x = width + 10;
+                    if (this.x > width + 10) this.x = -10; if (this.y > height + 10) this.y = -10;
                 }
-                draw() {
-                    ctx.fillStyle = `rgba(157, 80, 255, ${this.opacity})`; 
-                    ctx.beginPath();
-                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                    ctx.fill();
-                }
+                draw() { ctx.fillStyle = `rgba(157, 80, 255, ${this.opacity})`; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); }
             }
 
-
-            // Sadece 35 adet zerre üretir (Kalabalık yapıp siteyi ucuzlatmaması için)
-            for (let i = 0; i < 45; i++) {
-                particles.push(new Particle());
-            }
-
-            // Animasyon Döngüsü
-            function animateParticles() {
-                ctx.clearRect(0, 0, width, height);
-                particles.forEach(p => { p.update(); p.draw(); });
-                requestAnimationFrame(animateParticles);
-            }
+            for (let i = 0; i < 45; i++) { particles.push(new Particle()); }
+            function animateParticles() { ctx.clearRect(0, 0, width, height); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animateParticles); }
             animateParticles();
 
-            // Cihazın fiziksel eğimini (Jiroskop) dinle
-            window.addEventListener('deviceorientation', (e) => {
-                if(e.gamma !== null && e.beta !== null) {
-                    // gamma = Sol/Sağ eğim, beta = İleri/Geri eğim
-                    tiltX = e.gamma; 
-                    tiltY = e.beta;
-                }
-            }, { passive: true });
+            window.addEventListener('deviceorientation', (e) => { if(e.gamma !== null && e.beta !== null) { tiltX = e.gamma; tiltY = e.beta; } }, { passive: true });
         }
     
-        // --- ÇİFT TIKLAMALI DİNAMİK MÜZİK MOTORU ---
-        
-
+        // --- DİNAMİK MÜZİK MOTORU ---
         const audioPlayer = document.getElementById('audio-player');
         const toggleBtn = document.getElementById('music-toggle');
         const defaultCover = document.getElementById('default-cover');
         const trackTitle = document.getElementById('track-title');
         const trackArtist = document.getElementById('track-artist');
         
-        // CROSSFADE İÇİN 2 FARKLI ALBÜM KAPAĞI DEĞİŞKENİ
         const trackCover1 = document.getElementById('track-cover-1');
         const trackCover2 = document.getElementById('track-cover-2');
         let activeCover = 1;
@@ -1379,44 +678,89 @@ body.animations-done .link-button {
         const waveIcon = document.getElementById('wave-icon');
         const musicPill = document.querySelector('.music-pill');
 
-        let isPlaying = false;
-        let isFirstPlay = true; 
-        let pillTimeout;
-        let iconTimeout;
-        let clickTimer; // Tek/Çift tıklamayı ayırmak için zamanlayıcı
-        let shuffledQueue = [];
-        let currentQueueIndex = 0;
-        let pillCloseTimer; 
+        let isPlaying = false; let isFirstPlay = true; let pillTimeout; let iconTimeout; let clickTimer; 
+        let shuffledQueue = []; let currentQueueIndex = 0; let pillCloseTimer; let trackLoadTicket = 0;
 
-        // HAPI İÇERİ ÇEKME VE DARBE (BOUNCE) VURMA MOTORU
+        let pressTimer; let isLongPress = false; let isSeeking = false;
+        const seekPill = document.getElementById('seek-pill'); const prevBtn = document.getElementById('prev-btn'); const seekBar = document.getElementById('seek-bar');
+        const currentTimeDisplay = document.getElementById('current-time'); const totalTimeDisplay = document.getElementById('total-time');
+
+        // SÜRE FORMATLAMA FONKSİYONU
+        function formatTime(seconds) {
+            if (isNaN(seconds)) return "00:00";
+            const min = Math.floor(seconds / 60); const sec = Math.floor(seconds % 60);
+            return `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
+        }
+
+        function toggleAdvancedControls() { seekPill.classList.toggle('show-seek'); prevBtn.classList.toggle('show-prev'); }
+
+        toggleBtn.addEventListener('contextmenu', (e) => e.preventDefault());
+
+        function handlePressStart(e) {
+            if(e.type === 'mousedown' && e.button !== 0) return;
+            isLongPress = false;
+            pressTimer = setTimeout(() => { isLongPress = true; if (navigator.vibrate) navigator.vibrate(50); toggleAdvancedControls(); }, 400); 
+        }
+        function handlePressEnd() { clearTimeout(pressTimer); }
+
+        toggleBtn.addEventListener('mousedown', handlePressStart); toggleBtn.addEventListener('touchstart', handlePressStart, {passive: true});
+        toggleBtn.addEventListener('mouseup', handlePressEnd); toggleBtn.addEventListener('touchend', handlePressEnd);
+        toggleBtn.addEventListener('mouseleave', handlePressEnd); toggleBtn.addEventListener('touchcancel', handlePressEnd);
+
+        // SEEKBAR SENKRONİZASYON VE DOLGU MOTORU
+        seekBar.addEventListener('mousedown', () => isSeeking = true);
+        seekBar.addEventListener('touchstart', () => isSeeking = true, {passive: true});
+        
+        seekBar.addEventListener('input', () => {
+            isSeeking = true; const val = seekBar.value;
+            seekBar.style.background = `linear-gradient(to right, #DCBAF7 ${val}%, rgba(164, 139, 184, 0.3) ${val}%)`;
+            if(audioPlayer.duration) { currentTimeDisplay.textContent = formatTime((val / 100) * audioPlayer.duration); }
+        });
+
+        seekBar.addEventListener('change', () => {
+            if (audioPlayer.duration) audioPlayer.currentTime = (seekBar.value / 100) * audioPlayer.duration;
+            isSeeking = false;
+        });
+        seekBar.addEventListener('touchend', () => {
+            if (audioPlayer.duration) audioPlayer.currentTime = (seekBar.value / 100) * audioPlayer.duration;
+            isSeeking = false;
+        });
+
+        audioPlayer.addEventListener('timeupdate', () => {
+            if (audioPlayer.duration) {
+                const progress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+                if (!isSeeking) {
+                    seekBar.value = progress;
+                    seekBar.style.background = `linear-gradient(to right, #DCBAF7 ${progress}%, rgba(164, 139, 184, 0.3) ${progress}%)`;
+                }
+                currentTimeDisplay.textContent = formatTime(audioPlayer.currentTime);
+            }
+        });
+
+        audioPlayer.addEventListener('loadedmetadata', () => {
+            totalTimeDisplay.textContent = formatTime(audioPlayer.duration);
+            currentTimeDisplay.textContent = "00:00";
+            seekBar.value = 0;
+            seekBar.style.background = `linear-gradient(to right, #DCBAF7 0%, rgba(164, 139, 184, 0.3) 0%)`;
+        });
+
+        prevBtn.addEventListener('click', () => {
+            if (currentQueueIndex >= 2) { currentQueueIndex -= 2; } else { currentQueueIndex = 0; }
+            toggleAdvancedControls(); 
+            if (musicPill.classList.contains('show-pill')) { clearTimeout(pillTimeout); closePill(); }
+            setTimeout(() => { loadRandomTrack(); isFirstPlay = false; showPill(); playTrack(true); }, 500);
+        });
+
         function closePill() {
-            musicPill.classList.remove('show-pill'); 
-            clearTimeout(pillCloseTimer);
-            
-            // Tam 500ms sonra (kutu içeri girdiği an) darbe yap
-            pillCloseTimer = setTimeout(() => {
-                toggleBtn.classList.add('cover-bounce');
-                setTimeout(() => {
-                    toggleBtn.classList.remove('cover-bounce');
-                }, 400); 
-            }, 500); 
+            musicPill.classList.remove('show-pill'); clearTimeout(pillCloseTimer);
+            pillCloseTimer = setTimeout(() => { toggleBtn.classList.add('cover-bounce'); setTimeout(() => { toggleBtn.classList.remove('cover-bounce'); }, 400); }, 500); 
         }
-
-        // HAPI FIRLATMA MOTORU
         function showPill() {
-            musicPill.classList.add('show-pill');
-            clearTimeout(pillTimeout);
-            clearTimeout(pillCloseTimer); // Çakışmaları engelle
-            
-            // 3 saniye ekranda kalıp geri içeri çek
-            pillTimeout = setTimeout(() => { 
-                closePill();
-            }, 3000);
+            musicPill.classList.add('show-pill'); clearTimeout(pillTimeout); clearTimeout(pillCloseTimer);
+            pillTimeout = setTimeout(() => { closePill(); }, 3000);
         }
 
-                // --- 1. ÇOK DAHA BASİT VE YÖNETİLEBİLİR PLAYLIST ---
-                const playlist = [
-            // Karma & Nu-Metal Başlangıç
+        const playlist = [
             { title: "Bodies", artist: "Drowning Pool", file: "music/Bodies.opus" },
             { title: "Courtesy Call", artist: "Thousand Foot Krutch", file: "music/Courtesy Call.opus" },
             { title: "Flying (Remastered)", artist: "Anathema", file: "music/Flying (Remastered).opus" },
@@ -1425,13 +769,11 @@ body.animations-done .link-button {
             { title: "The Sound of Silence", artist: "Disturbed", file: "music/The Sound of Silence.opus" },
             { title: "Decadence", artist: "Disturbed", file: "music/Decadence.opus" },
             { title: "Sirens", artist: "Saint Asonia", file: "music/Sirens.opus" },
-            { title: "Dying Slowly", artist: "Saint Asonia", file: "music/Dying Slowly.opus" },
+            { title: "Dying Slowly", artist: "Saint Asonia", file: "music/Dying Slowly.opus", customCover: "https://i.scdn.co/image/ab67616d0000b273ce96f4fcaf09b2e1bf8350aa" },
             { title: "Ghost", artist: "Saint Asonia", file: "music/Ghost.opus" },
             { title: "Devastate", artist: "Saint Asonia", file: "music/Devastate.opus" },
             { title: "O Come, O Come Emmanuel", artist: "Skillet", file: "music/O Come, O Come Emmanuel.opus" },
             { title: "Ash In The Wind", artist: "Skillet", file: "music/Ash In The Wind.opus" },
-            
-            // Skillet Bloğu
             { title: "Fire Inside of Me", artist: "Skillet", file: "music/Fire Inside of Me.opus" },
             { title: "Psycho In My Head", artist: "Skillet", file: "music/Psycho In My Head.opus" },
             { title: "Angels Fall Down (Live)", artist: "Skillet", file: "music/Angels Fall Down (Live).opus" },
@@ -1459,8 +801,6 @@ body.animations-done .link-button {
             { title: "Comatose", artist: "Skillet", file: "music/Comatose.opus" },
             { title: "Monster", artist: "Skillet", file: "music/Monster.opus" },
             { title: "Hero", artist: "Skillet", file: "music/Hero.opus" },
-            
-            // Linkin Park Bloğu
             { title: "Fighting Myself", artist: "Linkin Park", file: "music/Fighting Myself.opus" },
             { title: "Let Down", artist: "Dead By Sunrise", file: "music/Let Down.opus" },
             { title: "Until It's Gone", artist: "Linkin Park", file: "music/Until It's Gone.opus" },
@@ -1484,8 +824,6 @@ body.animations-done .link-button {
             { title: "Breaking the Habit", artist: "Linkin Park", file: "music/Breaking the Habit.opus" },
             { title: "Faint", artist: "Linkin Park", file: "music/Faint.opus" },
             { title: "Numb", artist: "Linkin Park", file: "music/Numb.opus" },
-            
-            // Three Days Grace Bloğu
             { title: "I Don't Care", artist: "Apocalyptica", file: "music/I Don't Care.opus" },
             { title: "Kill Me Fast", artist: "Three Days Grace", file: "music/Kill Me Fast.opus" },
             { title: "One X", artist: "Three Days Grace", file: "music/One X.opus" },
@@ -1501,18 +839,14 @@ body.animations-done .link-button {
             { title: "Riot", artist: "Three Days Grace", file: "music/Riot.opus" },
             { title: "Animal I Have Become", artist: "Three Days Grace", file: "music/Animal I Have Become.opus" },
             { title: "I Hate Everything About You", artist: "Three Days Grace", file: "music/I Hate Everything About You.opus" },
-            
-            // Slipknot Bloğu
             { title: "Solway Firth", artist: "Slipknot", file: "music/Solway Firth.opus" },
-            { title: "[sic]", artist: "Slipknot", file: "music/[sic].opus" },
-            { title: "Eyeless", artist: "Slipknot", file: "music/Eyeless.opus" },
-            { title: "Unsainted", artist: "Slipknot", file: "music/Unsainted.opus" },
-            { title: "Nero Forte", artist: "Slipknot", file: "music/Nero Forte.opus" },
+            { title: "[sic]", artist: "Slipknot", file: "music/[sic].opus", customCover: "https://i.scdn.co/image/ab67616d0000b27310dfb0b9dbf8da6db290e2fe" },
+            { title: "Eyeless", artist: "Slipknot", file: "music/Eyeless.opus", customCover: "https://i.scdn.co/image/ab67616d0000b27310dfb0b9dbf8da6db290e2fe" },
+            { title: "Unsainted", artist: "Slipknot", file: "music/Unsainted.opus", customCover: "https://i.scdn.co/image/ab67616d0000b2731998f8cc4259b95dfc0bfb27" },
+            { title: "Nero Forte", artist: "Slipknot", file: "music/Nero Forte.opus", customCover: "https://i.scdn.co/image/ab67616d0000b2731998f8cc4259b95dfc0bfb27" },
             { title: "Custer", artist: "Slipknot", file: "music/Custer.opus" },
             { title: "Left Behind", artist: "Slipknot", file: "music/Left Behind.opus" },
-            { title: "People = Shit", artist: "Slipknot", file: "music/People = Shit.opus" },
-            
-            // Metalcore / Alt Metal Kapanış
+            { title: "People = Shit", artist: "Slipknot", file: "music/People = Shit.opus", customCover: "https://i.scdn.co/image/ab67616d0000b2738b55227181c251457102dbaf" },
             { title: "Afraid Of The Dark", artist: "Motionless In White", file: "music/Afraid Of The Dark.opus" },
             { title: "Voices", artist: "Motionless In White", file: "music/Voices.opus" },
             { title: "Another Life", artist: "Motionless In White", file: "music/Another Life.opus" },
@@ -1525,9 +859,8 @@ body.animations-done .link-button {
             { title: "Dying in Your Arms", artist: "Deathly Hours", file: "music/Dying in Your Arms.opus" }
         ];
 
-        // --- YUMUŞATILMIŞ GEÇİŞLİ (CROSSFADE) VE KARIŞTIRMA ALGORİTMALI MOTOR ---
         async function loadRandomTrack() {
-            toggleBtn.classList.add('solid-bg');
+            toggleBtn.classList.add('solid-bg'); trackLoadTicket++; const myTicket = trackLoadTicket;
 
             if (shuffledQueue.length === 0 || currentQueueIndex >= shuffledQueue.length) {
                 shuffledQueue = Array.from({length: playlist.length}, (_, i) => i);
@@ -1538,146 +871,68 @@ body.animations-done .link-button {
                 currentQueueIndex = 0;
             }
 
-            const trackIndex = shuffledQueue[currentQueueIndex];
-            currentQueueIndex++;
-            const randomTrack = playlist[trackIndex];
+            const trackIndex = shuffledQueue[currentQueueIndex]; currentQueueIndex++; const randomTrack = playlist[trackIndex];
+            trackTitle.textContent = randomTrack.title; trackArtist.textContent = randomTrack.artist; audioPlayer.src = randomTrack.file; 
             
-            // YAZILARI ANINDA DEĞİŞTİR (Kutu zaten kapanmış olacağı için görünmeden değişecek)
-            trackTitle.textContent = randomTrack.title;
-            trackArtist.textContent = randomTrack.artist;
+            const nextCover = activeCover === 1 ? trackCover2 : trackCover1; const currentCover = activeCover === 1 ? trackCover1 : trackCover2;
+            let finalCoverUrl = "https://i.scdn.co/image/ab67616d0000b27341e97ee9cf2ee378519e4875"; 
 
-            audioPlayer.src = randomTrack.file;
-
-            
-            // CROSSFADE İÇİN HANGİ KAPAĞIN SIRADA OLDUĞUNU BUL
-            const nextCover = activeCover === 1 ? trackCover2 : trackCover1;
-            const currentCover = activeCover === 1 ? trackCover1 : trackCover2;
-
-            // API'DEN KAPAĞI ÇEK VE YÜKLE
-            let hdCoverUrl = "https://i.scdn.co/image/ab67616d0000b27341e97ee9cf2ee378519e4875"; 
-            try {
-                const response = await fetch(`https://itunes.apple.com/search?term=${randomTrack.artist}+${randomTrack.title}&entity=song&limit=1`);
-                const data = await response.json();
-                if(data.results.length > 0) {
-                    hdCoverUrl = data.results[0].artworkUrl100.replace('100x100bb', '600x600bb');
-                }
-            } catch(e) {
-                console.log("Kapak çekilirken hata oluştu.");
+            if (randomTrack.customCover) { finalCoverUrl = randomTrack.customCover; } 
+            else {
+                try {
+                    const response = await fetch(`https://itunes.apple.com/search?term=${randomTrack.artist}+${randomTrack.title}&entity=song&limit=1`);
+                    const data = await response.json(); if(data.results.length > 0) { finalCoverUrl = data.results[0].artworkUrl100.replace('100x100bb', '600x600bb'); }
+                } catch(e) { console.log("Kapak çekilemedi."); }
             }
 
-            // Yeni kapağı arka planda yükle
-            nextCover.src = hdCoverUrl;
+            if (myTicket !== trackLoadTicket) return;
 
-            // YÜKLENDİĞİ AN KUSURSUZ CROSSFADE (Yumuşak Geçiş) YAP
             nextCover.onload = () => {
-                nextCover.style.opacity = '1';
-                currentCover.style.opacity = '0';
-                defaultCover.style.opacity = '0'; // Buzlu camı tamamen gizle
-                activeCover = activeCover === 1 ? 2 : 1; // Sırayı değiştir
+                if (myTicket !== trackLoadTicket) return; 
+                nextCover.style.opacity = '1'; currentCover.style.opacity = '0'; defaultCover.style.opacity = '0'; activeCover = activeCover === 1 ? 2 : 1; 
             };
+
+            if (nextCover.src === finalCoverUrl) { nextCover.onload(); } else { nextCover.src = finalCoverUrl; }
         }
 
-
-        function resetIcons() {
-            playIcon.classList.remove('show-icon');
-            pauseIcon.classList.remove('show-icon');
-            waveIcon.classList.remove('show-wave');
-        }
+        function resetIcons() { playIcon.classList.remove('show-icon'); pauseIcon.classList.remove('show-icon'); waveIcon.classList.remove('show-wave'); }
 
         function playTrack(isSkipping = false) {
-            clearTimeout(iconTimeout);
-            resetIcons();
-            
-            audioPlayer.play().catch(e => console.log("Müzik bekleniyor..."));
-            
-            // İKİ KAPAĞI DA SENKRONİZE DÖNDÜR (Dönüş Asla Aksamaz)
-            trackCover1.classList.add('spin-anim');
-            trackCover1.classList.remove('pause-anim'); 
-            trackCover2.classList.add('spin-anim');
-            trackCover2.classList.remove('pause-anim'); 
-            
+            clearTimeout(iconTimeout); resetIcons(); audioPlayer.play().catch(e => console.log("Müzik bekleniyor..."));
+            trackCover1.classList.add('spin-anim'); trackCover1.classList.remove('pause-anim'); trackCover2.classList.add('spin-anim'); trackCover2.classList.remove('pause-anim'); 
             toggleBtn.classList.add('is-active');
             
-            // EĞER İLERİ SARMADAN GELDİYSEK İKONUN EKRANDAN ÇIKMASINI 400ms BEKLE
-            if (isSkipping) {
-                iconTimeout = setTimeout(() => {
-                    waveIcon.classList.add('show-wave');
-                }, 400); // 400ms gecikme eklendi! İkon kayarken dalga gelmeyecek.
-            } else {
-                playIcon.classList.add('show-icon');
-                iconTimeout = setTimeout(() => {
-                    playIcon.classList.remove('show-icon');
-                    waveIcon.classList.add('show-wave');
-                }, 1000);
-            }
-            
+            if (isSkipping) { iconTimeout = setTimeout(() => { waveIcon.classList.add('show-wave'); }, 400); } 
+            else { playIcon.classList.add('show-icon'); iconTimeout = setTimeout(() => { playIcon.classList.remove('show-icon'); waveIcon.classList.add('show-wave'); }, 1000); }
             isPlaying = true;
         }
 
-
         function pauseTrack() {
-            clearTimeout(iconTimeout);
-            
-            audioPlayer.pause();
-            
-            trackCover1.classList.add('pause-anim'); 
-            trackCover2.classList.add('pause-anim'); 
-            
-            toggleBtn.classList.remove('is-active');
-            waveIcon.classList.remove('show-wave');
-            pauseIcon.classList.add('show-icon');
-            
-            isPlaying = false;
+            clearTimeout(iconTimeout); audioPlayer.pause();
+            trackCover1.classList.add('pause-anim'); trackCover2.classList.add('pause-anim'); 
+            toggleBtn.classList.remove('is-active'); waveIcon.classList.remove('show-wave'); pauseIcon.classList.add('show-icon'); isPlaying = false;
         }
 
-
-        // TEK TIKLAMA: Sadece Durdur/Başlat
         toggleBtn.addEventListener('click', (e) => {
+            if (isLongPress) { isLongPress = false; return; }
             if (e.detail === 1) { 
                 clickTimer = setTimeout(() => {
-                    if (isFirstPlay) {
-                        loadRandomTrack();
-                        showPill();
-                        isFirstPlay = false;
-                        playTrack();
-                    } else {
-                        isPlaying ? pauseTrack() : playTrack();
-                    }
+                    if (isFirstPlay) { loadRandomTrack(); showPill(); isFirstPlay = false; playTrack(); } 
+                    else { isPlaying ? pauseTrack() : playTrack(); }
                 }, 250); 
             }
         });
 
-        // ÇİFT TIKLAMA: İleri Sarma Animasyonu ve Yeni Şarkı (YUT VE TÜKÜR MANTIĞI)
         toggleBtn.addEventListener('dblclick', () => {
-            clearTimeout(clickTimer);
-            resetIcons(); 
-            
-            const forwardIcon = document.getElementById('forward-icon');
-            forwardIcon.classList.add('show-forward');
-            
-            if (musicPill.classList.contains('show-pill')) {
-                clearTimeout(pillTimeout); 
-                closePill(); 
-            }
-            
-            setTimeout(() => {
-                forwardIcon.classList.remove('show-forward');
-                
-                loadRandomTrack(); 
-                isFirstPlay = false;
-                
-                showPill(); 
-                playTrack(true); 
-            }, 500); 
+            clearTimeout(clickTimer); resetIcons(); 
+            const forwardIcon = document.getElementById('forward-icon'); forwardIcon.classList.add('show-forward');
+            if (musicPill.classList.contains('show-pill')) { clearTimeout(pillTimeout); closePill(); }
+            setTimeout(() => { forwardIcon.classList.remove('show-forward'); loadRandomTrack(); isFirstPlay = false; showPill(); playTrack(true); }, 500); 
         });
 
-
         audioPlayer.addEventListener('ended', () => {
-            isPlaying = false;
-            trackCover1.classList.remove('spin-anim');
-            trackCover2.classList.remove('spin-anim');
-            resetIcons();
-            playIcon.classList.add('show-icon');
+            isPlaying = false; trackCover1.classList.remove('spin-anim'); trackCover2.classList.remove('spin-anim');
+            resetIcons(); playIcon.classList.add('show-icon');
         });
 
 </script>
