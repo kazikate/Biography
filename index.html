@@ -599,20 +599,22 @@
             // VARSAYILAN SPOTIFY KAPAĞI (Apple API patlarsa bu yüklenecek)
             let finalCoverUrl = "https://i.scdn.co/image/ab67616d0000b27341e97ee9cf2ee378519e4875"; 
 
+                        // ESKİ APPLE API YERİNE DEEZER API MOTORU
             try {
-                // ŞARKI İSMİNİ URL FORMATINA ÇEVİRME (Hatalı aramaları önler)
-                const searchQuery = encodeURIComponent(randomTrack.artist + " " + randomTrack.title);
-                const response = await fetch(`https://itunes.apple.com/search?term=${searchQuery}&entity=song&limit=1`);
+                // Deezer API'si çok daha kararlı ve hızlı
+                const response = await fetch(`https://api.deezer.com/search?q=artist:"${randomTrack.artist}" track:"${randomTrack.title}"&limit=1`);
                 
                 if(response.ok) {
                     const data = await response.json(); 
-                    if(data.results.length > 0) { 
-                        finalCoverUrl = data.results[0].artworkUrl100.replace('100x100bb', '600x600bb'); 
+                    // Deezer'dan gelen JSON yapısı farklıdır (data dizisinin içinde döner)
+                    if(data.data && data.data.length > 0) { 
+                        finalCoverUrl = data.data[0].album.cover_big; 
                     }
                 }
             } catch(e) { 
-                console.log("Apple API reddetti, varsayılan kapak çekiliyor."); 
+                console.log("Deezer API başarısız, varsayılan kapak."); 
             }
+
 
             if (myTicket !== trackLoadTicket) return;
 
