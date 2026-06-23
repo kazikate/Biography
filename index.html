@@ -26,7 +26,7 @@
     <style>
         @import url('https://api.fontshare.com/css?f[]=chillax@300,400,500,600,700&display=swap');
 
-        :root { color-scheme: dark; --dark-bg: #000000; --link-bg: #1F1925; --link-hover: #31283D; --text-light: #DCBAF7; --accent-purple: #9d50ff; --shadow-color: rgba(0, 0, 0, 0.4); --image-height-vh: 450px; --transition-start: 60%; }
+        :root { color-scheme: dark; --dark-bg: #000000; --link-bg: #1F1925; --link-hover: #31283D; --text-light: #DCBAF7; --accent-purple: #9d50ff; --lyric-accent: #DCBAF7; --shadow-color: rgba(0, 0, 0, 0.4); --image-height-vh: 450px; --transition-start: 60%; }
         ::selection { background-color: rgba(157, 80, 255, 0.35); } ::-moz-selection { background-color: rgba(157, 80, 255, 0.35); }
 
         body { font-family: 'Poppins', sans-serif; background-color: var(--dark-bg); color: var(--text-light); margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; position: relative; -webkit-tap-highlight-color: transparent; }
@@ -91,7 +91,7 @@
         ::-webkit-scrollbar { width: 5px; } ::-webkit-scrollbar-track { background-color: var(--dark-bg); } ::-webkit-scrollbar-thumb { background-color: rgba(157, 80, 255, 0.4); border-radius: 10px; } ::-webkit-scrollbar-thumb:hover { background-color: rgba(157, 80, 255, 0.8); }
 
         /* ------------------------------------------------ */
-        /* DİNAMİK MÜZİK WIDGET'I (ULTIMATE V6 - KUSURSUZ ANİMASYON) */
+        /* DİNAMİK MÜZİK WIDGET'I (ULTIMATE V7.5)           */
         /* ------------------------------------------------ */
 
         #music-widget { position: fixed; top: 15px; left: 15px; z-index: 100; display: flex; align-items: center; width: 100%; }
@@ -111,85 +111,26 @@
         @keyframes spin-record { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         .music-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); display: flex; justify-content: center; align-items: center; z-index: 3; opacity: 0; transition: opacity 0.3s ease; }
         .music-cover-container.is-active .music-overlay, .music-cover-container:hover .music-overlay { opacity: 1; }
-        .music-overlay svg { width: 20px; height: 20px; color: #A48BB8; position: absolute; opacity: 0; transform: scale(0.5); transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .music-overlay svg.show-icon { opacity: 1; transform: scale(1); }
-        .music-waves { display: flex; align-items: center; justify-content: center; gap: 3px; height: 20px; position: absolute; opacity: 0; transform: scale(0.5); transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .music-waves.show-wave { opacity: 1; transform: scale(1); }
+        
+        .music-overlay svg { width: 20px; height: 20px; color: #A48BB8; position: absolute; opacity: 0; transform: scale(0.5); transition: opacity 0.1s, transform 0.1s; }
+        .music-overlay svg:not(.show-icon) { transition: none !important; opacity: 0 !important; transform: scale(0) !important; visibility: hidden; }
+        .music-overlay svg.show-icon { opacity: 1; transform: scale(1); visibility: visible; }
+        
+        .music-waves { display: flex; align-items: center; justify-content: center; gap: 3px; height: 20px; position: absolute; opacity: 0; transform: scale(0.5); transition: opacity 0.1s, transform 0.1s; }
+        .music-waves:not(.show-wave) { transition: none !important; opacity: 0 !important; transform: scale(0) !important; visibility: hidden; }
+        .music-waves.show-wave { opacity: 1; transform: scale(1); visibility: visible; }
         .wave-line { width: 3px; height: 100%; background-color: #A48BB8; border-radius: 3px; animation: wave-bounce 1s ease-in-out infinite alternate; }
         .wave-line:nth-child(1) { animation-delay: 0.0s; } .wave-line:nth-child(2) { animation-delay: 0.3s; height: 60%; } .wave-line:nth-child(3) { animation-delay: 0.6s; height: 80%; } .wave-line:nth-child(4) { animation-delay: 0.9s; height: 50%; }
         @keyframes wave-bounce { 0% { height: 20%; opacity: 0.5; } 100% { height: 100%; opacity: 1; } }
 
         .music-pill {
-            position: absolute; left: 27px; height: 45px; background: rgba(20, 15, 25, 0.6); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid #A48BB8; border-radius: 0 25px 25px 0; z-index: 3; display: flex; align-items: center; max-width: 0; padding: 0; overflow: hidden; white-space: nowrap; opacity: 0;
+            position: absolute; left: 27px; top: 5px; height: 45px; background: rgba(20, 15, 25, 0.6); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid #A48BB8; border-radius: 0 25px 25px 0; z-index: 3; display: flex; align-items: center; max-width: 0; padding: 0; overflow: hidden; white-space: nowrap; opacity: 0;
             transition: max-width 0.5s cubic-bezier(0.5, 0, 0.1, 1), padding 0.5s cubic-bezier(0.5, 0, 0.1, 1), opacity 0s 0.5s; 
         }
         .music-pill.show-pill { 
             max-width: 250px; padding: 0 20px 0 35px; opacity: 1; 
             transition: max-width 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55), padding 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55), opacity 0.1s ease;
         }
-
-        /* YENİ GÜNCELLENMİŞ BUTON KOREOGRAFİSİ */
-        .prev-btn {
-            position: absolute; left: 10px; top: 10px; width: 35px; height: 35px; 
-            background: rgba(20, 15, 25, 0.6); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid #A48BB8; border-radius: 50%; display: flex; justify-content: center; align-items: center; opacity: 0; transform: translateY(0) scale(0.5); 
-            z-index: 3; cursor: pointer;
-            /* Kapatırken 0.1s bekler (lirik içeri girdikten sonra kapanır) */
-            transition: transform 0.5s cubic-bezier(0.5, 0, 0.1, 1) 0.1s, opacity 0s 0.6s; 
-        }
-        .prev-btn.show-prev { 
-            opacity: 1; transform: translateY(60px) scale(1); 
-            /* Açılırken beklemeden şak diye iner */
-            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0s, opacity 0.1s ease; 
-        }
-        .prev-btn svg { width: 16px; height: 16px; color: #A48BB8; }
-
-        .lyric-btn {
-            position: absolute; left: 10px; top: 10px; width: 35px; height: 35px; 
-            background: rgba(20, 15, 25, 0.6); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid #A48BB8; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer;
-            
-            /* Kapalıyken Prev butonunun arkasında gizli */
-            transform: translateY(60px) translateX(0) scale(0.5); opacity: 0; z-index: 1;
-            /* Kapatılırken beklemeden hemen sola doğru Prev'in içine girer */
-            transition: transform 0.4s cubic-bezier(0.5, 0, 0.1, 1) 0s, opacity 0.2s 0.2s, background-color 0.3s;
-        }
-        .lyric-btn.show-prev { 
-            /* Açılırken 45px sağa kayar */
-            transform: translateY(60px) translateX(45px) scale(1); opacity: 1; z-index: 2; 
-            /* Açılırken 0.15s bekler ki önce Prev butonu inmiş olsun */
-            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.15s, opacity 0.1s 0.15s; 
-        }
-        .lyric-btn.is-active { background: rgba(157, 80, 255, 0.6); border-color: #FFF; }
-        .lyric-btn svg { width: 16px; height: 16px; color: #A48BB8; transition: color 0.3s; }
-        .lyric-btn.is-active svg { color: #FFF; }
-
-        /* LİRİK AKIŞ EKRANI (PROFIL RESMİ İÇİNE HAPSEDİLDİ) */
-        .lyrics-container {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 6; overflow: hidden; pointer-events: none; opacity: 0; transition: opacity 0.6s ease;
-            /* Ekranın alt ve üstünden tatlıca silinmesi için maske */
-            mask-image: linear-gradient(to bottom, transparent 15%, black 35%, black 65%, transparent 85%);
-            -webkit-mask-image: linear-gradient(to bottom, transparent 15%, black 35%, black 65%, transparent 85%);
-        }
-        .lyrics-container.show-lyrics { opacity: 1; pointer-events: auto; }
-        
-        .lyrics-wrapper { 
-            position: absolute; top: 0; left: 0; width: 100%; box-sizing: border-box; 
-            padding-top: 220px; padding-bottom: 220px; padding-left: 10%; padding-right: 10%; text-align: center; 
-            transition: transform 0.5s cubic-bezier(0.25, 1, 0.3, 1); 
-        }
-        
-        /* VİDEODAKİ GİBİ 3 SATIRLI ODAKLANMA TASARIMI */
-        .lyric-line {
-            min-height: 35px; line-height: 1.4; font-size: 1.15rem; font-weight: 700;
-            color: rgba(255,255,255,0); margin: 15px 0;
-            transition: color 0.5s, transform 0.5s cubic-bezier(0.25, 1, 0.3, 1), filter 0.5s, opacity 0.5s;
-            transform: scale(0.8) translateY(20px); filter: blur(4px); opacity: 0;
-        }
-        /* O ANKİ SÖZ (Büyük, Net ve Parlak) */
-        .lyric-line.active { opacity: 1; transform: scale(1.2) translateY(0); filter: blur(0px); color: #DCBAF7; text-shadow: 0 0 15px rgba(157, 80, 255, 0.5); }
-        /* ÖNCEKİ VE SONRAKİ SÖZLER (Küçük, Soluk ve Şeffaf) */
-        .lyric-line.prev { opacity: 0.4; transform: scale(0.9) translateY(-10px); filter: blur(1px); color: #FFF; }
-        .lyric-line.next { opacity: 0.4; transform: scale(0.9) translateY(10px); filter: blur(1px); color: #FFF; }
 
         .seek-pill {
             position: absolute; left: 27px; top: 5px; height: 45px; 
@@ -203,6 +144,61 @@
             padding: 0 15px 0 40px; opacity: 1; z-index: 2; 
             transition: max-width 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), padding 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.1s ease;
         }
+
+        .prev-btn {
+            position: absolute; left: 10px; top: 10px; width: 35px; height: 35px; 
+            background: rgba(20, 15, 25, 0.6); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid #A48BB8; border-radius: 50%; display: flex; justify-content: center; align-items: center; opacity: 0; transform: translateY(0) scale(0.5); 
+            z-index: 3; cursor: pointer;
+            transition: transform 0.5s cubic-bezier(0.5, 0, 0.1, 1) 0.1s, opacity 0s 0.6s; 
+        }
+        .prev-btn.show-prev { 
+            opacity: 1; transform: translateY(60px) scale(1); 
+            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0s, opacity 0.1s ease; 
+        }
+        .prev-btn svg { width: 16px; height: 16px; color: #A48BB8; }
+
+        .lyric-btn {
+            position: absolute; left: 10px; top: 10px; width: 35px; height: 35px; 
+            background: rgba(20, 15, 25, 0.6); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid #A48BB8; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer;
+            transform: translateY(60px) translateX(0) scale(0.5); opacity: 0; z-index: 1;
+            transition: transform 0.4s cubic-bezier(0.5, 0, 0.1, 1) 0s, opacity 0.2s 0.2s, background-color 0.3s;
+        }
+        .lyric-btn.show-prev { 
+            transform: translateY(60px) translateX(45px) scale(1); opacity: 1; z-index: 2; 
+            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.15s, opacity 0.1s 0.15s; 
+        }
+        .lyric-btn.is-active { background: rgba(157, 80, 255, 0.6); border-color: #FFF; }
+        .lyric-btn svg { width: 16px; height: 16px; color: #A48BB8; transition: color 0.3s; }
+        .lyric-btn.is-active svg { color: #FFF; }
+
+        .lyrics-container {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 6; overflow: hidden; pointer-events: none; opacity: 0; transition: opacity 0.6s ease;
+            mask-image: linear-gradient(to bottom, transparent 15%, black 35%, black 65%, transparent 85%);
+            -webkit-mask-image: linear-gradient(to bottom, transparent 15%, black 35%, black 65%, transparent 85%);
+        }
+        .lyrics-container.show-lyrics { opacity: 1; pointer-events: auto; }
+        
+        .lyrics-wrapper { 
+            position: absolute; top: 0; left: 0; width: 100%; box-sizing: border-box; 
+            padding-top: 220px; padding-bottom: 220px; padding-left: 10%; padding-right: 10%; text-align: center; 
+            transition: transform 0.5s cubic-bezier(0.25, 1, 0.3, 1); 
+        }
+        
+        .lyric-line {
+            min-height: 35px; line-height: 1.4; font-size: 1.15rem; font-weight: 700;
+            color: rgba(255,255,255,0); margin: 15px 0;
+            transition: color 0.4s, transform 0.4s cubic-bezier(0.25, 1, 0.3, 1), filter 0.4s, opacity 0.4s;
+            transform: scale(0.8) translateY(20px); filter: blur(4px); opacity: 0;
+        }
+        .lyric-line.active { opacity: 1; transform: scale(1.2) translateY(0); filter: blur(0px); color: var(--lyric-accent); text-shadow: 0 0 15px var(--lyric-accent); }
+        .lyric-line.prev { opacity: 0.4; transform: scale(0.9) translateY(-10px); filter: blur(1px); color: #FFF; }
+        .lyric-line.next { opacity: 0.4; transform: scale(0.9) translateY(10px); filter: blur(1px); color: #FFF; }
+
+        .lyric-dot { display: inline-block; width: 6px; height: 6px; background: currentColor; border-radius: 50%; margin: 0 5px; animation: bounce-dot 0.6s infinite alternate; }
+        .lyric-dot:nth-child(2) { animation-delay: 0.2s; }
+        .lyric-dot:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes bounce-dot { 0% { transform: translateY(0); opacity: 0.3; } 100% { transform: translateY(-8px); opacity: 1; box-shadow: 0 0 10px currentColor; } }
 
         .time-display { font-size: 0.75rem; color: #DCBAF7; font-weight: 600; font-family: 'Poppins', sans-serif; opacity: 0.9; width: 42px; text-align: center; font-variant-numeric: tabular-nums; flex-shrink: 0; display: inline-block; }
         #seek-bar { -webkit-appearance: none; flex-grow: 1; margin: 0 10px; height: 5px; border-radius: 3px; outline: none; background: linear-gradient(to right, #DCBAF7 0%, rgba(164, 139, 184, 0.3) 0%); }
@@ -222,7 +218,7 @@
 <body>
 
     <div id="music-widget">
-        <div class="music-pill">
+        <div class="music-pill" class="music-pill">
             <div class="music-info"><div id="track-title">Bekleniyor...</div><div id="track-artist">Müzik Çalar</div></div>
         </div>
 
@@ -246,8 +242,8 @@
 
         <div class="music-cover-container" id="music-toggle">
             <div class="default-glass-cover" id="default-cover"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg></div>
-            <img src="" id="track-cover-1" class="track-cover-layer" alt="Album Cover">
-            <img src="" id="track-cover-2" class="track-cover-layer" alt="Album Cover">
+            <img src="" id="track-cover-1" crossorigin="Anonymous" class="track-cover-layer" alt="Album Cover">
+            <img src="" id="track-cover-2" crossorigin="Anonymous" class="track-cover-layer" alt="Album Cover">
             <div class="music-overlay">
                 <svg id="play-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                 <svg id="pause-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
@@ -321,13 +317,11 @@
                 window.requestAnimationFrame(() => {
                     const scrollY = Math.max(0, -document.body.getBoundingClientRect().top); 
                     
-                    // GÜNCELLENMİŞ: Lirik açıksa blur değişmesin ve çok kaydırılırsa kapansın
                     if (isLyricsMode) {
-                        if (scrollY > 150) toggleLyrics(); // 150px aşağı kaydırıldığında otomatik kapat
-                        
+                        if (scrollY > 150) toggleLyrics(); 
                         profileImgContainer.style.transform = `translate3d(-50%, ${scrollY * parallaxRatio}px, 0)`; 
                         ticking = false;
-                        return; // Blur dinamiğini dondurur, sadece parallax çalışır
+                        return; 
                     }
 
                     const scrollRatio = Math.min(scrollY, maxScroll) / maxScroll; 
@@ -361,7 +355,7 @@
             if (history.state && history.state.modal === MODAL_STATE_NAME) { if (history.length > 0) { history.back(); } }
         }
         function openModal() {
-            if (isLyricsMode) return; // Lirik ekranı açıkken fotoğrafı büyütmeyi engeller
+            if (isLyricsMode) return; 
             if (modal.classList.contains('is-open')) return;
             if (!history.state || history.state.modal !== MODAL_STATE_NAME) { history.pushState({ modal: MODAL_STATE_NAME }, '', window.location.href); }
             document.body.classList.add('no-scroll'); document.body.classList.add('is-modal-open'); 
@@ -416,7 +410,7 @@
     const defaultCover = document.getElementById('default-cover'); const trackTitle = document.getElementById('track-title'); const trackArtist = document.getElementById('track-artist');
     const trackCover1 = document.getElementById('track-cover-1'); const trackCover2 = document.getElementById('track-cover-2'); let activeCover = 1;
     const playIcon = document.getElementById('play-icon'); const pauseIcon = document.getElementById('pause-icon'); const waveIcon = document.getElementById('wave-icon');
-    const musicPill = document.querySelector('.music-pill');
+    const musicPill = document.querySelector('.music-pill'); 
     
     const lyricBtn = document.getElementById('lyric-btn');
     const lyricsContainer = document.getElementById('lyrics-container');
@@ -427,68 +421,118 @@
     let activeLyricIndex = -1;
 
     let isPlaying = false; let isFirstPlay = true; let pillTimeout; let iconTimeout; let clickTimer; 
-    let shuffledQueue = []; let currentQueueIndex = 0; let pillCloseTimer; let trackLoadTicket = 0;
+    let shuffledQueue = []; let currentQueueIndex = 0; let pillCloseTimer; let trackLoadTicket = 0; let lyricFetchTicket = 0;
 
     let pressTimer; let isLongPress = false; let isSeeking = false;
     let advancedControlsTimer; let advCloseTimer; let shouldReopenAdvanced = false; 
-    
+    let cachedDuration = 0; 
+
     const seekPill = document.getElementById('seek-pill'); const prevBtn = document.getElementById('prev-btn'); const seekBar = document.getElementById('seek-bar');
     const currentTimeDisplay = document.getElementById('current-time'); const totalTimeDisplay = document.getElementById('total-time');
 
     let animationFrameId;
+    let isUserDraggingLyric = false;
+    let lyricStartY = 0;
+    let initialTransformY = 0;
 
+    audioPlayer.addEventListener('loadedmetadata', () => {
+        if (!isNaN(audioPlayer.duration) && audioPlayer.duration !== Infinity) {
+            cachedDuration = audioPlayer.duration;
+            totalTimeDisplay.textContent = formatTime(cachedDuration);
+        }
+        currentTimeDisplay.textContent = "00:00";
+        seekBar.value = 0;
+        seekBar.style.background = `linear-gradient(to right, #DCBAF7 0%, rgba(164, 139, 184, 0.3) 0%)`;
+    });
+
+    function updateThemeColor(imgUrl) {
+        const colorImg = new Image();
+        colorImg.crossOrigin = "Anonymous";
+        colorImg.src = imgUrl;
+        colorImg.onload = () => {
+            try {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                canvas.width = 50; canvas.height = 50;
+                ctx.drawImage(colorImg, 0, 0, 50, 50);
+                const data = ctx.getImageData(0, 0, 50, 50).data;
+                let r=0, g=0, b=0, count=0;
+                for(let i=0; i<data.length; i+=16) { r+=data[i]; g+=data[i+1]; b+=data[i+2]; count++; }
+                r=Math.floor(r/count); g=Math.floor(g/count); b=Math.floor(b/count);
+                const max = Math.max(r, g, b);
+                if (max > 0 && max < 200) { const factor = 200 / max; r = Math.min(255, Math.floor(r * factor)); g = Math.min(255, Math.floor(g * factor)); b = Math.min(255, Math.floor(b * factor)); } 
+                else if (max === 0) { r = 220; g = 186; b = 247; }
+                document.documentElement.style.setProperty('--lyric-accent', `rgb(${r}, ${g}, ${b})`);
+            } catch(e) { document.documentElement.style.setProperty('--lyric-accent', '#DCBAF7'); }
+        };
+    }
+
+    /* ------------------------------------------------------------------
+       LYRIC SENKRON DÜZELTMESİ — ANA DÖNGÜ
+       Bu fonksiyon artık isPlaying durumuna bakmaksızın SÜREKLİ çalışır.
+       Böylece:
+       - play/pause geçişlerinde döngü asla "ölmez"
+       - seek (ileri/geri atlama) sonrası bir sonraki karede otomatik
+         doğru lyric satırına geçer (manuel tetiklemeye ihtiyaç kalmaz)
+       - şarkı başında lyrics gecikmesi/erken başlama sorunu da
+         activeLyricIndex'in her karede yeniden hesaplanmasıyla biter
+    ------------------------------------------------------------------ */
     function updateSeekBarSmoothly() {
-        if (!isSeeking && audioPlayer.duration && !isNaN(audioPlayer.duration)) {
-            const progress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+        const d = cachedDuration || audioPlayer.duration;
+        if (!isSeeking && d && !isNaN(d) && d !== Infinity) {
+            const progress = (audioPlayer.currentTime / d) * 100;
             seekBar.value = progress; 
             seekBar.style.background = `linear-gradient(to right, #DCBAF7 ${progress}%, rgba(164, 139, 184, 0.3) ${progress}%)`;
         }
         
-        // KUSURSUZ 3 SATIRLI LİRİK SENKRONİZASYONU (VİDEODAKİ GİBİ)
-        if (isLyricsMode && currentLyrics.length > 0 && !isNaN(audioPlayer.currentTime)) {
+        if (isLyricsMode && currentLyrics.length > 0 && !isNaN(audioPlayer.currentTime) && !isUserDraggingLyric) {
             const currentTime = audioPlayer.currentTime;
             let newIndex = -1;
 
-            // Şarkının saniyesini, lirik zamanlarıyla karşılaştır (0.3 saniye avans ile jilet gibi senkron)
             for (let i = 0; i < currentLyrics.length; i++) {
-                if (currentTime >= currentLyrics[i].time - 0.3) {
-                    newIndex = i;
-                } else {
-                    break;
-                }
+                if (currentTime >= currentLyrics[i].time - 0.3) { newIndex = i; } else { break; }
             }
             
             if (newIndex !== activeLyricIndex) {
-                // Tüm satırlardaki animasyon classlarını temizle
-                document.querySelectorAll('.lyric-line').forEach(el => {
-                    el.classList.remove('active', 'prev', 'next');
-                });
-
+                document.querySelectorAll('.lyric-line').forEach(el => el.classList.remove('active', 'prev', 'next'));
                 activeLyricIndex = newIndex;
-                const activeEl = document.getElementById(`lyric-${activeLyricIndex}`);
                 
-                if (activeEl) {
-                    activeEl.classList.add('active');
-                    
-                    // Önceki ve sonraki satırlara soluklaşma ve küçülme efekti ver
-                    if(activeLyricIndex > 0) document.getElementById(`lyric-${activeLyricIndex - 1}`)?.classList.add('prev');
-                    if(activeLyricIndex < currentLyrics.length - 1) document.getElementById(`lyric-${activeLyricIndex + 1}`)?.classList.add('next');
+                if (activeLyricIndex >= 0) {
+                    const activeEl = document.getElementById(`lyric-${activeLyricIndex}`);
+                    if (activeEl) {
+                        activeEl.classList.add('active');
+                        if(activeLyricIndex > 0) document.getElementById(`lyric-${activeLyricIndex - 1}`)?.classList.add('prev');
+                        if(activeLyricIndex < currentLyrics.length - 1) document.getElementById(`lyric-${activeLyricIndex + 1}`)?.classList.add('next');
 
-                    // Aktif satırı profil kapağının tam ortasına pürüzsüzce kaydır
-                    const offset = activeEl.offsetTop - (lyricsContainer.clientHeight / 2) + (activeEl.clientHeight / 2);
-                    lyricsWrapper.style.transform = `translateY(-${offset}px)`;
-                } else if (newIndex === -1 && currentLyrics.length > 0) {
-                    // İlk satır gelene kadar bekleme animasyonu
-                    document.getElementById('lyric-0')?.classList.add('next');
+                        const offset = activeEl.offsetTop - (lyricsContainer.clientHeight / 2) + (activeEl.clientHeight / 2);
+                        lyricsWrapper.style.transform = `translateY(-${offset}px)`;
+                    }
+                } else {
+                    const firstLine = document.getElementById('lyric-0');
+                    if (firstLine) firstLine.classList.add('next');
                     lyricsWrapper.style.transform = `translateY(0px)`;
                 }
             }
         }
         
-        if (isPlaying) {
-            animationFrameId = requestAnimationFrame(updateSeekBarSmoothly);
-        }
+        // DÜZELTME: isPlaying kontrolü kaldırıldı — döngü artık kendini
+        // sonsuza dek yeniden planlıyor. Bu sayede pause/play veya seek
+        // sırasında zincir kopmuyor ve lyric/seekbar her zaman güncel kalıyor.
+        animationFrameId = requestAnimationFrame(updateSeekBarSmoothly);
     }
+
+    // DÜZELTME: Döngüyü sayfa yüklenir yüklenmez bir kez başlatıyoruz.
+    // Artık playTrack() veya seeked event'inin döngüyü "diriltmesine"
+    // gerek yok — sürekli kendi kendini çağırıyor.
+    animationFrameId = requestAnimationFrame(updateSeekBarSmoothly);
+
+    audioPlayer.addEventListener('seeked', () => {
+        // DÜZELTME: activeLyricIndex'i zorla resetliyoruz ki bir sonraki
+        // karede (sürekli çalışan döngü zaten her karede kontrol ediyor)
+        // doğru satır anında bulunsun. Manuel updateSeekBarSmoothly()
+        // çağrısına artık gerek yok çünkü döngü asla durmuyor.
+        activeLyricIndex = -99; 
+    });
 
     function formatTime(seconds) {
         if (isNaN(seconds)) return "00:00";
@@ -496,12 +540,23 @@
         return `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
     }
 
-    function closeAdvancedControls(skipBounce = false) {
-        if (isLyricsMode) return; // Sözler açıksa menü asla kapanmasın
-        seekPill.classList.remove('show-seek'); prevBtn.classList.remove('show-prev'); lyricBtn.classList.remove('show-prev');
-        clearTimeout(advancedControlsTimer); clearTimeout(advCloseTimer);
+    function closeAdvancedControls(forceHideSeekbarOnly = false) {
+        if (isLyricsMode) {
+            if (forceHideSeekbarOnly) {
+                seekPill.classList.remove('show-seek');
+            }
+            clearTimeout(advancedControlsTimer); 
+            clearTimeout(advCloseTimer);
+            return; 
+        }
 
-        if (!skipBounce) {
+        seekPill.classList.remove('show-seek'); 
+        prevBtn.classList.remove('show-prev'); 
+        lyricBtn.classList.remove('show-prev'); 
+        clearTimeout(advancedControlsTimer); 
+        clearTimeout(advCloseTimer);
+
+        if (!forceHideSeekbarOnly) {
             advCloseTimer = setTimeout(() => {
                 toggleBtn.classList.add('cover-bounce');
                 setTimeout(() => { toggleBtn.classList.remove('cover-bounce'); }, 400);
@@ -509,7 +564,14 @@
         }
     }
 
-    function openAdvancedControls() { seekPill.classList.add('show-seek'); prevBtn.classList.add('show-prev'); lyricBtn.classList.add('show-prev'); resetAdvancedControlsTimer(); }
+    function openAdvancedControls() { 
+        seekPill.classList.add('show-seek'); 
+        if (!isLyricsMode) { 
+            prevBtn.classList.add('show-prev'); 
+            lyricBtn.classList.add('show-prev'); 
+        }
+        resetAdvancedControlsTimer(); 
+    }
     
     function resetAdvancedControlsTimer() { 
         if (isLyricsMode) return; 
@@ -524,16 +586,11 @@
         pressTimer = setTimeout(() => { 
             isLongPress = true; 
             if (seekPill.classList.contains('show-seek')) {
-                closeAdvancedControls(); 
-                shouldReopenAdvanced = false; 
+                closeAdvancedControls(); shouldReopenAdvanced = false; 
             } else {
                 if (musicPill.classList.contains('show-pill')) {
-                    clearTimeout(pillTimeout); 
-                    closePill(); 
-                    shouldReopenAdvanced = true;
-                } else { 
-                    openAdvancedControls(); 
-                }
+                    clearTimeout(pillTimeout); closePill(); shouldReopenAdvanced = true;
+                } else { openAdvancedControls(); }
             }
         }, 300); 
     }
@@ -547,17 +604,23 @@
     function closePill() {
         musicPill.classList.remove('show-pill'); clearTimeout(pillCloseTimer);
         pillCloseTimer = setTimeout(() => { 
-            toggleBtn.classList.add('cover-bounce'); setTimeout(() => { toggleBtn.classList.remove('cover-bounce'); }, 400); 
-            if (shouldReopenAdvanced) { shouldReopenAdvanced = false; openAdvancedControls(); }
+            if (isLyricsMode) { 
+                seekPill.classList.add('show-seek'); 
+            } else { 
+                toggleBtn.classList.add('cover-bounce'); setTimeout(() => toggleBtn.classList.remove('cover-bounce'), 400); 
+                if (shouldReopenAdvanced) { shouldReopenAdvanced = false; openAdvancedControls(); } 
+            }
         }, 400); 
     }
 
     function showPill() {
-        if (isLyricsMode) return; 
         closeAdvancedControls(true); 
+        if (isLyricsMode) { 
+            prevBtn.classList.add('show-prev'); 
+            lyricBtn.classList.add('show-prev'); 
+        }
         musicPill.classList.add('show-pill'); 
-        clearTimeout(pillTimeout); 
-        clearTimeout(pillCloseTimer); 
+        clearTimeout(pillTimeout); clearTimeout(pillCloseTimer); 
         pillTimeout = setTimeout(() => { closePill(); }, 3000); 
     }
 
@@ -665,6 +728,14 @@
         trackLoadTicket++; 
         const myTicket = trackLoadTicket;
 
+        // DÜZELTME: Eski şarkının lyric verisini hemen temizliyoruz.
+        // Bu, yeni şarkı için fetchLyrics() henüz tamamlanmadan önce
+        // eski sözlerin ekranda kalıp yanlış zamanlarda gösterilmesini
+        // (ya da updateSeekBarSmoothly döngüsünün eski index ile
+        // uğraşmasını) önler.
+        currentLyrics = [];
+        activeLyricIndex = -1;
+
         if (shuffledQueue.length === 0 || currentQueueIndex >= shuffledQueue.length) {
             shuffledQueue = Array.from({length: playlist.length}, (_, i) => i);
             for (let i = shuffledQueue.length - 1; i > 0; i--) {
@@ -681,7 +752,10 @@
         trackTitle.textContent = randomTrack.title; 
         trackArtist.textContent = randomTrack.artist; 
         audioPlayer.src = randomTrack.file; 
+        cachedDuration = 0; 
         
+        fetchLyrics(randomTrack.file);
+
         const fileName = randomTrack.file.split('/').pop().replace('.opus', '.png');
         const finalCoverUrl = `https://kazikate.github.io/Biography/assets/covers/${fileName}`;
         const defaultCoverUrl = "https://i.scdn.co/image/ab67616d0000b27341e97ee9cf2ee378519e4875";
@@ -691,8 +765,9 @@
         const nextCover = activeCover === 1 ? trackCover2 : trackCover1; 
         const currentCover = activeCover === 1 ? trackCover1 : trackCover2;
 
+        updateThemeColor(finalCoverUrl);
+
         const preloader = new Image();
-        
         preloader.onload = () => {
             if (myTicket !== trackLoadTicket) return; 
             nextCover.src = finalCoverUrl; 
@@ -704,7 +779,6 @@
             if (isLyricsMode && profileImgVisual) {
                 profileImgVisual.style.backgroundImage = `url('${finalCoverUrl}')`;
             }
-            fetchLyrics(randomTrack.artist, randomTrack.title);
         };
         
         preloader.onerror = () => {
@@ -719,34 +793,52 @@
             if (isLyricsMode && profileImgVisual) {
                 profileImgVisual.style.backgroundImage = `url('${defaultCoverUrl}')`;
             }
-            fetchLyrics(randomTrack.artist, randomTrack.title);
         };
-        
         preloader.src = finalCoverUrl; 
     }
 
-    function resetIcons() { playIcon.classList.remove('show-icon'); pauseIcon.classList.remove('show-icon'); waveIcon.classList.remove('show-wave'); }
+    function resetIcons() { 
+        clearTimeout(iconTimeout); 
+        playIcon.classList.remove('show-icon'); 
+        pauseIcon.classList.remove('show-icon'); 
+        waveIcon.classList.remove('show-wave'); 
+    }
 
     function playTrack(isSkipping = false) {
-        clearTimeout(iconTimeout); resetIcons(); audioPlayer.play().catch(e => console.log("Müzik bekleniyor..."));
-        trackCover1.classList.add('spin-anim'); trackCover1.classList.remove('pause-anim'); trackCover2.classList.add('spin-anim'); trackCover2.classList.remove('pause-anim'); 
+        resetIcons(); 
+        audioPlayer.play().catch(e => console.log("Müzik bekleniyor..."));
+        trackCover1.classList.add('spin-anim'); trackCover1.classList.remove('pause-anim'); 
+        trackCover2.classList.add('spin-anim'); trackCover2.classList.remove('pause-anim'); 
         toggleBtn.classList.add('is-active');
         
-        if (isSkipping) { iconTimeout = setTimeout(() => { waveIcon.classList.add('show-wave'); }, 400); } 
-        else { playIcon.classList.add('show-icon'); iconTimeout = setTimeout(() => { playIcon.classList.remove('show-icon'); waveIcon.classList.add('show-wave'); }, 1000); }
+        if (isSkipping) { 
+            iconTimeout = setTimeout(() => { waveIcon.classList.add('show-wave'); }, 400); 
+        } else { 
+            playIcon.classList.add('show-icon'); 
+            iconTimeout = setTimeout(() => { 
+                playIcon.classList.remove('show-icon'); 
+                waveIcon.classList.add('show-wave'); 
+            }, 1000); 
+        }
         
         isPlaying = true;
-        cancelAnimationFrame(animationFrameId); 
-        updateSeekBarSmoothly(); 
+        // DÜZELTME: Burada artık cancelAnimationFrame + yeniden başlatma YOK.
+        // Ana döngü (updateSeekBarSmoothly) sayfa açılışından beri sürekli
+        // çalışıyor; isPlaying sadece play/pause ikonlarını ve ses
+        // durumunu etkiliyor, animasyon döngüsünü değil.
     }
 
     function pauseTrack() {
-        clearTimeout(iconTimeout); audioPlayer.pause();
+        audioPlayer.pause();
         trackCover1.classList.add('pause-anim'); trackCover2.classList.add('pause-anim'); 
-        toggleBtn.classList.remove('is-active'); waveIcon.classList.remove('show-wave'); pauseIcon.classList.add('show-icon'); 
-        
+        toggleBtn.classList.remove('is-active'); 
+        resetIcons(); 
+        pauseIcon.classList.add('show-icon'); 
         isPlaying = false;
-        cancelAnimationFrame(animationFrameId); 
+        // DÜZELTME: cancelAnimationFrame(animationFrameId) KALDIRILDI.
+        // Döngü duraklatma sırasında da çalışmaya devam etmeli ki
+        // bir sonraki play() veya seek() anında lyric/seekbar zaten
+        // güncel currentTime ile senkron olsun.
     }
 
     toggleBtn.addEventListener('click', (e) => {
@@ -768,8 +860,7 @@
             shouldReopenAdvanced = true; 
         }
         
-        clearTimeout(pillTimeout); 
-        clearTimeout(pillCloseTimer);
+        clearTimeout(pillTimeout); clearTimeout(pillCloseTimer);
         musicPill.classList.remove('show-pill'); 
         
         setTimeout(() => { forwardIcon.classList.remove('show-forward'); loadRandomTrack(); isFirstPlay = false; showPill(); playTrack(true); }, 500); 
@@ -785,50 +876,41 @@
         const val = seekBar.value;
         seekBar.style.background = `linear-gradient(to right, #DCBAF7 ${val}%, rgba(164, 139, 184, 0.3) ${val}%)`;
         
-        if(audioPlayer.duration && !isNaN(audioPlayer.duration) && audioPlayer.duration !== Infinity) { 
-            currentTimeDisplay.textContent = formatTime((val / 100) * audioPlayer.duration); 
+        const d = cachedDuration || audioPlayer.duration;
+        if(d && !isNaN(d) && d !== Infinity) { 
+            currentTimeDisplay.textContent = formatTime((val / 100) * d); 
         }
         resetAdvancedControlsTimer(); 
     });
 
     seekBar.addEventListener('pointerup', () => {
         isSeeking = false;
-        if (audioPlayer.duration && !isNaN(audioPlayer.duration) && audioPlayer.duration !== Infinity) {
-            audioPlayer.currentTime = (seekBar.value / 100) * audioPlayer.duration;
+        const d = cachedDuration || audioPlayer.duration;
+        if (d && !isNaN(d) && d !== Infinity) {
+            audioPlayer.currentTime = (seekBar.value / 100) * d;
+            activeLyricIndex = -99; 
         }
         resetAdvancedControlsTimer(); 
     });
 
     audioPlayer.addEventListener('timeupdate', () => {
-        const duration = audioPlayer.duration;
+        const d = cachedDuration || audioPlayer.duration;
         const currentTime = audioPlayer.currentTime;
-        
-        if (!isNaN(duration) && duration > 0 && duration !== Infinity) {
+        if (!isNaN(d) && d > 0 && d !== Infinity) {
             currentTimeDisplay.textContent = formatTime(currentTime);
-            totalTimeDisplay.textContent = formatTime(duration); 
+            totalTimeDisplay.textContent = formatTime(d); 
         }
-    });
-
-    audioPlayer.addEventListener('loadedmetadata', () => {
-        const duration = audioPlayer.duration;
-        if (!isNaN(duration) && duration > 0 && duration !== Infinity) {
-            totalTimeDisplay.textContent = formatTime(duration);
-        }
-        currentTimeDisplay.textContent = "00:00";
-        seekBar.value = 0;
-        seekBar.style.background = `linear-gradient(to right, #DCBAF7 0%, rgba(164, 139, 184, 0.3) 0%)`;
     });
     
     audioPlayer.addEventListener('ended', () => {
         isPlaying = false; 
-        cancelAnimationFrame(animationFrameId); 
+        // DÜZELTME: cancelAnimationFrame KALDIRILDI — döngü sürekli çalışmalı.
         
         trackCover1.classList.add('pause-anim'); 
         trackCover2.classList.add('pause-anim');
         resetIcons(); 
         
-        clearTimeout(pillTimeout); 
-        clearTimeout(pillCloseTimer);
+        clearTimeout(pillTimeout); clearTimeout(pillCloseTimer);
         musicPill.classList.remove('show-pill'); 
 
         setTimeout(() => { 
@@ -847,24 +929,16 @@
 
         if (audioPlayer.currentTime > 3) {
             audioPlayer.currentTime = 0;
+            activeLyricIndex = -99;
             if (!isPlaying) playTrack(); 
         } else {
-            clearTimeout(clickTimer); 
-            clearTimeout(pillTimeout); 
-            clearTimeout(pillCloseTimer);
-            musicPill.classList.remove('show-pill'); 
-            resetIcons();
+            clearTimeout(clickTimer); clearTimeout(pillTimeout); clearTimeout(pillCloseTimer);
+            musicPill.classList.remove('show-pill'); resetIcons();
             
             currentQueueIndex -= 2;
-            if (currentQueueIndex < 0) {
-                currentQueueIndex = playlist.length - 1; 
-            }
+            if (currentQueueIndex < 0) { currentQueueIndex = playlist.length - 1; }
             
-            setTimeout(() => { 
-                loadRandomTrack(); 
-                showPill(); 
-                playTrack(true); 
-            }, 100); 
+            setTimeout(() => { loadRandomTrack(); showPill(); playTrack(true); }, 100); 
         }
     });
 
@@ -880,103 +954,184 @@
                 const seconds = parseInt(match[2]);
                 const milliseconds = match[3].length === 2 ? parseInt(match[3]) * 10 : parseInt(match[3]);
                 const time = (minutes * 60) + seconds + (milliseconds / 1000);
-                const text = line.replace(timeRegEx, '').trim();
-                if (text) parsed.push({ time, text });
+                
+                let text = line.replace(timeRegEx, '').trim();
+                if (text === '' || text === '♪' || text === '♫') text = '•••'; 
+                parsed.push({ time, text });
             }
         });
-        return parsed;
+
+        const processedLyrics = [];
+        for (let i = 0; i < parsed.length; i++) {
+            processedLyrics.push(parsed[i]);
+            if (i < parsed.length - 1) {
+                const gap = parsed[i+1].time - parsed[i].time;
+                if (gap > 8 && parsed[i].text !== '•••') {
+                    processedLyrics.push({ time: parsed[i].time + 2, text: '•••' });
+                }
+            }
+        }
+        if (processedLyrics.length > 0 && processedLyrics[0].time > 5) {
+            processedLyrics.unshift({ time: 0, text: '•••' });
+        }
+        return processedLyrics;
     }
 
-    async function fetchLyrics(artist, title) {
-        lyricsWrapper.innerHTML = '<div class="lyric-line">Sözler aranıyor...</div>';
+        async function fetchLyrics(fileUrl) {
+        lyricFetchTicket++;
+        const myTicket = lyricFetchTicket;
+        
+        lyricsWrapper.innerHTML = '<div class="lyric-line">Sözler yükleniyor...</div>';
         currentLyrics = []; activeLyricIndex = -1; lyricsWrapper.style.transform = `translateY(0px)`;
         
         try {
-            const cleanTitle = title.replace(/\(.*\)/g, '').trim();
-            const res = await fetch(`https://lrclib.net/api/get?artist_name=${encodeURIComponent(artist)}&track_name=${encodeURIComponent(cleanTitle)}`);
+            // Şarkı linkinden dosya adını alıp .opus kısmını .lrc yapıyoruz (Örn: Bodies.lrc)
+            const fileName = fileUrl.split('/').pop().replace('.opus', '.lrc');
+            
+            // GitHub'daki lyrics klasörünün yolu
+            const lrcUrl = `https://kazikate.github.io/Biography/assets/lyrics/${fileName}`;
+            
+            const res = await fetch(lrcUrl);
             if (res.ok) {
-                const data = await res.json();
-                if (data.syncedLyrics) {
-                    currentLyrics = parseLRC(data.syncedLyrics);
+                const lrcText = await res.text();
+                
+                if (myTicket === lyricFetchTicket) {
+                    currentLyrics = parseLRC(lrcText);
+                    currentLyrics.sort((a, b) => a.time - b.time); // Zamanları garanti sıraya diz
+                    
                     lyricsWrapper.innerHTML = '';
                     currentLyrics.forEach((line, index) => {
                         const el = document.createElement('div');
                         el.className = 'lyric-line';
-                        el.id = `lyric-${index}`;
-                        el.innerText = line.text;
+                        el.id = `lyric-${index}`.trim(); 
+                        if (line.text === '•••') {
+                            el.innerHTML = '<span class="lyric-dot"></span><span class="lyric-dot"></span><span class="lyric-dot"></span>';
+                            el.classList.add('instrumental');
+                        } else { 
+                            el.innerText = line.text; 
+                        }
                         lyricsWrapper.appendChild(el);
                     });
+                    
+                    // Yüklenir yüklenmez ekrana bas
+                    activeLyricIndex = -99;
+                    if (isLyricsMode) updateSeekBarSmoothly();
                     return;
                 }
+            } else {
+                if (myTicket === lyricFetchTicket) lyricsWrapper.innerHTML = '<div class="lyric-line">Sözler klasörde bulunamadı.</div>';
             }
-            lyricsWrapper.innerHTML = '<div class="lyric-line">Bu şarkının senkronize sözleri bulunamadı.</div>';
         } catch (err) {
-            lyricsWrapper.innerHTML = '<div class="lyric-line">Bağlantı hatası.</div>';
+            if (myTicket === lyricFetchTicket) lyricsWrapper.innerHTML = '<div class="lyric-line">Bağlantı hatası.</div>';
         }
     }
 
-    // YENİ: Lirik Kapat/Aç Motoru (Sayfayı silmez, sadece kapağa %100 blur atar)
+
     function toggleLyrics() {
         if (navigator.vibrate) navigator.vibrate(20);
-        
         isLyricsMode = !isLyricsMode;
         
         if (isLyricsMode) {
-            window.scrollTo({ top: 0, behavior: 'smooth' }); // Lirik açılınca en başa kaydır
-            
+            window.scrollTo({ top: 0, behavior: 'smooth' }); 
             lyricBtn.classList.add('is-active');
             lyricsContainer.classList.add('show-lyrics');
-            if(downloadableImg) downloadableImg.style.pointerEvents = 'none'; // Kapağa dokunmayı kapat
             
             const activeCoverSrc = activeCover === 1 ? trackCover1.src : trackCover2.src;
             if (profileImgVisual) {
                 profileImgVisual.style.backgroundImage = `url('${activeCoverSrc}')`;
-                // Bu blur sabittir, scroll olayını umursamaz
                 profileImgVisual.style.filter = 'blur(20px) brightness(0.3)';
                 profileImgVisual.style.transform = 'scale(1.1)';
             }
             
+            seekPill.classList.add('show-seek');
+            prevBtn.classList.add('show-prev');
+            lyricBtn.classList.add('show-prev');
+            clearTimeout(advancedControlsTimer);
+            
+            // DÜZELTME: Lyric moduna her girişte index'i resetle, böylece
+            // mevcut currentTime'a göre doğru satır anında hesaplanır
+            // (önceden mod açılınca eski/yanlış satır bir süre görünebiliyordu).
+            activeLyricIndex = -99;
+            
             if (currentLyrics.length === 0 && document.getElementById('track-title').innerText !== "Bekleniyor...") {
-                fetchLyrics(trackArtist.innerText, trackTitle.innerText);
-            }
+    fetchLyrics(audioPlayer.src);
+}
+
         } else {
             lyricBtn.classList.remove('is-active');
             lyricsContainer.classList.remove('show-lyrics');
-            if(downloadableImg) downloadableImg.style.pointerEvents = 'auto'; // Kapağa dokunmayı aç
             
             if (profileImgVisual) {
                 profileImgVisual.style.backgroundImage = `url('https://kazikate.github.io/Biography/assets/Profile2.png')`;
-                // Blur'u temizle ve ekranı scroll koduna geri bağla
-                profileImgVisual.style.filter = ''; 
-                profileImgVisual.style.transform = '';
+                profileImgVisual.style.filter = ''; profileImgVisual.style.transform = '';
                 window.dispatchEvent(new Event('scroll'));
             }
-            
             resetAdvancedControlsTimer(); 
         }
     }
 
-    lyricBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        toggleLyrics();
+    lyricBtn.addEventListener('click', (e) => { e.stopPropagation(); toggleLyrics(); });
+
+    lyricsContainer.addEventListener('touchstart', (e) => {
+        if (!isLyricsMode || currentLyrics.length === 0 || e.touches.length > 1) return;
+        isUserDraggingLyric = true;
+        lyricStartY = e.touches[0].clientY;
+        const transform = window.getComputedStyle(lyricsWrapper).getPropertyValue('transform');
+        initialTransformY = transform !== 'none' ? parseFloat(transform.split(',')[5]) : 0;
+        lyricsWrapper.style.transition = 'none';
+        document.querySelectorAll('.lyric-line').forEach(el => el.style.transition = 'color 0.2s, transform 0.2s, filter 0.2s, opacity 0.2s');
+    }, { passive: false });
+
+    lyricsContainer.addEventListener('touchmove', (e) => {
+        if (!isUserDraggingLyric) return;
+        e.preventDefault(); 
+        
+        const deltaY = e.touches[0].clientY - lyricStartY;
+        const newY = initialTransformY + deltaY;
+        lyricsWrapper.style.transform = `translateY(${newY}px)`;
+
+        const containerCenter = lyricsContainer.clientHeight / 2;
+        let closestIndex = -1; let minDistance = Infinity;
+
+        const lines = document.querySelectorAll('.lyric-line');
+        lines.forEach((el, index) => {
+            const elCenter = el.offsetTop + newY + (el.clientHeight / 2);
+            const dist = Math.abs(containerCenter - elCenter);
+            if (dist < minDistance) { minDistance = dist; closestIndex = index; }
+        });
+
+        if (closestIndex !== -1 && closestIndex !== activeLyricIndex) {
+            activeLyricIndex = closestIndex;
+            lines.forEach(el => el.classList.remove('active', 'prev', 'next'));
+            const activeEl = document.getElementById(`lyric-${closestIndex}`);
+            if (activeEl) {
+                if (navigator.vibrate) navigator.vibrate(10); 
+                activeEl.classList.add('active');
+                if(closestIndex > 0) document.getElementById(`lyric-${closestIndex - 1}`)?.classList.add('prev');
+                if(closestIndex < currentLyrics.length - 1) document.getElementById(`lyric-${closestIndex + 1}`)?.classList.add('next');
+            }
+        }
+    }, { passive: false });
+
+    lyricsContainer.addEventListener('touchend', () => {
+        if (!isUserDraggingLyric) return;
+        isUserDraggingLyric = false;
+        lyricsWrapper.style.transition = 'transform 0.5s cubic-bezier(0.25, 1, 0.3, 1)';
+        document.querySelectorAll('.lyric-line').forEach(el => el.style.transition = '');
+
+        if (activeLyricIndex !== -1 && currentLyrics[activeLyricIndex]) {
+            audioPlayer.currentTime = currentLyrics[activeLyricIndex].time;
+            if (!isPlaying) playTrack();
+        }
     });
 
     let globalHoldTimer;
-    
     document.addEventListener('pointerdown', (e) => {
         if(e.pointerType === 'mouse' && e.button !== 0) return;
         if (navigator.vibrate) navigator.vibrate(10);
-        
-        globalHoldTimer = setTimeout(() => {
-            if (navigator.vibrate) navigator.vibrate(50); 
-        }, 300); 
+        globalHoldTimer = setTimeout(() => { if (navigator.vibrate) navigator.vibrate(50); }, 300); 
     });
-
-    function stopHaptics() {
-        clearTimeout(globalHoldTimer);
-        if (navigator.vibrate) navigator.vibrate(0); 
-    }
-
+    function stopHaptics() { clearTimeout(globalHoldTimer); if (navigator.vibrate) navigator.vibrate(0); }
     document.addEventListener('pointerup', stopHaptics);
     document.addEventListener('pointercancel', stopHaptics);
     window.addEventListener('scroll', stopHaptics, { passive: true });
