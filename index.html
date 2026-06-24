@@ -40,9 +40,7 @@
             --transition-start: 60%; 
         }
 
-        /* BUKALEMUN TEMA SİSTEMİ (Yumuşak Renk Geçişleri İçin) */
-        @property --ui-accent { syntax: '<color>'; inherits: true; initial-value: #A48BB8; }
-        @property --ui-light { syntax: '<color>'; inherits: true; initial-value: #DCBAF7; }
+
 
         body { 
             font-family: 'Poppins', sans-serif; background-color: var(--dark-bg); color: var(--text-light); 
@@ -52,7 +50,7 @@
             /* Varsayılan Renkler */
             --ui-accent: #A48BB8; 
             --ui-light: #DCBAF7; 
-            transition: --ui-accent 0.8s ease, --ui-light 0.8s ease;
+            transition: background-color 0.5s ease, color 0.5s ease, --ui-accent 0.8s ease, --ui-light 0.8s ease;
         }
 
         /* LİRİK AÇILDIĞINDA DEVREYE GİRECEK TEMA */
@@ -155,8 +153,9 @@
         .spin-anim { animation: spin-record 5s linear infinite; }
         @keyframes spin-record { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         .music-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); display: flex; justify-content: center; align-items: center; z-index: 3; opacity: 0; transition: opacity 0.3s ease; }
-        .music-cover-container.is-active .music-overlay, .music-cover-container:hover .music-overlay { opacity: 1; }
-        
+        .music-cover-container.is-active .music-overlay { opacity: 1; }
+@media (hover: hover) { .music-cover-container:hover .music-overlay { opacity: 1; } }
+
         .music-overlay svg { 
             width: 20px; height: 20px; color: var(--ui-accent); position: absolute; 
             opacity: 0; transform: scale(0.5); 
@@ -193,7 +192,7 @@
         @keyframes wave-bounce { 0% { height: 20%; opacity: 0.5; } 100% { height: 100%; opacity: 1; } }
 
         .music-pill {
-            position: absolute; left: 27px; top: 5px; height: 45px; background: rgba(20, 15, 25, 0.6); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid var(--ui-accent); border-radius: 0 25px 25px 0; z-index: 3; display: flex; align-items: center; max-width: 0; padding: 0; overflow: hidden; white-space: nowrap; opacity: 0;
+            position: absolute; left: 27px; top: 6px; height: 45px; background: rgba(20, 15, 25, 0.6); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid var(--ui-accent); border-radius: 0 25px 25px 0; z-index: 3; display: flex; align-items: center; max-width: 0; padding: 0; overflow: hidden; white-space: nowrap; opacity: 0;
             transition: max-width 0.5s cubic-bezier(0.5, 0, 0.1, 1), padding 0.5s cubic-bezier(0.5, 0, 0.1, 1), opacity 0s 0.5s, border-color 0.8s ease; 
         }
         .music-pill.show-pill { 
@@ -202,7 +201,7 @@
         }
 
         .seek-pill {
-            position: absolute; left: 27px; top: 5px; height: 45px; 
+            position: absolute; left: 27px; top: 7px; height: 45px; 
             background: rgba(20, 15, 25, 0.6); box-sizing: border-box; 
             backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid var(--ui-accent); border-radius: 0 25px 25px 0; z-index: 1; display: flex; align-items: center; overflow: hidden; white-space: nowrap; opacity: 0;
             width: 100vw; max-width: 0; padding: 0; 
@@ -294,9 +293,22 @@
         @keyframes bounce-dot { 0% { transform: translateY(0); opacity: 0.3; } 100% { transform: translateY(-8px); opacity: 1; box-shadow: 0 0 10px currentColor; } }
 
         .time-display { font-size: 0.75rem; color: var(--ui-light); font-weight: 600; font-family: 'Poppins', sans-serif; opacity: 0.9; width: 42px; text-align: center; font-variant-numeric: tabular-nums; flex-shrink: 0; display: inline-block; transition: color 0.8s ease; }
-        #seek-bar { -webkit-appearance: none; flex-grow: 1; margin: 0 10px; height: 5px; border-radius: 3px; outline: none; background: linear-gradient(to right, var(--ui-light) 0%, rgba(255,255,255,0.15) 0%); transition: background 0.8s ease; }
-        #seek-bar::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 14px; height: 14px; border-radius: 50%; background: #ffffff; cursor: pointer; box-shadow: 0 0 8px rgba(220, 186, 247, 0.8); transition: transform 0.2s; }
-        #seek-bar::-webkit-slider-thumb:active { transform: scale(1.3); }
+               #seek-bar { 
+            -webkit-appearance: none; flex-grow: 1; margin: 0 10px; 
+            height: 3px; border-radius: 3px; outline: none; 
+            background: linear-gradient(to right, var(--ui-light) 0%, rgba(255,255,255,0.15) 0%); 
+            transition: background 0.8s ease, height 0.3s ease; cursor: pointer;
+            touch-action: none; /* BU SİHİRLİ KOD EKLENDİ - Aşağı kaydırmayı engeller */
+        }
+
+        #seek-bar.seekbar-active { height: 6px; } /* Sürükleyince kalınlaşır */
+        #seek-bar::-webkit-slider-thumb { 
+            -webkit-appearance: none; appearance: none; width: 12px; height: 12px; 
+            border-radius: 50%; background: #ffffff; cursor: pointer; 
+            box-shadow: 0 0 8px rgba(220, 186, 247, 0.8); 
+            transition: transform 0.2s, width 0.3s ease, height 0.3s ease; 
+        }
+        #seek-bar.seekbar-active::-webkit-slider-thumb { width: 16px; height: 16px; }
 
         .cover-bounce { animation: hit-bounce 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         @keyframes hit-bounce { 0% { transform: scale(1); } 40% { transform: scale(1.05); } 100% { transform: scale(1); } }
@@ -398,7 +410,7 @@
         </div>
     </div>
     
-    <div id="image-preview-modal" class="image-preview-modal"><div class="modal-content"><div class="modal-circle-mask"><img src="https://iili.io/CxpvFxp.png" alt="Kazikate Profil Resmi" id="preview-image" /></div></div></div>
+    <div id="image-preview-modal" class="image-preview-modal"><div class="modal-content"><div class="modal-circle-mask"><img src="https://kazikate.github.io/Biography/assets/Profile.png" alt="Kazikate Profil Resmi" id="preview-image" /></div></div></div>
 
 <script>
     const profileImgContainer = document.querySelector('.profile-img-container'); 
@@ -905,26 +917,24 @@
         isPlaying = true;
     }
 
-        function pauseTrack() {
+     function pauseTrack() {
         audioPlayer.pause();
         trackCover1.classList.add('pause-anim'); trackCover2.classList.add('pause-anim'); 
-        toggleBtn.classList.remove('is-active'); 
-        
-        // Önceki zamanlayıcıları temizle
         resetIcons(); 
-        
-        // Pause ikonunu göster
         pauseIcon.classList.add('show-icon'); 
         
-        // 1 saniye sonra ikonu yumuşakça gizle
+        // 1 saniye sonra ikisini AYNI ANDA yok et
         setTimeout(() => {
-            if (!isPlaying) { // Eğer hala çalmaya başlamadıysa gizle
+            if (!isPlaying) {
                 pauseIcon.classList.remove('show-icon');
+                toggleBtn.classList.remove('is-active'); // DIM VE İKON BURADA SENKRONİZE KALKAR
             }
         }, 1000);
-        
         isPlaying = false;
     }
+
+
+
 
 
     toggleBtn.addEventListener('click', (e) => {
@@ -952,10 +962,29 @@
         setTimeout(() => { forwardIcon.classList.remove('show-forward'); loadRandomTrack(); isFirstPlay = false; showPill(); playTrack(true); }, 500); 
     });
 
-    seekBar.addEventListener('pointerdown', () => {
+        seekBar.addEventListener('pointerdown', (e) => {
         isSeeking = true;
+        seekBar.classList.add('seekbar-active');
+        seekBar.setPointerCapture(e.pointerId); // PARMAĞI ÇUBUĞA KİLİTLER
         resetAdvancedControlsTimer(); 
     });
+
+    seekBar.addEventListener('pointerup', (e) => {
+        if (!isSeeking) return;
+        isSeeking = false;
+        seekBar.classList.remove('seekbar-active');
+        seekBar.releasePointerCapture(e.pointerId); // KİLİDİ AÇAR
+        
+        const d = cachedDuration || audioPlayer.duration;
+        if (d && !isNaN(d) && d !== Infinity) {
+            audioPlayer.currentTime = (seekBar.value / 100) * d;
+        }
+        resetAdvancedControlsTimer(); 
+    });
+
+
+
+
 
     seekBar.addEventListener('input', () => {
         isSeeking = true; 
@@ -969,14 +998,7 @@
         resetAdvancedControlsTimer(); 
     });
 
-    seekBar.addEventListener('pointerup', () => {
-        isSeeking = false;
-        const d = cachedDuration || audioPlayer.duration;
-        if (d && !isNaN(d) && d !== Infinity) {
-            audioPlayer.currentTime = (seekBar.value / 100) * d;
-        }
-        resetAdvancedControlsTimer(); 
-    });
+
 
     audioPlayer.addEventListener('timeupdate', () => {
         const d = cachedDuration || audioPlayer.duration;
@@ -1117,18 +1139,22 @@
             // LİRİK TEMASINI DEVREYE SOK
             document.body.classList.add('theme-lyric-on');
             
-            const activeCoverSrc = activeCover === 1 ? trackCover1.src : trackCover2.src;
+                        const activeCoverSrc = activeCover === 1 ? trackCover1.src : trackCover2.src;
             if (profileImgVisual) {
                 profileImgVisual.style.backgroundImage = `url("${activeCoverSrc}")`;
                 profileImgVisual.style.filter = 'blur(20px) brightness(0.3)';
                 profileImgVisual.style.transform = 'scale(1.1)';
             }
             
-            seekPill.classList.add('show-seek');
+            // TRAFİK POLİSİ: Şarkı ismi ekranda DEĞİLSE seekbar'ı aç
+            if (!musicPill.classList.contains('show-pill')) {
+                seekPill.classList.add('show-seek');
+            }
+            
             prevBtn.classList.add('show-prev');
             lyricBtn.classList.add('show-prev');
             clearTimeout(advancedControlsTimer);
-            
+
             // SLOT MAKİNESİ EFEKTİ (Yumuşatılmış Frenli)
             const currentTransform = window.getComputedStyle(lyricsWrapper).getPropertyValue('transform');
             let currentY = 0;
