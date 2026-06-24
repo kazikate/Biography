@@ -40,8 +40,6 @@
             --transition-start: 60%; 
         }
 
-
-
         body { 
             font-family: 'Poppins', sans-serif; background-color: var(--dark-bg); color: var(--text-light); 
             margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; 
@@ -581,6 +579,40 @@
         };
     }
 
+    // YENİ FONKSİYON: Şarkı sözü pozisyonunu tek merkezden yönetir
+    function syncLyricPosition() {
+        if (!isLyricsMode || currentLyrics.length === 0 || isUserDraggingLyric) return;
+
+        const currentTime = audioPlayer.currentTime;
+        let newIndex = -1;
+
+        for (let i = 0; i < currentLyrics.length; i++) {
+            if (currentTime >= currentLyrics[i].time - 0.3) { newIndex = i; } else { break; }
+        }
+
+        if (newIndex !== activeLyricIndex) {
+            document.querySelectorAll('.lyric-line').forEach(el => el.classList.remove('active', 'prev', 'next'));
+            activeLyricIndex = newIndex;
+
+            const targetIndex = activeLyricIndex >= 0 ? activeLyricIndex : 0;
+            const activeEl = document.getElementById(`lyric-${targetIndex}`);
+
+            if (activeEl) {
+                if (activeLyricIndex >= 0) {
+                    activeEl.classList.add('active');
+                    if(activeLyricIndex > 0) document.getElementById(`lyric-${activeLyricIndex - 1}`)?.classList.add('prev');
+                    if(activeLyricIndex < currentLyrics.length - 1) document.getElementById(`lyric-${activeLyricIndex + 1}`)?.classList.add('next');
+                } else {
+                    activeEl.classList.add('next'); // Henüz şarkı başlamadıysa
+                }
+
+                const containerCenter = lyricsContainer.clientHeight / 2;
+                const offset = activeEl.offsetTop - containerCenter + (activeEl.clientHeight / 2);
+                lyricsWrapper.style.transform = `translateY(-${offset}px)`;
+            }
+        }
+    }
+
     function updateSeekBarSmoothly() {
         const d = cachedDuration || audioPlayer.duration;
         if (!isSeeking && d && !isNaN(d) && d !== Infinity) {
@@ -589,35 +621,8 @@
             seekBar.style.background = `linear-gradient(to right, var(--ui-light) ${progress}%, rgba(255,255,255,0.15) ${progress}%)`;
         }
         
-        if (isLyricsMode && currentLyrics.length > 0 && !isNaN(audioPlayer.currentTime) && !isUserDraggingLyric) {
-            const currentTime = audioPlayer.currentTime;
-            let newIndex = -1;
-
-            for (let i = 0; i < currentLyrics.length; i++) {
-                if (currentTime >= currentLyrics[i].time - 0.3) { newIndex = i; } else { break; }
-            }
-            
-            if (newIndex !== activeLyricIndex) {
-                document.querySelectorAll('.lyric-line').forEach(el => el.classList.remove('active', 'prev', 'next'));
-                activeLyricIndex = newIndex;
-                
-                if (activeLyricIndex >= 0) {
-                    const activeEl = document.getElementById(`lyric-${activeLyricIndex}`);
-                    if (activeEl) {
-                        activeEl.classList.add('active');
-                        if(activeLyricIndex > 0) document.getElementById(`lyric-${activeLyricIndex - 1}`)?.classList.add('prev');
-                        if(activeLyricIndex < currentLyrics.length - 1) document.getElementById(`lyric-${activeLyricIndex + 1}`)?.classList.add('next');
-
-                        const offset = activeEl.offsetTop - (lyricsContainer.clientHeight / 2) + (activeEl.clientHeight / 2);
-                        lyricsWrapper.style.transform = `translateY(-${offset}px)`;
-                    }
-                } else {
-                    const firstLine = document.getElementById('lyric-0');
-                    if (firstLine) firstLine.classList.add('next');
-                    lyricsWrapper.style.transform = `translateY(0px)`;
-                }
-            }
-        }
+        // Karmaşık hesaplamalar yerine sadece yeni fonksiyonumuzu çağırıyoruz
+        syncLyricPosition();
         
         animationFrameId = requestAnimationFrame(updateSeekBarSmoothly);
     }
@@ -932,10 +937,6 @@
         isPlaying = false;
     }
 
-
-
-
-
     toggleBtn.addEventListener('click', (e) => {
         if (isLongPress) { isLongPress = false; return; }
         if (e.detail === 1) { 
@@ -977,18 +978,17 @@
         if (!isSeeking) return;
         isSeeking = false;
         seekBar.classList.remove('seekbar-active');
-        seekBar.releasePointerCapture(e.pointerId); // KİLİDİ AÇAR
+        seekBar.releasePointerCapture(e.pointerId); 
         
         const d = cachedDuration || audioPlayer.duration;
         if (d && !isNaN(d) && d !== Infinity) {
             audioPlayer.currentTime = (seekBar.value / 100) * d;
         }
         resetAdvancedControlsTimer(); 
+
+        activeLyricIndex = -99;
+        syncLyricPosition();
     });
-
-
-
-
 
     seekBar.addEventListener('input', () => {
         isSeeking = true; 
@@ -1001,8 +1001,6 @@
         }
         resetAdvancedControlsTimer(); 
     });
-
-
 
     audioPlayer.addEventListener('timeupdate', () => {
         const d = cachedDuration || audioPlayer.duration;
@@ -1040,6 +1038,7 @@
         if (audioPlayer.currentTime > 3) {
             audioPlayer.currentTime = 0;
             activeLyricIndex = -99;
+            syncLyricPosition();
             if (!isPlaying) playTrack(); 
         } else {
             clearTimeout(clickTimer); clearTimeout(pillTimeout); clearTimeout(pillCloseTimer);
@@ -1121,6 +1120,7 @@
                     });
                     
                     activeLyricIndex = -99;
+                    syncLyricPosition();
                     return;
                 }
             } else {
@@ -1159,19 +1159,13 @@
             lyricBtn.classList.add('show-prev');
             clearTimeout(advancedControlsTimer);
 
-            // SLOT MAKİNESİ EFEKTİ (Yumuşatılmış Frenli)
-            const currentTransform = window.getComputedStyle(lyricsWrapper).getPropertyValue('transform');
-            let currentY = 0;
-            if (currentTransform !== 'none') { currentY = parseFloat(currentTransform.split(',')[5]); }
-            lyricsWrapper.style.transition = 'none'; 
-            lyricsWrapper.style.transform = `translateY(${currentY + 120}px)`; 
-            void lyricsWrapper.offsetWidth; 
             lyricsWrapper.style.transition = 'transform 0.7s cubic-bezier(0.25, 1.5, 0.5, 1)'; 
-            
             activeLyricIndex = -99;
             
             if (currentLyrics.length === 0 && document.getElementById('track-title').innerText !== "Bekleniyor...") {
                 fetchLyrics(audioPlayer.src);
+            } else if (currentLyrics.length > 0) {
+                syncLyricPosition();
             }
 
         } else {
@@ -1210,7 +1204,23 @@
         const newY = initialTransformY + deltaY;
         lyricsWrapper.style.transform = `translateY(${newY}px)`;
 
-        const containerCenter = lyricsContainer.clientHeight / 2;
+                const containerCenter = lyricsContainer.clientHeight / 2;
+        
+        const firstLine = document.getElementById('lyric-0');
+        const lastLine = document.getElementById(`lyric-${currentLyrics.length - 1}`);
+
+        // KAYDIRMA SINIRLARI (İlk ve son satırın tam merkez koordinatlarını bulur)
+        if (firstLine && lastLine) {
+            const maxScrollDown = -(firstLine.offsetTop - containerCenter + (firstLine.clientHeight / 2));
+            const maxScrollUp = -(lastLine.offsetTop - containerCenter + (lastLine.clientHeight / 2));
+
+            // Sınırların dışına çıkmayı kesin olarak engelle
+            if (newY > maxScrollDown) newY = maxScrollDown;
+            if (newY < maxScrollUp) newY = maxScrollUp;
+        }
+
+        lyricsWrapper.style.transform = `translateY(${newY}px)`;
+
         let closestIndex = -1; let minDistance = Infinity;
 
         const lines = document.querySelectorAll('.lyric-line');
@@ -1236,7 +1246,6 @@
     lyricsContainer.addEventListener('touchend', () => {
         if (!isUserDraggingLyric) return;
         isUserDraggingLyric = false;
-        // PARMAKLA KAYDIRMA SONRASI OTURMA (Yumuşatılmış Frenli)
         lyricsWrapper.style.transition = 'transform 0.6s cubic-bezier(0.25, 1.5, 0.5, 1)';
 
         document.querySelectorAll('.lyric-line').forEach(el => el.style.transition = '');
@@ -1244,7 +1253,22 @@
         if (activeLyricIndex !== -1 && currentLyrics[activeLyricIndex]) {
             audioPlayer.currentTime = currentLyrics[activeLyricIndex].time;
             if (!isPlaying) playTrack();
+        } else if (activeLyricIndex === -1 && currentLyrics.length > 0) {
+            audioPlayer.currentTime = 0;
+            if (!isPlaying) playTrack();
         }
+
+        activeLyricIndex = -99;
+        syncLyricPosition();
+    });
+
+    lyricsContainer.addEventListener('touchcancel', () => {
+        if (!isUserDraggingLyric) return;
+        isUserDraggingLyric = false;
+        lyricsWrapper.style.transition = 'transform 0.6s cubic-bezier(0.25, 1.5, 0.5, 1)';
+        document.querySelectorAll('.lyric-line').forEach(el => el.style.transition = '');
+        activeLyricIndex = -99;
+        syncLyricPosition();
     });
 
     let globalHoldTimer;
