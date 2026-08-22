@@ -634,7 +634,7 @@
         "showMini": true,
         "miniClass": "tiktok-mini-icon",
         "miniImg": "https://kazikate.github.io/Biography/assets/twin/Tiktokmini.png",
-        "showPill": true,
+        "showPill": false,
         "pillBg": ""
       },
       {
