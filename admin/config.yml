@@ -1,0 +1,60 @@
+backend:
+  name: github
+  repo: kazikate/Biography # Kendi GitHub kullanıcı adın ve depo adın
+  branch: main # Eğer depon master ise burayı master yap
+
+media_folder: "assets" # Sitedeki resimlerin nerede durduğu
+public_folder: "assets"
+
+collections:
+  - name: "site_verileri"
+    label: "Site Yönetimi"
+    files:
+      - file: "data.json"
+        label: "Linkler ve Müzikler"
+        name: "data"
+        fields:
+          # --- 1. MÜZİK LİSTESİ AYARLARI ---
+          - label: "Müzik Listesi (Playlist)"
+            name: "playlist"
+            widget: "list"
+            fields:
+              - {label: "Şarkı Adı", name: "title", widget: "string"}
+              - {label: "Sanatçı", name: "artist", widget: "string"}
+              - {label: "Şarkı Dosya Linki (.opus)", name: "file", widget: "string"}
+
+          # --- 2. KAZIKATE PROFİLİ AYARLARI ---
+          - label: "Kazikate Profili"
+            name: "kazikate"
+            widget: "object"
+            fields:
+              - label: "Sosyal Medya Linkleri"
+                name: "socials"
+                widget: "list"
+                fields:
+                  - {label: "Platform Adı (Örn: Instagram)", name: "platform", widget: "string"}
+                  - {label: "Hedef URL (Tıklanınca Gidilecek Link)", name: "url", widget: "string"}
+                  - {label: "Kullanıcı Adı (İsteğe Bağlı)", name: "username", widget: "string", required: false}
+                  - {label: "KÜÇÜK İKON Olarak Gösterilsin mi?", name: "showMini", widget: "boolean", default: true}
+                  - {label: "Küçük İkon CSS Sınıfı (Örn: instagram-mini-icon)", name: "miniClass", widget: "string", required: false}
+                  - {label: "Küçük İkon Resim Linki", name: "miniImg", widget: "string", required: false}
+                  - {label: "BÜYÜK BUTON Olarak Gösterilsin mi?", name: "showPill", widget: "boolean", default: true}
+                  - {label: "Büyük Buton Arka Plan Resim Linki", name: "pillBg", widget: "string", required: false}
+
+          # --- 3. TWIN (KATE) PROFİLİ AYARLARI ---
+          - label: "Kate Marifairy Profili"
+            name: "twin"
+            widget: "object"
+            fields:
+              - label: "Sosyal Medya Linkleri"
+                name: "socials"
+                widget: "list"
+                fields:
+                  - {label: "Platform Adı (Örn: Instagram)", name: "platform", widget: "string"}
+                  - {label: "Hedef URL (Tıklanınca Gidilecek Link)", name: "url", widget: "string"}
+                  - {label: "Kullanıcı Adı (İsteğe Bağlı)", name: "username", widget: "string", required: false}
+                  - {label: "KÜÇÜK İKON Olarak Gösterilsin mi?", name: "showMini", widget: "boolean", default: true}
+                  - {label: "Küçük İkon CSS Sınıfı (Örn: instagram-mini-icon)", name: "miniClass", widget: "string", required: false}
+                  - {label: "Küçük İkon Resim Linki", name: "miniImg", widget: "string", required: false}
+                  - {label: "BÜYÜK BUTON Olarak Gösterilsin mi?", name: "showPill", widget: "boolean", default: true}
+                  - {label: "Büyük Buton Arka Plan Resim Linki", name: "pillBg", widget: "string", required: false}
