@@ -99,7 +99,11 @@
             position: relative;
             margin-left: auto;
             margin-right: auto;
+            opacity: 0;
+            transition: opacity 0.6s ease;
         }
+        body:not(.is-loading) .content-wrapper { opacity: 1; }
+
         .container {
             width: 100%;
             max-width: 600px;
@@ -177,46 +181,46 @@
     
             /* --- DİNAMİK İKON DİZİLİMİ (FLEXBOX) --- */
 
-.social-icons-mini {
-    display: flex;                
-    justify-content: center;      
-    align-items: center;          
-    flex-wrap: wrap;              
-    gap: 15px;                    
-    margin-top: 10px !important;      
-    margin-bottom: 10px !important;  
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-    max-width: 600px;
-}
+        .social-icons-mini {
+            display: flex;                
+            justify-content: center;      
+            align-items: center;          
+            flex-wrap: wrap;              
+            gap: 15px;                    
+            margin-top: 10px !important;      
+            margin-bottom: 10px !important;  
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            max-width: 600px;
+        }
 
-.social-icons-mini.is-visible { 
-    opacity: 1; 
-    transform: translateY(0); 
-    transition-delay: 0.7s; 
-}
+        .social-icons-mini.is-visible { 
+            opacity: 1; 
+            transform: translateY(0); 
+            transition-delay: 0.7s; 
+        }
 
-.social-icons-mini a {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    opacity: 1;
-    transition: transform 0.2s, opacity 0.2s;
-    line-height: 0;
-    -webkit-tap-highlight-color: transparent;
-    margin: 0 !important; 
-}
+        .social-icons-mini a {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 1;
+            transition: transform 0.2s, opacity 0.2s;
+            line-height: 0;
+            -webkit-tap-highlight-color: transparent;
+            margin: 0 !important; 
+        }
 
-.social-icons-mini a:hover { 
-    transform: scale(1.15); 
-}
+        .social-icons-mini a:hover { 
+            transform: scale(1.15); 
+        }
 
-.social-icons-mini .mini-icon {
-    width: 36px;  
-    height: 36px;
-    object-fit: visible; 
-}
+        .social-icons-mini .mini-icon {
+            width: 36px;  
+            height: 36px;
+            object-fit: visible; 
+        }
     
         .link-button {
             display: flex;
@@ -246,7 +250,6 @@
         }
         .link-button.press { animation: press-link 0.2s ease-out; pointer-events: none; }
 
-        
         .bio-emoji {
             width: 1.2em;
             height: 1.2em;
@@ -696,277 +699,108 @@
 
         .prev-btn svg { width: 16px; height: 16px; color: var(--ui-accent); transition: color 0.8s ease; }
 
-        .lyrics-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 6;
-            overflow: hidden;
-            pointer-events: none;
+        .panel-wrapper { position: relative; width: 100%; }
+        .view-panel { transition: opacity 0.4s ease, transform 0.4s ease; width: 100%; }
+        .view-panel.hidden-panel {
             opacity: 0;
-            transform: translateY(60px);
-            transition: opacity 0.5s ease, transform 0.6s cubic-bezier(0.25, 1.5, 0.5, 1);
-            mask-image: linear-gradient(to bottom, transparent 15%, black 35%, black 65%, transparent 85%);
-            -webkit-mask-image: linear-gradient(to bottom, transparent 15%, black 35%, black 65%, transparent 85%);
-            touch-action: none;
-        }
-        .lyrics-container.show-lyrics {
-            opacity: 1;
-            transform: translateY(0);
-            pointer-events: auto;
-        }
-
-        .lyrics-wrapper {
+            pointer-events: none;
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            box-sizing: border-box;
-            padding-top: 220px;
-            padding-bottom: 220px;
-            padding-left: 15%;
-            padding-right: 15%;
-            text-align: center;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-            transition: transform 0.6s cubic-bezier(0.25, 1.5, 0.5, 1);
+            top: 0;      
+            left: 0;     
+            visibility: hidden;
+            transform: translateY(20px) scale(0.98);
+            height: 100%; 
+            overflow: hidden;
         }
-
-        .lyric-line {
-            min-height: 35px;
-            line-height: 1.4;
-            font-size: 1.15rem;
-            font-weight: 700;
-            color: rgba(255,255,255,0);
-            margin: 15px 0;
-            transition: color 0.4s, transform 0.6s cubic-bezier(0.25, 1.5, 0.5, 1), filter 0.4s, opacity 0.4s;
-        }
-        .lyric-line.active {
+        .view-panel.active-panel {
             opacity: 1;
-            transform: scale(1.2) translateY(0);
-            filter: blur(0px);
-            color: var(--lyric-accent);
-            text-shadow: 0 0 15px var(--lyric-accent);
-        }
-        .lyric-line.prev {
-            opacity: 0.4;
-            transform: scale(0.9) translateY(-10px);
-            filter: blur(1px);
-            color: #FFF;
-        }
-        .lyric-line.next {
-            opacity: 0.4;
-            transform: scale(0.9) translateY(10px);
-            filter: blur(1px);
-            color: #FFF;
+            pointer-events: auto;
+            position: relative;
+            visibility: visible;
+            transform: translateY(0) scale(1);
         }
 
-        .lyric-dot {
-            display: inline-block;
-            width: 6px;
-            height: 6px;
-            background: currentColor;
-            border-radius: 50%;
-            margin: 0 5px;
-            animation: bounce-dot 0.6s infinite alternate;
-        }
-        .lyric-dot:nth-child(2) { animation-delay: 0.2s; }
-        .lyric-dot:nth-child(3) { animation-delay: 0.4s; }
-        @keyframes bounce-dot {
-            0% { transform: translateY(0); opacity: 0.3; }
-            100% { transform: translateY(-8px); opacity: 1; box-shadow: 0 0 10px currentColor; }
-        }
-
-        .time-display {
-            font-size: 0.75rem;
-            color: var(--ui-light);
-            font-weight: 600;
-            font-family: 'Poppins', sans-serif;
-            opacity: 0.9;
-            width: 42px;
-            text-align: center;
-            font-variant-numeric: tabular-nums;
-            flex-shrink: 0;
-            display: inline-block;
-            transition: color 0.8s ease;
-        }
-        #seek-bar {
-            -webkit-appearance: none;
-            flex-grow: 1;
-            margin: 0 10px;
-            height: 3px;
-            border-radius: 3px;
-            outline: none;
-            background: linear-gradient(to right, var(--ui-light) 0%, rgba(255,255,255,0.15) 0%);
-            transition: background 0.8s ease, height 0.3s ease;
+        .username-switch {
             cursor: pointer;
-            touch-action: none;
+            position: relative;
+            display: inline-block;
+            -webkit-tap-highlight-color: transparent;
         }
-        #seek-bar.seekbar-active { height: 6px; }
-        #seek-bar::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #ffffff;
-            cursor: pointer;
-            box-shadow: 0 0 8px rgba(220, 186, 247, 0.8);
-            transition: transform 0.2s, width 0.3s ease, height 0.3s ease;
+
+        .username-switch::after {
+            content: '\f2f1' !important;
+            font-family: 'Font Awesome 5 Free', 'Font Awesome 6 Free' !important;
+            font-weight: 900 !important;
+            font-size: 0.40em !important; 
+            right: -25px !important; 
+            top: 56% !important; 
+            position: absolute !important;
+            transform: translateY(-50%) rotate(0deg);
+            opacity: 0.3; 
+            transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), text-shadow 0.4s ease !important;
         }
-        #seek-bar.seekbar-active::-webkit-slider-thumb { width: 16px; height: 16px; }
 
-        .cover-bounce { animation: hit-bounce 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        @keyframes hit-bounce {
-            0% { transform: scale(1); }
-            40% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+        .username-switch:hover::after,
+        .username-switch:active::after {
+            opacity: 1;
+            transform: translateY(-50%) rotate(180deg);
+            text-shadow: 0 0 12px currentColor; 
         }
-        .music-info { display: flex; flex-direction: column; justify-content: center; transition: opacity 0.3s ease; }
-        .music-info.fade-out { opacity: 0; }
-        #track-title { color: white; font-size: 0.85rem; font-weight: 600; }
-        #track-artist { color: rgba(255, 255, 255, 0.6); font-size: 0.7rem; }
-        .pause-anim { animation-play-state: paused !important; }
-    
-/* --- DÜZELTİLMİŞ PROFİL DEĞİŞTİRME SİSTEMİ CSS --- */
-.panel-wrapper {
-    position: relative;
-    width: 100%;
-}
-.view-panel {
-    transition: opacity 0.4s ease, transform 0.4s ease;
-    width: 100%;
-}
-.view-panel.hidden-panel {
-    opacity: 0;
-    pointer-events: none;
-    position: absolute;
-    top: 0;      
-    left: 0;     
-    visibility: hidden;
-    transform: translateY(20px) scale(0.98);
-    height: 100%; 
-    overflow: hidden;
-}
-.view-panel.active-panel {
-    opacity: 1;
-    pointer-events: auto;
-    position: relative;
-    visibility: visible;
-    transform: translateY(0) scale(1);
-}
 
-.username-switch {
-    cursor: pointer;
-    position: relative;
-    display: inline-block;
-    -webkit-tap-highlight-color: transparent;
-}
+        .username-switch.icon-spin-active::after {
+            opacity: 1 !important;
+            transform: translateY(-50%) rotate(180deg) !important;
+            text-shadow: 0 0 15px currentColor !important;
+            transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.2s, text-shadow 0.2s !important;
+        }
 
-.username-switch::after {
-    content: '\f2f1' !important;
-    font-family: 'Font Awesome 5 Free', 'Font Awesome 6 Free' !important;
-    font-weight: 900 !important;
-    font-size: 0.40em !important; 
-    right: -25px !important; 
-    top: 56% !important; 
-    position: absolute !important;
-    transform: translateY(-50%) rotate(0deg);
-    opacity: 0.3; 
-    transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), text-shadow 0.4s ease !important;
-}
+        .profile-img-visual.no-image {
+            background-image: none !important;
+            background-color: #120e18; 
+        }
 
-.username-switch:hover::after,
-.username-switch:active::after {
-    opacity: 1;
-    transform: translateY(-50%) rotate(180deg);
-    text-shadow: 0 0 12px currentColor; 
-}
+        #twin-panel {
+            --link-bg: #211821;      
+            --text-light: #f6baf7;   
+            color: var(--text-light); 
+        }
 
-.username-switch.icon-spin-active::after {
-    opacity: 1 !important;
-    transform: translateY(-50%) rotate(180deg) !important;
-    text-shadow: 0 0 15px currentColor !important;
-    transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.2s, text-shadow 0.2s !important;
-}
+        #twin-panel .link-img-placeholder {
+            background-color: #211821; 
+        }
 
-.username-switch::after {
-    content: '\f2f1';
-    font-family: 'Font Awesome 5 Free', 'Font Awesome 6 Free';
-    font-weight: 900;
-    font-size: 0.3em;
-    position: absolute;
-    top: 50%;
-    right: -25px;
-    transform: translateY(-50%);
-    opacity: 0.3;
-    transition: opacity 0.3s, transform 0.3s;
-}
-.username-switch:hover::after {
-    opacity: 1;
-    transform: translateY(-50%) rotate(180deg);
-}
-.profile-img-visual.no-image {
-    background-image: none !important;
-    background-color: #120e18; 
-}
+        body.is-twin-active:not(.theme-lyric-on) {
+            --ui-accent: #f6baf7; 
+        }
 
-#twin-panel {
-    --link-bg: #211821;      
-    --text-light: #f6baf7;   
-    color: var(--text-light); 
-}
+        #twin-panel .link-button {
+            background-color: #211821; 
+            color: #f6baf7; 
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); 
+        }
 
-#twin-panel .link-img-placeholder {
-    background-color: #211821; 
-}
+        @media (hover: hover) {
+            .profile-img-container:not(.scrolled-past):hover .profile-hover-layer { opacity: 1 !important; }
+            .profile-img-container:not(.scrolled-past):hover .profile-hover-layer i { transform: scale(1) !important; }
+        }
+          
+        :root { --dynamic-modal-rgb: 157, 80, 255; }
 
-body.is-twin-active:not(.theme-lyric-on) {
-    --ui-accent: #f6baf7; 
-}
+        .modal-circle-mask {
+            box-shadow: 0 0 50px rgba(var(--dynamic-modal-rgb), 0.6) !important;
+            transition: box-shadow 0.8s ease; 
+        }
 
-#twin-panel .link-button {
-    background-color: #211821; 
-    color: #f6baf7; 
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); 
-}
+        body.is-twin-active .profile-hover-layer i { color: #f6baf7 !important; }
 
-#twin-panel .link-img-placeholder {
-    background-color: #211821; 
-}
+        body.is-touching .profile-img-container:hover .profile-hover-layer,
+        body.is-touching .profile-img-container:hover .profile-hover-layer i {
+            opacity: 0 !important;
+            transform: scale(0.5) !important;
+            pointer-events: none !important;
+        }
 
-
-@media (hover: hover) {
-    .profile-img-container:not(.scrolled-past):hover .profile-hover-layer { opacity: 1 !important; }
-    .profile-img-container:not(.scrolled-past):hover .profile-hover-layer i { transform: scale(1) !important; }
-}
-  
-:root { --dynamic-modal-rgb: 157, 80, 255; }
-
-.modal-circle-mask {
-    box-shadow: 0 0 50px rgba(var(--dynamic-modal-rgb), 0.6) !important;
-    transition: box-shadow 0.8s ease; 
-}
-
-body.is-twin-active .profile-hover-layer i { color: #f6baf7 !important; }
-
-body.is-touching .profile-img-container:hover .profile-hover-layer,
-body.is-touching .profile-img-container:hover .profile-hover-layer i {
-    opacity: 0 !important;
-    transform: scale(0.5) !important;
-    pointer-events: none !important;
-             }
-    
-.content-wrapper {
-    opacity: 0;
-    transition: opacity 0.6s ease;
-}
-body:not(.is-loading) .content-wrapper {
-    opacity: 1;
-}
-  </style>
+    </style>
 </head>
 <body class="is-loading">
 
@@ -1592,7 +1426,6 @@ body:not(.is-loading) .content-wrapper {
                 document.body.classList.remove('theme-lyric-on');
                 
                 if (profileImgVisual) {
-                    // Kazikate ana sayfa olduğu için varsayılan arka plan Kazikate
                     const activeBg = window.currentProfileBg || 'assets/Profile2.png';
                     profileImgVisual.style.backgroundImage = `url('${activeBg}')`;
                     
@@ -1874,15 +1707,15 @@ body:not(.is-loading) .content-wrapper {
             resetAdvancedControlsTimer();
         });
 
-        // ---------- İKON VE LİNK FONKSİYONLARI (KUSURSUZ YAPI) ----------
+        // ---------- İKON VE LİNK FONKSİYONLARI (GARANTİLİ YAPI) ----------
         function renderMiniIcons(containerId, iconsArray) {
             const container = document.getElementById(containerId);
-            if (!container) return;
-            if (!iconsArray || iconsArray.length === 0) return;
+            if (!container || !Array.isArray(iconsArray)) return;
 
             container.innerHTML = iconsArray.map(icon => {
+                if (!icon) return '';
                 let iconUrl = icon.twin_icon || icon.kazi_icon || icon.icon || '';
-                if (iconUrl.startsWith('/')) iconUrl = iconUrl.substring(1); 
+                if (iconUrl && iconUrl.startsWith('/')) iconUrl = iconUrl.substring(1); 
                 
                 const label = icon.platform || 'Platform';
                 if (!iconUrl) return '';
@@ -1896,12 +1729,12 @@ body:not(.is-loading) .content-wrapper {
 
         function renderLinks(containerId, linksArray) {
             const container = document.getElementById(containerId);
-            if (!container) return;
-            if (!linksArray || linksArray.length === 0) return;
+            if (!container || !Array.isArray(linksArray)) return;
 
             container.innerHTML = linksArray.map((link, index) => {  
+                if (!link) return '';
                 let iconUrl = link.twin_bg || link.kazi_bg || link.bg || '';
-                if (iconUrl.startsWith('/')) iconUrl = iconUrl.substring(1); 
+                if (iconUrl && iconUrl.startsWith('/')) iconUrl = iconUrl.substring(1); 
                 
                 if (!iconUrl) return '';
                 return `
@@ -1927,35 +1760,31 @@ body:not(.is-loading) .content-wrapper {
             setTimeout(() => { elementsToAnimate.forEach(el => { el.classList.add('is-visible'); }); }, 50);
 
             async function loadData() {
-                const cacheBuster = `?v=${new Date().getTime()}`;
-
+                // Ön bellek kırıcıyı HATA SEBEBİ olduğu için tamamen kaldırdım. Artık jsonlar direkt çekilecek.
                 try {
-                    const musicRes = await fetch('music.json' + cacheBuster);
-                    if (!musicRes.ok) throw new Error(`music.json yüklenemedi`);
+                    const musicRes = await fetch('music.json');
                     const musicData = await musicRes.json();
-                    if (musicData.playlist && Array.isArray(musicData.playlist)) {
+                    if (musicData && Array.isArray(musicData.playlist)) {
                         playlist = musicData.playlist;
                     }
                 } catch (err) { console.error('Müzik listesi hatası:', err); }
 
                 try {
-                    const twinRes = await fetch('twin.json' + cacheBuster);
-                    if (!twinRes.ok) throw new Error(`twin.json yüklenemedi`);
+                    const twinRes = await fetch('twin.json');
                     twinData = await twinRes.json();
-                    if (twinData.miniIcons) renderMiniIcons('twin-mini-icons', twinData.miniIcons);
-                    if (twinData.links) renderLinks('twin-links', twinData.links);
+                    if (twinData && twinData.miniIcons) renderMiniIcons('twin-mini-icons', twinData.miniIcons);
+                    if (twinData && twinData.links) renderLinks('twin-links', twinData.links);
                 } catch (err) { console.error('Twin profili hatası:', err); }
 
                 try {
-                    const kazikateRes = await fetch('kazikate.json' + cacheBuster);
-                    if (!kazikateRes.ok) throw new Error(`kazikate.json yüklenemedi`);
+                    const kazikateRes = await fetch('kazikate.json');
                     kazikateData = await kazikateRes.json();
-                    if (kazikateData.miniIcons) renderMiniIcons('kazikate-mini-icons', kazikateData.miniIcons);
-                    if (kazikateData.links) renderLinks('kazikate-links', kazikateData.links);
+                    if (kazikateData && kazikateData.miniIcons) renderMiniIcons('kazikate-mini-icons', kazikateData.miniIcons);
+                    if (kazikateData && kazikateData.links) renderLinks('kazikate-links', kazikateData.links);
 
                     // Kazikate ana sayfa olduğu için varsayılan arka plan Kazikate'den alınır:
-                    let defaultKaziPhoto = kazikateData.kazi_profilePhoto || kazikateData.profilePhoto;
-                    let defaultKaziModal = kazikateData.kazi_modalPhoto || kazikateData.modalPhoto;
+                    let defaultKaziPhoto = kazikateData?.kazi_profilePhoto || kazikateData?.profilePhoto || '';
+                    let defaultKaziModal = kazikateData?.kazi_modalPhoto || kazikateData?.modalPhoto || '';
                     
                     if (defaultKaziPhoto && defaultKaziPhoto.startsWith('/')) defaultKaziPhoto = defaultKaziPhoto.substring(1);
                     if (defaultKaziModal && defaultKaziModal.startsWith('/')) defaultKaziModal = defaultKaziModal.substring(1);
@@ -1972,11 +1801,12 @@ body:not(.is-loading) .content-wrapper {
                     window.particleRGB = '157, 80, 255'; // Kazikate'nin varsayılan (Mor) parçacık rengi
                 } catch (err) { console.error('Kazikate profili hatası:', err); }
 
+                // FINALLY: Fetchler başarsız olsa bile (veya dosya bozuk olsa bile) site bembeyaz kalmasın diye "is-loading" classını %100 siliyoruz.
+                document.body.classList.remove('is-loading');
                 setTimeout(() => {
-                    document.querySelectorAll('#kazikate-mini-icons, #twin-mini-icons, .link-button').forEach(el => {
+                    document.querySelectorAll('.social-icons-mini, .link-button').forEach(el => {
                         el.classList.add('is-visible');
                     });
-                    document.body.classList.remove('is-loading');
                 }, 50);
             }
 
@@ -2121,8 +1951,6 @@ body:not(.is-loading) .content-wrapper {
             
         // --- Profil Geçişi (toggleProfile) KUSURSUZ YAPI ---
         window.toggleProfile = function(target) {
-            if (!kazikateData || !twinData) return; 
-            
             const currentPanel = target === 'twin' ? document.getElementById('kazikate-panel') : document.getElementById('twin-panel');
             const titleEl = currentPanel.querySelector('.username-switch');
             
@@ -2137,11 +1965,11 @@ body:not(.is-loading) .content-wrapper {
                     const downloadableImg = document.querySelector('.downloadable-profile-img');
                     const previewImage = document.getElementById('preview-image');
                     
-                    let kazikateBg = (kazikateData && (kazikateData.kazi_profilePhoto || kazikateData.profilePhoto)) ? (kazikateData.kazi_profilePhoto || kazikateData.profilePhoto) : "assets/Profile2.png";
-                    let kazikateModal = (kazikateData && (kazikateData.kazi_modalPhoto || kazikateData.modalPhoto)) ? (kazikateData.kazi_modalPhoto || kazikateData.modalPhoto) : "assets/Profile.png";
+                    let kazikateBg = kazikateData?.kazi_profilePhoto || kazikateData?.profilePhoto || "assets/Profile2.png";
+                    let kazikateModal = kazikateData?.kazi_modalPhoto || kazikateData?.modalPhoto || "assets/Profile.png";
                     
-                    let twinBg = (twinData && (twinData.twin_profilePhoto || twinData.profilePhoto)) ? (twinData.twin_profilePhoto || twinData.profilePhoto) : "assets/Twinbio.jpg"; 
-                    let twinModal = (twinData && (twinData.twin_modalPhoto || twinData.modalPhoto)) ? (twinData.twin_modalPhoto || twinData.modalPhoto) : "assets/Twinbio2.jpg";
+                    let twinBg = twinData?.twin_profilePhoto || twinData?.profilePhoto || "assets/Twinbio.jpg"; 
+                    let twinModal = twinData?.twin_modalPhoto || twinData?.modalPhoto || "assets/Twinbio2.jpg";
 
                     if (kazikateBg && kazikateBg.startsWith('/')) kazikateBg = kazikateBg.substring(1);
                     if (kazikateModal && kazikateModal.startsWith('/')) kazikateModal = kazikateModal.substring(1);
