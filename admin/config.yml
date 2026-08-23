@@ -1,21 +1,20 @@
 backend:
   name: github
-  repo: kazikate/Biography # Kendi GitHub kullanıcı adın ve depo adın
-  branch: main # Eğer depon master ise burayı master yap
+  repo: kazikate/Biography 
+  branch: main 
 
-media_folder: "assets" # Sitedeki resimlerin nerede durduğu
+media_folder: "assets" 
 public_folder: "assets"
 
 collections:
-  - name: "site_verileri"
-    label: "Site Yönetimi"
+  - name: "site_icerik"
+    label: "Site İçeriği Yönetimi"
     files:
-      - file: "data.json"
-        label: "Linkler ve Müzikler"
-        name: "data"
+      - file: "music.json"
+        label: "Müzik Listesi"
+        name: "music"
         fields:
-          # --- 1. MÜZİK LİSTESİ AYARLARI ---
-          - label: "Müzik Listesi (Playlist)"
+          - label: "Şarkılar"
             name: "playlist"
             widget: "list"
             fields:
@@ -23,38 +22,48 @@ collections:
               - {label: "Sanatçı", name: "artist", widget: "string"}
               - {label: "Şarkı Dosya Linki (.opus)", name: "file", widget: "string"}
 
-          # --- 2. KAZIKATE PROFİLİ AYARLARI ---
-          - label: "Kazikate Profili"
-            name: "kazikate"
-            widget: "object"
+      - file: "kazikate.json"
+        label: "Kazikate Profili"
+        name: "kazikate"
+        fields:
+          - {label: "Ana Profil Fotoğrafı Linki", name: "profilePhoto", widget: "string"}
+          - {label: "Tıklanınca Açılan Büyük Fotoğraf Linki", name: "modalPhoto", widget: "string"}
+          - label: "Mini İkonlar"
+            name: "miniIcons"
+            widget: "list"
             fields:
-              - label: "Sosyal Medya Linkleri"
-                name: "socials"
-                widget: "list"
-                fields:
-                  - {label: "Platform Adı (Örn: Instagram)", name: "platform", widget: "string"}
-                  - {label: "Hedef URL (Tıklanınca Gidilecek Link)", name: "url", widget: "string"}
-                  - {label: "Kullanıcı Adı (İsteğe Bağlı)", name: "username", widget: "string", required: false}
-                  - {label: "KÜÇÜK İKON Olarak Gösterilsin mi?", name: "showMini", widget: "boolean", default: true}
-                  - {label: "Küçük İkon CSS Sınıfı (Örn: instagram-mini-icon)", name: "miniClass", widget: "string", required: false}
-                  - {label: "Küçük İkon Resim Linki", name: "miniImg", widget: "string", required: false}
-                  - {label: "BÜYÜK BUTON Olarak Gösterilsin mi?", name: "showPill", widget: "boolean", default: true}
-                  - {label: "Büyük Buton Arka Plan Resim Linki", name: "pillBg", widget: "string", required: false}
+              - {label: "Platform Adı", name: "platform", widget: "string"}
+              - {label: "URL", name: "url", widget: "string"}
+              - {label: "CSS Sınıfı (Örn: twitter-mini-icon)", name: "cssClass", widget: "string"}
+              - {label: "İkon Resim Linki", name: "icon", widget: "string"}
+          - label: "Büyük Buton Linkler"
+            name: "links"
+            widget: "list"
+            fields:
+              - {label: "Platform Adı", name: "platform", widget: "string"}
+              - {label: "Kullanıcı Adı (İsteğe Bağlı)", name: "username", widget: "string", required: false}
+              - {label: "URL", name: "url", widget: "string"}
+              - {label: "Arka Plan Resim Linki", name: "bg", widget: "string"}
 
-          # --- 3. TWIN (KATE) PROFİLİ AYARLARI ---
-          - label: "Kate Marifairy Profili"
-            name: "twin"
-            widget: "object"
+      - file: "twin.json"
+        label: "Kate Marifairy Profili"
+        name: "twin"
+        fields:
+          - {label: "Ana Profil Fotoğrafı Linki", name: "profilePhoto", widget: "string"}
+          - {label: "Tıklanınca Açılan Büyük Fotoğraf Linki", name: "modalPhoto", widget: "string"}
+          - label: "Mini İkonlar"
+            name: "miniIcons"
+            widget: "list"
             fields:
-              - label: "Sosyal Medya Linkleri"
-                name: "socials"
-                widget: "list"
-                fields:
-                  - {label: "Platform Adı (Örn: Instagram)", name: "platform", widget: "string"}
-                  - {label: "Hedef URL (Tıklanınca Gidilecek Link)", name: "url", widget: "string"}
-                  - {label: "Kullanıcı Adı (İsteğe Bağlı)", name: "username", widget: "string", required: false}
-                  - {label: "KÜÇÜK İKON Olarak Gösterilsin mi?", name: "showMini", widget: "boolean", default: true}
-                  - {label: "Küçük İkon CSS Sınıfı (Örn: instagram-mini-icon)", name: "miniClass", widget: "string", required: false}
-                  - {label: "Küçük İkon Resim Linki", name: "miniImg", widget: "string", required: false}
-                  - {label: "BÜYÜK BUTON Olarak Gösterilsin mi?", name: "showPill", widget: "boolean", default: true}
-                  - {label: "Büyük Buton Arka Plan Resim Linki", name: "pillBg", widget: "string", required: false}
+              - {label: "Platform Adı", name: "platform", widget: "string"}
+              - {label: "URL", name: "url", widget: "string"}
+              - {label: "CSS Sınıfı (Örn: twitter-mini-icon)", name: "cssClass", widget: "string"}
+              - {label: "İkon Resim Linki", name: "icon", widget: "string"}
+          - label: "Büyük Buton Linkler"
+            name: "links"
+            widget: "list"
+            fields:
+              - {label: "Platform Adı", name: "platform", widget: "string"}
+              - {label: "Kullanıcı Adı (İsteğe Bağlı)", name: "username", widget: "string", required: false}
+              - {label: "URL", name: "url", widget: "string"}
+              - {label: "Arka Plan Resim Linki", name: "bg", widget: "string"}
