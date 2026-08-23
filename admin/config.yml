@@ -3,67 +3,79 @@ backend:
   repo: kazikate/Biography 
   branch: main 
 
-media_folder: "assets" 
-public_folder: "assets"
+media_folder: "/assets"
+public_folder: "/assets"
 
 collections:
-  - name: "site_icerik"
-    label: "Site İçeriği Yönetimi"
+  - name: "twin_ayarlari"
+    label: "Twin Profili"
     files:
-      - file: "music.json"
-        label: "Müzik Listesi"
-        name: "music"
+      - label: "Twin Profilini Düzenle"
+        name: "twin"
+        file: "twin.json"
+        media_folder: "/assets/twin/profile"
+        public_folder: "/assets/twin/profile"
         fields:
-          - label: "Şarkılar"
+          - {label: "Profil Fotoğrafı", name: "twin_profilePhoto", widget: "image"}
+          - {label: "Modal Fotoğrafı", name: "twin_modalPhoto", widget: "image"}
+
+          - label: "Mini İkonlar"
+            name: "miniIcons"
+            widget: "list"
+            fields:
+              - {label: "Platform Adı", name: "platform", widget: "string"}
+              - {label: "URL (Link)", name: "url", widget: "string"}
+              - {label: "İkon (Mini)", name: "twin_icon", widget: "image", media_folder: "/assets/twin/icons/mini", public_folder: "/assets/twin/icons/mini"}
+
+          - label: "Bağlantılar (Normal İkonlar)"
+            name: "links"
+            widget: "list"
+            fields:
+              - {label: "Platform Adı", name: "platform", widget: "string"}
+              - {label: "Kullanıcı Adı", name: "username", widget: "string", required: false}
+              - {label: "URL (Link)", name: "url", widget: "string"}
+              - {label: "İkon (Normal)", name: "twin_bg", widget: "image", media_folder: "/assets/twin/icons/normal", public_folder: "/assets/twin/icons/normal"}
+
+  - name: "kazikate_ayarlari"
+    label: "Kazikate Profili"
+    files:
+      - label: "Kazikate Profilini Düzenle"
+        name: "kazikate"
+        file: "kazikate.json"
+        media_folder: "/assets/kazikate/profile"
+        public_folder: "/assets/kazikate/profile"
+        fields:
+          - {label: "Profil Fotoğrafı", name: "kazi_profilePhoto", widget: "image"}
+          - {label: "Modal Fotoğrafı", name: "kazi_modalPhoto", widget: "image"}
+
+          - label: "Mini İkonlar"
+            name: "miniIcons"
+            widget: "list"
+            fields:
+              - {label: "Platform Adı", name: "platform", widget: "string"}
+              - {label: "URL (Link)", name: "url", widget: "string"}
+              - {label: "İkon (Mini)", name: "kazi_icon", widget: "image", media_folder: "/assets/kazikate/icons/mini", public_folder: "/assets/kazikate/icons/mini"}
+
+          - label: "Bağlantılar (Normal İkonlar)"
+            name: "links"
+            widget: "list"
+            fields:
+              - {label: "Platform Adı", name: "platform", widget: "string"}
+              - {label: "Kullanıcı Adı", name: "username", widget: "string", required: false}
+              - {label: "URL (Link)", name: "url", widget: "string"}
+              - {label: "İkon (Normal)", name: "kazi_bg", widget: "image", media_folder: "/assets/kazikate/icons/normal", public_folder: "/assets/kazikate/icons/normal"}
+
+  - name: "muzik_ayarlari"
+    label: "Müzik Listesi"
+    files:
+      - label: "Şarkıları Düzenle"
+        name: "music"
+        file: "music.json"
+        fields:
+          - label: "Şarkılar (Playlist)"
             name: "playlist"
             widget: "list"
             fields:
               - {label: "Şarkı Adı", name: "title", widget: "string"}
               - {label: "Sanatçı", name: "artist", widget: "string"}
-              - {label: "Şarkı Dosya Linki (.opus)", name: "file", widget: "string"}
-
-      - file: "kazikate.json"
-        label: "Kazikate Profili"
-        name: "kazikate"
-        fields:
-          - {label: "Ana Profil Fotoğrafı Linki", name: "profilePhoto", widget: "string"}
-          - {label: "Tıklanınca Açılan Büyük Fotoğraf Linki", name: "modalPhoto", widget: "string"}
-          - label: "Mini İkonlar"
-            name: "miniIcons"
-            widget: "list"
-            fields:
-              - {label: "Platform Adı", name: "platform", widget: "string"}
-              - {label: "URL", name: "url", widget: "string"}
-              - {label: "CSS Sınıfı (Örn: twitter-mini-icon)", name: "cssClass", widget: "string"}
-              - {label: "İkon Resim Linki", name: "icon", widget: "string"}
-          - label: "Büyük Buton Linkler"
-            name: "links"
-            widget: "list"
-            fields:
-              - {label: "Platform Adı", name: "platform", widget: "string"}
-              - {label: "Kullanıcı Adı (İsteğe Bağlı)", name: "username", widget: "string", required: false}
-              - {label: "URL", name: "url", widget: "string"}
-              - {label: "Arka Plan Resim Linki", name: "bg", widget: "string"}
-
-      - file: "twin.json"
-        label: "Kate Marifairy Profili"
-        name: "twin"
-        fields:
-          - {label: "Ana Profil Fotoğrafı Linki", name: "profilePhoto", widget: "string"}
-          - {label: "Tıklanınca Açılan Büyük Fotoğraf Linki", name: "modalPhoto", widget: "string"}
-          - label: "Mini İkonlar"
-            name: "miniIcons"
-            widget: "list"
-            fields:
-              - {label: "Platform Adı", name: "platform", widget: "string"}
-              - {label: "URL", name: "url", widget: "string"}
-              - {label: "CSS Sınıfı (Örn: twitter-mini-icon)", name: "cssClass", widget: "string"}
-              - {label: "İkon Resim Linki", name: "icon", widget: "string"}
-          - label: "Büyük Buton Linkler"
-            name: "links"
-            widget: "list"
-            fields:
-              - {label: "Platform Adı", name: "platform", widget: "string"}
-              - {label: "Kullanıcı Adı (İsteğe Bağlı)", name: "username", widget: "string", required: false}
-              - {label: "URL", name: "url", widget: "string"}
-              - {label: "Arka Plan Resim Linki", name: "bg", widget: "string"}
+              - {label: "Şarkı Dosyası (URL)", name: "file", widget: "string"}
