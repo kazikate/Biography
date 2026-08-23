@@ -7,7 +7,7 @@
     { "platform": "Facebook", "url": "https://m.facebook.com/kate.marifairy/", "cssClass": "facebook-mini-icon", "icon": "https://kazikate.github.io/Biography/assets/twin/Facebookmini.png" },
     { "platform": "Youtube", "url": "https://m.youtube.com/@Kate_Marifairy", "cssClass": "youtube-mini-icon", "icon": "https://kazikate.github.io/Biography/assets/twin/Youtubemini.png" },
     { "platform": "TikTok", "url": "https://www.tiktok.com/@katemarifairy", "cssClass": "tiktok-mini-icon", "icon": "https://kazikate.github.io/Biography/assets/twin/Tiktokmini.png" },
-    { "platform": "Pinterest", "url": "https://www.pinterest.com/kate_marifairy/", "cssClass": "pinterest-mini-icon", "icon": "https://kazikate.github.io/Biography/assets/twin/Pinterest.png" },
+    { "platform": "Pinterest", "url": "https://www.pinterest.com/kate_marifairy/", "cssClass": "pinterest-mini-icon", "icon": "https://kazikate.github.io/Biography/assets/twin/Pinterestmini.png" },
     { "platform": "Spotify", "url": "https://open.spotify.com/user/312kgx2jfk4rx5fptxmch32ruu7m", "cssClass": "spotify-mini-icon", "icon": "https://kazikate.github.io/Biography/assets/twin/Spotifymini.png" }
   ],
   "links": [
