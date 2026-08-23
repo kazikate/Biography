@@ -166,14 +166,55 @@
         }
 
         .bio.is-visible { opacity: 0.8; transform: translateY(0); transition-delay: 0.5s; }
-        .social-icons-mini {
-            margin: 15px 0;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-            max-width: 600px;
-        }
-        .social-icons-mini.is-visible { opacity: 1; transform: translateY(0); transition-delay: 0.7s; }
+    
+            /* --- DİNAMİK İKON DİZİLİMİ (FLEXBOX) --- */
+
+.social-icons-mini {
+    display: flex;                /* İkonları yan yana esnek bir kutuya koyar */
+    justify-content: center;      /* Kaç ikon olursa olsun tam ekranın ORTASINA hizalar */
+    align-items: center;          /* Dikeyde de tam ortalar */
+    flex-wrap: wrap;              /* Eğer çok fazla ikon eklersen ve ekrana sığmazsa otomatik alt satıra geçer */
+    gap: 15px;                    /* İkonların arasına otomatik ve EŞİT 15px boşluk koyar */
+    /* ESKİ MESAFEYİ GERİ GETİREN KISIM */
+    margin-top: 2px;      /* Biyografiye olan eski yakınlığı */
+    margin-bottom: 28px;  /* Altındaki büyük link haplarına olan uzaklığı */
+      
+    margin: 15px auto;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    max-width: 600px;
+}
+
+.social-icons-mini.is-visible { 
+    opacity: 1; 
+    transform: translateY(0); 
+    transition-delay: 0.7s; 
+}
+
+.social-icons-mini a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+    transition: transform 0.2s, opacity 0.2s;
+    line-height: 0;
+    -webkit-tap-highlight-color: transparent;
+    margin: 0 !important; /* Eski margin ayarlarını sıfırlayıp Gap'e bırakıyoruz */
+}
+
+.social-icons-mini a:hover { 
+    transform: scale(1.15); 
+}
+
+/* Tüm ikonlar için standart, yuvarlak ve eşit boyut */
+.social-icons-mini .mini-icon {
+    width: 36px;  
+    height: 36px;
+    object-fit: visible; /* İkonun kırpılmadan çerçevenin içine tam oturmasını sağlar */
+  
+}
+    
         .link-button {
             display: flex;
             align-items: center;
@@ -202,14 +243,7 @@
         }
         .link-button.press { animation: press-link 0.2s ease-out; pointer-events: none; }
 
-        .social-icons-mini a {
-            display: inline-block;
-            opacity: 1;
-            transition: transform 0.2s, opacity 0.2s;
-            line-height: 0;
-            -webkit-tap-highlight-color: transparent;
-        }
-        .social-icons-mini a:hover { opacity: 1; transform: scale(1.1); }
+        
         .bio-emoji {
             width: 1.2em;
             height: 1.2em;
@@ -900,39 +934,7 @@ body.is-twin-active:not(.theme-lyric-on) {
     background-color: #211821; 
 }
 
-#twin-panel .social-icons-mini a {
-    border-radius: 50%; 
-    padding: 2px; 
-}
 
-#twin-panel .social-icons-mini .mini-icon {
-    border-radius: 50%;
-    vertical-align: middle;
-}
-
-#twin-panel .social-icons-mini a {
-    margin: 0px; 
-}
-    
-#twin-panel .instagram-mini-icon .mini-icon { width: 47px; height: 47px; transform: translateY(-13px) translateX(13px); }
-#twin-panel .twitter-mini-icon .mini-icon { width: 55px; height: 55px; transform: translateY(-14px) translateX(7px); }
-#twin-panel .facebook-mini-icon .mini-icon { width: 49px; height: 49px; transform: translateY(-13px) translateX(0px); }
-#twin-panel .tiktok-mini-icon .mini-icon { width: 47px; height: 47px; transform: translateY(-13px) translateX(-11px); }
-#twin-panel .spotify-mini-icon .mini-icon { width: 42px; height: 42px; transform: translateY(-13px) translateX(-14px); }
-#twin-panel .youtube-mini-icon .mini-icon { width: 50px; height: 50px; transform: translateY(-13px) translateX(-4px); }
-#twin-panel .pinterest-mini-icon .mini-icon { width: 43px; height: 43px; transform: translateY(-16px) translateX(-15px); }
-
-#kazikate-panel .social-icons-mini a { margin: 0 2px; }
-#kazikate-panel .social-icons-mini .mini-icon { border-radius: 50%; vertical-align: middle; }
-
-#kazikate-panel .instagram-mini-icon .mini-icon { width: 47px; height: 47px; transform: translateY(-13px) translateX(16px); }
-#kazikate-panel .twitter-mini-icon .mini-icon { width: 55px; height: 55px; transform: translateY(-14px) translateX(7px); }
-#kazikate-panel .threads-mini-icon .mini-icon { width: 49px; height: 49px; transform: translateY(-13px) translateX(-2px); }
-#kazikate-panel .tiktok-mini-icon .mini-icon { width: 47px; height: 47px; transform: translateY(-13px) translateX(-12px); }
-#kazikate-panel .spotify-mini-icon .mini-icon { width: 42px; height: 42px; transform: translateY(-13px) translateX(-14px); }
-#kazikate-panel .youtube-music-mini-icon .mini-icon { width: 45px; height: 45px; transform: translateY(-13px) translateX(-14px); }
-#kazikate-panel .website-mini-icon .mini-icon { width: 48px; height: 48px; transform: translateY(-13px) translateX(-17px); }
-    
 @media (hover: hover) {
     .profile-img-container:not(.scrolled-past):hover .profile-hover-layer { opacity: 1 !important; }
     .profile-img-container:not(.scrolled-past):hover .profile-hover-layer i { transform: scale(1) !important; }
