@@ -179,8 +179,6 @@
 
         .bio.is-visible { opacity: 0.8; transform: translateY(0); transition-delay: 0.5s; }
     
-            /* --- DİNAMİK İKON DİZİLİMİ (FLEXBOX) --- */
-
         .social-icons-mini {
             display: flex;                
             justify-content: center;      
@@ -1707,7 +1705,7 @@
             resetAdvancedControlsTimer();
         });
 
-        // ---------- İKON VE LİNK FONKSİYONLARI (GARANTİLİ YAPI) ----------
+        // ---------- İKON VE LİNK FONKSİYONLARI (KUSURSUZ YAPI) ----------
         function renderMiniIcons(containerId, iconsArray) {
             const container = document.getElementById(containerId);
             if (!container || !Array.isArray(iconsArray)) return;
@@ -1759,58 +1757,50 @@
             
             setTimeout(() => { elementsToAnimate.forEach(el => { el.classList.add('is-visible'); }); }, 50);
 
-            async function loadData() {
-                // Ön bellek kırıcıyı HATA SEBEBİ olduğu için tamamen kaldırdım. Artık jsonlar direkt çekilecek.
-                try {
-                    const musicRes = await fetch('music.json');
-                    const musicData = await musicRes.json();
-                    if (musicData && Array.isArray(musicData.playlist)) {
-                        playlist = musicData.playlist;
-                    }
-                } catch (err) { console.error('Müzik listesi hatası:', err); }
+            // SENİN ORİJİNAL, %100 SORUNSUZ ÇALIŞAN VERİ ÇEKME YAPIN
+            Promise.all([
+                fetch('music.json').then(res => res.json()),
+                fetch('kazikate.json').then(res => res.json()),
+                fetch('twin.json').then(res => res.json())
+            ])
+            .then(([music, kazikate, twin]) => {
+                playlist = music.playlist;
+                kazikateData = kazikate;
+                twinData = twin;
+                
+                renderMiniIcons('kazikate-mini-icons', kazikate.miniIcons);
+                renderLinks('kazikate-links', kazikate.links);
 
-                try {
-                    const twinRes = await fetch('twin.json');
-                    twinData = await twinRes.json();
-                    if (twinData && twinData.miniIcons) renderMiniIcons('twin-mini-icons', twinData.miniIcons);
-                    if (twinData && twinData.links) renderLinks('twin-links', twinData.links);
-                } catch (err) { console.error('Twin profili hatası:', err); }
+                renderMiniIcons('twin-mini-icons', twin.miniIcons);
+                renderLinks('twin-links', twin.links);
 
-                try {
-                    const kazikateRes = await fetch('kazikate.json');
-                    kazikateData = await kazikateRes.json();
-                    if (kazikateData && kazikateData.miniIcons) renderMiniIcons('kazikate-mini-icons', kazikateData.miniIcons);
-                    if (kazikateData && kazikateData.links) renderLinks('kazikate-links', kazikateData.links);
+                // Ana profil fotoğraflarını çek ve baştaki eğik çizgiyi (/) sil
+                let defaultKaziPhoto = kazikate.kazi_profilePhoto || kazikate.profilePhoto || 'assets/Profile2.png';
+                let defaultKaziModal = kazikate.kazi_modalPhoto || kazikate.modalPhoto || 'assets/Profile.png';
+                
+                if (defaultKaziPhoto && defaultKaziPhoto.startsWith('/')) defaultKaziPhoto = defaultKaziPhoto.substring(1);
+                if (defaultKaziModal && defaultKaziModal.startsWith('/')) defaultKaziModal = defaultKaziModal.substring(1);
 
-                    // Kazikate ana sayfa olduğu için varsayılan arka plan Kazikate'den alınır:
-                    let defaultKaziPhoto = kazikateData?.kazi_profilePhoto || kazikateData?.profilePhoto || '';
-                    let defaultKaziModal = kazikateData?.kazi_modalPhoto || kazikateData?.modalPhoto || '';
-                    
-                    if (defaultKaziPhoto && defaultKaziPhoto.startsWith('/')) defaultKaziPhoto = defaultKaziPhoto.substring(1);
-                    if (defaultKaziModal && defaultKaziModal.startsWith('/')) defaultKaziModal = defaultKaziModal.substring(1);
+                document.querySelector('.profile-img-visual').style.backgroundImage = `url('${defaultKaziPhoto}')`;
+                document.querySelector('.downloadable-profile-img').src = defaultKaziPhoto;
+                
+                const initialPreviewImg = document.getElementById('preview-image');
+                initialPreviewImg.src = defaultKaziModal;
+                updateModalGlow(defaultKaziModal);
+                
+                window.currentProfileBg = defaultKaziPhoto;
 
-                    if (defaultKaziPhoto) {
-                        document.querySelector('.profile-img-visual').style.backgroundImage = `url('${defaultKaziPhoto}')`;
-                        document.querySelector('.downloadable-profile-img').src = defaultKaziPhoto;
-                        window.currentProfileBg = defaultKaziPhoto;
-                    }
-                    if (defaultKaziModal) {
-                        document.getElementById('preview-image').src = defaultKaziModal;
-                        updateModalGlow(defaultKaziModal);
-                    }
-                    window.particleRGB = '157, 80, 255'; // Kazikate'nin varsayılan (Mor) parçacık rengi
-                } catch (err) { console.error('Kazikate profili hatası:', err); }
-
-                // FINALLY: Fetchler başarsız olsa bile (veya dosya bozuk olsa bile) site bembeyaz kalmasın diye "is-loading" classını %100 siliyoruz.
-                document.body.classList.remove('is-loading');
                 setTimeout(() => {
-                    document.querySelectorAll('.social-icons-mini, .link-button').forEach(el => {
+                    document.querySelectorAll('#kazikate-mini-icons, #twin-mini-icons, .link-button').forEach(el => {
                         el.classList.add('is-visible');
                     });
+                    document.body.classList.remove('is-loading');
                 }, 50);
-            }
-
-            loadData();
+            })
+            .catch(err => {
+                console.error("JSON yükleme hatası:", err);
+                document.body.classList.remove('is-loading'); // Hata olsa bile yükleniyor ekranını kaldırır ki beyaz kalmasın
+            });
 
             const parallaxRatio = 0.4; const maxScroll = 200; const maxBlur = 10; const maxDimOpacity = 0.6; let ticking = false;
             function updateEffects() {
@@ -1949,8 +1939,10 @@
         document.addEventListener('pointercancel', stopHaptics);
         window.addEventListener('scroll', stopHaptics, { passive: true });
             
-        // --- Profil Geçişi (toggleProfile) KUSURSUZ YAPI ---
+        // --- Profil Geçişi (toggleProfile) ---
         window.toggleProfile = function(target) {
+            if (!kazikateData || !twinData) return; 
+            
             const currentPanel = target === 'twin' ? document.getElementById('kazikate-panel') : document.getElementById('twin-panel');
             const titleEl = currentPanel.querySelector('.username-switch');
             
@@ -1965,19 +1957,19 @@
                     const downloadableImg = document.querySelector('.downloadable-profile-img');
                     const previewImage = document.getElementById('preview-image');
                     
-                    let kazikateBg = kazikateData?.kazi_profilePhoto || kazikateData?.profilePhoto || "assets/Profile2.png";
-                    let kazikateModal = kazikateData?.kazi_modalPhoto || kazikateData?.modalPhoto || "assets/Profile.png";
+                    let kaziPhoto = kazikateData.kazi_profilePhoto || kazikateData.profilePhoto || "assets/Profile2.png";
+                    let kaziModal = kazikateData.kazi_modalPhoto || kazikateData.modalPhoto || "assets/Profile.png";
                     
-                    let twinBg = twinData?.twin_profilePhoto || twinData?.profilePhoto || "assets/Twinbio.jpg"; 
-                    let twinModal = twinData?.twin_modalPhoto || twinData?.modalPhoto || "assets/Twinbio2.jpg";
+                    let twinPhoto = twinData.twin_profilePhoto || twinData.profilePhoto || "assets/Twinbio.jpg"; 
+                    let twinModal = twinData.twin_modalPhoto || twinData.modalPhoto || "assets/Twinbio2.jpg";
 
-                    if (kazikateBg && kazikateBg.startsWith('/')) kazikateBg = kazikateBg.substring(1);
-                    if (kazikateModal && kazikateModal.startsWith('/')) kazikateModal = kazikateModal.substring(1);
-                    if (twinBg && twinBg.startsWith('/')) twinBg = twinBg.substring(1);
+                    if (kaziPhoto && kaziPhoto.startsWith('/')) kaziPhoto = kaziPhoto.substring(1);
+                    if (kaziModal && kaziModal.startsWith('/')) kaziModal = kaziModal.substring(1);
+                    if (twinPhoto && twinPhoto.startsWith('/')) twinPhoto = twinPhoto.substring(1);
                     if (twinModal && twinModal.startsWith('/')) twinModal = twinModal.substring(1);
 
                     if (target === 'twin') {
-                        window.currentProfileBg = twinBg; 
+                        window.currentProfileBg = twinPhoto; 
                         
                         kazikatePanel.classList.remove('active-panel'); 
                         kazikatePanel.classList.add('hidden-panel');
@@ -1985,17 +1977,17 @@
                         twinPanel.classList.add('active-panel');
                         
                         if (typeof isLyricsMode !== 'undefined' && !isLyricsMode) { 
-                            visualBg.style.backgroundImage = `url('${twinBg}')`; 
+                            visualBg.style.backgroundImage = `url('${twinPhoto}')`; 
                             window.particleRGB = '138, 55, 138'; 
                         }
                         
-                        downloadableImg.src = twinBg; 
+                        downloadableImg.src = twinPhoto; 
                         previewImage.src = twinModal;
                         
                         if(typeof updateModalGlow === 'function') updateModalGlow(twinModal); 
                         document.body.classList.add('is-twin-active');
                     } else {
-                        window.currentProfileBg = kazikateBg; 
+                        window.currentProfileBg = kaziPhoto; 
                         
                         twinPanel.classList.remove('active-panel'); 
                         twinPanel.classList.add('hidden-panel');
@@ -2003,14 +1995,14 @@
                         kazikatePanel.classList.add('active-panel');
                         
                         if (typeof isLyricsMode !== 'undefined' && !isLyricsMode) { 
-                            visualBg.style.backgroundImage = `url('${kazikateBg}')`; 
+                            visualBg.style.backgroundImage = `url('${kaziPhoto}')`; 
                             window.particleRGB = '157, 80, 255'; 
                         }
                         
-                        downloadableImg.src = kazikateBg; 
-                        previewImage.src = kazikateModal;
+                        downloadableImg.src = kaziPhoto; 
+                        previewImage.src = kaziModal;
                         
-                        if(typeof updateModalGlow === 'function') updateModalGlow(kazikateModal); 
+                        if(typeof updateModalGlow === 'function') updateModalGlow(kaziModal); 
                         document.body.classList.remove('is-twin-active');
                     }
                     window.scrollTo({ top: 0, behavior: 'smooth' });
