@@ -158,12 +158,9 @@
             font-size: 0.97em;
             font-weight: 550;
             opacity: 0;
-            
-            /* YENİ: Biyografiyi daraltıp sağdan-soldan boşluk bırakma ayarları */
-            max-width: 85%; /* Ekranın sadece %85'ini kaplar, kenarlardan pay bırakır */
-            margin: 5px auto 20px auto; /* auto sayesinde kutu daralsa da TAM ORTADA kalır */
-            line-height: 1.5; /* Metin uzunsa satır aralıklarını hafif açıp okumayı rahatlatır */
-            
+            max-width: 85%;
+            margin: 5px auto 20px auto; 
+            line-height: 1.5; 
             transform: translateY(18px);
             transition: opacity 0.6s ease-out, transform 0.6s ease-out;
         }
@@ -197,13 +194,6 @@
             -webkit-tap-highlight-color: transparent;
         }
         .link-button.is-visible { opacity: 1; transform: translateY(0); }
-        .link-button:nth-child(1) { transition-delay: 0.9s; }
-        .link-button:nth-child(2) { transition-delay: 1.0s; }
-        .link-button:nth-child(3) { transition-delay: 1.1s; }
-        .link-button:nth-child(4) { transition-delay: 1.2s; }
-        .link-button:nth-child(5) { transition-delay: 1.3s; }
-        .link-button:nth-child(6) { transition-delay: 1.4s; }
-        .link-button:nth-child(7) { transition-delay: 1.5s; }
 
         @keyframes press-link {
             0% { transform: scale(1) translateZ(0); }
@@ -278,18 +268,8 @@
         @media (min-width: 700px) {
             .profile-img-container, .content-wrapper, .bottom-blur-layer { max-width: 500px; }
             .container { max-width: 800px; padding: 0 0 40px 0; }
-            
-            /* 1. Masaüstünde profil alanını 1:1 kare yap */
-            .profile-img-container {
-                height: 550px !important; 
-            }
-            
-            /* 2. İçerik kutusunun kayma mesafesini ayarla */
-            .content-wrapper {
-                margin-top: 410px !important; 
-            } /* <-- BU PARANTEZ EKSİKTİ, EKLENDİ */
-
-            /* MÜZİK ÇALARI KUSURSUZ HİZALAYAN KOD */
+            .profile-img-container { height: 550px !important; }
+            .content-wrapper { margin-top: 410px !important; } 
             #music-widget {
                 left: 50% !important;
                 transform: translateX(calc(-50% + 15px)) !important; 
@@ -840,12 +820,7 @@
     visibility: visible;
     transform: translateY(0) scale(1);
 }
-/* ===================================================
-   İSİM DEĞİŞTİRME İKONU (MOBİL + MASAÜSTÜ + ÖZELLEŞTİRME)
-=================================================== */
-/* ===================================================
-   İSİM DEĞİŞTİRME İKONU (KESİN ÖZELLEŞTİRME)
-=================================================== */
+
 .username-switch {
     cursor: pointer;
     position: relative;
@@ -853,28 +828,19 @@
     -webkit-tap-highlight-color: transparent;
 }
 
-/* İKONUN KENDİSİ, BOYUTU VE KONUMU */
 .username-switch::after {
     content: '\f2f1' !important;
     font-family: 'Font Awesome 5 Free', 'Font Awesome 6 Free' !important;
     font-weight: 900 !important;
-    
-    /* 1. BOYUT (Şu an büyüttüm, istersen değiştir) */
     font-size: 0.40em !important; 
-    
-    /* 2. SAĞA/SOLA KONUM (İsme yapışmasın diye biraz daha sağa ittim) */
     right: -25px !important; 
-    
-    /* 3. YUKARI/AŞAĞI KONUM */
     top: 56% !important; 
-    
     position: absolute !important;
     transform: translateY(-50%) rotate(0deg);
     opacity: 0.3; 
     transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), text-shadow 0.4s ease !important;
 }
 
-/* MASAÜSTÜ (Hover) VE MOBİL (Active) PARLAMA DURUMU */
 .username-switch:hover::after,
 .username-switch:active::after {
     opacity: 1;
@@ -882,28 +848,6 @@
     text-shadow: 0 0 12px currentColor; 
 }
 
-/* TIKLANDIĞI AN ÇALIŞACAK ZORUNLU ANİMASYON SINIFI */
-.username-switch.icon-spin-active::after {
-    opacity: 1 !important;
-    transform: translateY(-50%) rotate(180deg) !important;
-    text-shadow: 0 0 15px currentColor !important;
-    transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.2s, text-shadow 0.2s !important;
-}
-
-
-/* MASAÜSTÜ HOVER (Fare) VE MOBİL ACTIVE (Dokunma) ANINDAKİ EFEKT */
-.username-switch:hover::after,
-.username-switch:active::after {
-    opacity: 1; /* Tamamen belirginleşir */
-    
-    /* 4. DÖNÜŞ: 180 derece döner. Daha çok dönsün istersen 360deg yapabilirsin */
-    transform: translateY(-50%) rotate(180deg); 
-    
-    /* 5. PARLAMA (GLOW): İkonun etrafına kendi renginde bir ışık saçar */
-    text-shadow: 0 0 12px currentColor; 
-}
-
-    /* JS ile tıklama anında devreye girecek zorunlu dönme sınıfı */
 .username-switch.icon-spin-active::after {
     opacity: 1 !important;
     transform: translateY(-50%) rotate(180deg) !important;
@@ -954,7 +898,6 @@ body.is-twin-active:not(.theme-lyric-on) {
 
 #twin-panel .link-img-placeholder {
     background-color: #211821; 
-    /* İçeriye doğru hafif gölge */
 }
 
 #twin-panel .social-icons-mini a {
@@ -971,80 +914,38 @@ body.is-twin-active:not(.theme-lyric-on) {
     margin: 0px; 
 }
     
-#twin-panel .instagram-mini-icon .mini-icon { 
-    width: 47px; height: 47px; transform: translateY(-13px) translateX(13px); 
-}
-#twin-panel .twitter-mini-icon .mini-icon { 
-    width: 55px; height: 55px; transform: translateY(-14px) translateX(7px); 
-}
-#twin-panel .facebook-mini-icon .mini-icon { 
-    width: 49px; height: 49px; transform: translateY(-13px) translateX(0px); 
-}
-#twin-panel .tiktok-mini-icon .mini-icon { 
-    width: 47px; height: 47px; transform: translateY(-13px) translateX(-11px); 
-}
-#twin-panel .spotify-mini-icon .mini-icon { 
-    width: 42px; height: 42px; transform: translateY(-13px) translateX(-14px); 
-}
-#twin-panel .youtube-mini-icon .mini-icon { 
-    width: 50px; height: 50px; transform: translateY(-13px) translateX(-4px); 
-}
-#twin-panel .pinterest-mini-icon .mini-icon { 
-    width: 43px; height: 43px; transform: translateY(-16px) translateX(-15px); 
-}
+#twin-panel .instagram-mini-icon .mini-icon { width: 47px; height: 47px; transform: translateY(-13px) translateX(13px); }
+#twin-panel .twitter-mini-icon .mini-icon { width: 55px; height: 55px; transform: translateY(-14px) translateX(7px); }
+#twin-panel .facebook-mini-icon .mini-icon { width: 49px; height: 49px; transform: translateY(-13px) translateX(0px); }
+#twin-panel .tiktok-mini-icon .mini-icon { width: 47px; height: 47px; transform: translateY(-13px) translateX(-11px); }
+#twin-panel .spotify-mini-icon .mini-icon { width: 42px; height: 42px; transform: translateY(-13px) translateX(-14px); }
+#twin-panel .youtube-mini-icon .mini-icon { width: 50px; height: 50px; transform: translateY(-13px) translateX(-4px); }
+#twin-panel .pinterest-mini-icon .mini-icon { width: 43px; height: 43px; transform: translateY(-16px) translateX(-15px); }
 
-#kazikate-panel .social-icons-mini a {
-    margin: 0 2px; 
-}
-    
-#kazikate-panel .social-icons-mini .mini-icon {
-    border-radius: 50%;
-    vertical-align: middle;
-}
+#kazikate-panel .social-icons-mini a { margin: 0 2px; }
+#kazikate-panel .social-icons-mini .mini-icon { border-radius: 50%; vertical-align: middle; }
 
-#kazikate-panel .instagram-mini-icon .mini-icon { 
-    width: 47px; height: 47px; transform: translateY(-13px) translateX(16px); 
-}
-#kazikate-panel .twitter-mini-icon .mini-icon { 
-    width: 55px; height: 55px; transform: translateY(-14px) translateX(7px); 
-}
-#kazikate-panel .threads-mini-icon .mini-icon { 
-    width: 49px; height: 49px; transform: translateY(-13px) translateX(-2px); 
-}
-#kazikate-panel .tiktok-mini-icon .mini-icon { 
-    width: 47px; height: 47px; transform: translateY(-13px) translateX(-12px); 
-}
-#kazikate-panel .spotify-mini-icon .mini-icon { 
-    width: 42px; height: 42px; transform: translateY(-13px) translateX(-14px); 
-}
-#kazikate-panel .youtube-music-mini-icon .mini-icon { 
-    width: 45px; height: 45px; transform: translateY(-13px) translateX(-14px); 
-}
-#kazikate-panel .website-mini-icon .mini-icon { 
-    width: 48px; height: 48px; transform: translateY(-13px) translateX(-17px); 
-}
+#kazikate-panel .instagram-mini-icon .mini-icon { width: 47px; height: 47px; transform: translateY(-13px) translateX(16px); }
+#kazikate-panel .twitter-mini-icon .mini-icon { width: 55px; height: 55px; transform: translateY(-14px) translateX(7px); }
+#kazikate-panel .threads-mini-icon .mini-icon { width: 49px; height: 49px; transform: translateY(-13px) translateX(-2px); }
+#kazikate-panel .tiktok-mini-icon .mini-icon { width: 47px; height: 47px; transform: translateY(-13px) translateX(-12px); }
+#kazikate-panel .spotify-mini-icon .mini-icon { width: 42px; height: 42px; transform: translateY(-13px) translateX(-14px); }
+#kazikate-panel .youtube-music-mini-icon .mini-icon { width: 45px; height: 45px; transform: translateY(-13px) translateX(-14px); }
+#kazikate-panel .website-mini-icon .mini-icon { width: 48px; height: 48px; transform: translateY(-13px) translateX(-17px); }
     
 @media (hover: hover) {
-    .profile-img-container:not(.scrolled-past):hover .profile-hover-layer {
-        opacity: 1 !important;
-    }
-    .profile-img-container:not(.scrolled-past):hover .profile-hover-layer i {
-        transform: scale(1) !important;
-    }
+    .profile-img-container:not(.scrolled-past):hover .profile-hover-layer { opacity: 1 !important; }
+    .profile-img-container:not(.scrolled-past):hover .profile-hover-layer i { transform: scale(1) !important; }
 }
   
-:root {
-    --dynamic-modal-rgb: 157, 80, 255; 
-}
+:root { --dynamic-modal-rgb: 157, 80, 255; }
 
 .modal-circle-mask {
     box-shadow: 0 0 50px rgba(var(--dynamic-modal-rgb), 0.6) !important;
     transition: box-shadow 0.8s ease; 
 }
 
-body.is-twin-active .profile-hover-layer i {
-    color: #f6baf7 !important; 
-}
+body.is-twin-active .profile-hover-layer i { color: #f6baf7 !important; }
 
 body.is-touching .profile-img-container:hover .profile-hover-layer,
 body.is-touching .profile-img-container:hover .profile-hover-layer i {
@@ -1052,7 +953,6 @@ body.is-touching .profile-img-container:hover .profile-hover-layer i {
     transform: scale(0.5) !important;
     pointer-events: none !important;
 }
-
 
     </style>
 </head>
@@ -1120,36 +1020,40 @@ body.is-touching .profile-img-container:hover .profile-hover-layer i {
 <div class="content-wrapper">
     <div class="container">
         
-        <!-- YENİ EKLENEN: İki profili üst üste düzgün tutacak kutu -->
         <div class="panel-wrapper">
             
             <!-- ================= 1. KAZIKATE PROFİLİ ================= -->
-<div class="social-icons-mini" id="kazikate-mini-icons"></div>
-<div class="links-section" id="kazikate-links"></div>
-
+            <div id="kazikate-panel" class="view-panel active-panel">
+                <header class="profile-header">
+                    <h1 class="username username-switch" onclick="toggleProfile('twin')">Kazikate</h1>
+                    <p class="bio">Future RN <img src="https://kazikate.github.io/Biography/assets/Syringe.png" alt="Şırınga Emojisi" class="bio-emoji"> • Lost in Music <img src="https://kazikate.github.io/Biography/assets/Music.png" alt="Müzik Emojisi" class="bio-emoji"></p>
+                    
+                    <div class="social-icons-mini" id="kazikate-mini-icons"></div>
+                </header>
+                
+                <div class="links-section" id="kazikate-links"></div>
                 
                 <footer class="footer-links"><span style="opacity: 0.8;">●</span><span class="footer-text" style="margin: 0 1px;">Created by Kazikate</span></footer>
             </div>
             
-            <!-- ================= 2. İKİZİNİN PROFİLİ (ŞABLON) ================= -->
+            <!-- ================= 2. İKİZİNİN PROFİLİ ================= -->
             <div id="twin-panel" class="view-panel hidden-panel">
                 <header class="profile-header">
-                    <h1 class="username username-switch is-visible" onclick="toggleProfile('kazikate')" style="transition-delay: 0s;">Kate Marifairy</h1>
-                    <p class="bio is-visible" style="transition-delay: 0s;">Peri Kraliçe, Gryffindor, Gamer, Roleplayer, Yazar, Şair, Linkin Park ve JoJo fan<img src="https://kazikate.github.io/Biography/assets/Music.png" alt="Müzik Emojisi" class="bio-emoji"></p>
+                    <h1 class="username username-switch" onclick="toggleProfile('kazikate')">Kate Marifairy</h1>
+                    <p class="bio">Peri Kraliçe, Gryffindor, Gamer, Roleplayer, Yazar, Şair, Linkin Park ve JoJo fan</p>
                     
-<div class="social-icons-mini is-visible" style="transition-delay: 0s;" id="twin-mini-icons"></div>
-<div class="links-section" id="twin-links"></div>
-
+                    <div class="social-icons-mini" id="twin-mini-icons"></div>
+                </header>
+                
+                <div class="links-section" id="twin-links"></div>
                 
                 <footer class="footer-links"><span style="opacity: 0.8;">●</span><span class="footer-text" style="margin: 0 1px;">Created for Kate by Kazikate</span></footer>
             </div>
             
-        </div> <!-- panel-wrapper SONU -->
+        </div> 
 
     </div>
 </div>
-
-
 
     <div id="image-preview-modal" class="image-preview-modal">
         <div class="modal-content">
@@ -1215,6 +1119,7 @@ body.is-touching .profile-img-container:hover .profile-hover-layer i {
         let lyricStartY = 0;
         let initialTransformY = 0;
         let lyricSpring = null;
+        let playlist = []; 
 
         // ---------- FAYDALI FONKSİYONLAR ----------
         function formatTime(seconds) {
@@ -1572,7 +1477,6 @@ body.is-touching .profile-img-container:hover .profile-hover-layer i {
             animateToLyric(targetIdx);
         });
 
-        // EKSİK OLAN FONKSİYONU GERİ GETİRDİK
         function updateThemeColor(imgUrl) {
             const colorImg = new Image();
             colorImg.crossOrigin = "Anonymous";
@@ -1605,43 +1509,36 @@ body.is-touching .profile-img-container:hover .profile-hover-layer i {
             };
         }
 
-    // --- PROFİL FOTOĞRAFINDAN RENK ÇIKARMA FONKSİYONU ---
-function updateModalGlow(imgUrl) {
-    const colorImg = new Image();
-    colorImg.crossOrigin = "Anonymous";
-    colorImg.src = imgUrl;
-    colorImg.onload = () => {
-        try {
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            canvas.width = 50; canvas.height = 50;
-            ctx.drawImage(colorImg, 0, 0, 50, 50);
-            const data = ctx.getImageData(0, 0, 50, 50).data;
-            let r=0, g=0, b=0, count=0;
-            for(let i=0; i<data.length; i+=16) { r+=data[i]; g+=data[i+1]; b+=data[i+2]; count++; }
-            r=Math.floor(r/count); g=Math.floor(g/count); b=Math.floor(b/count);
-            
-            const max = Math.max(r, g, b);
-            if (max > 0 && max < 200) { 
-                const factor = 200 / max; 
-                r = Math.min(255, Math.floor(r * factor)); 
-                g = Math.min(255, Math.floor(g * factor)); 
-                b = Math.min(255, Math.floor(b * factor)); 
-            } 
-            else if (max === 0) { r = 157; g = 80; b = 255; } 
-            
-            console.log("Bulunan Glow Rengi:", r, g, b); // Konsola rengi yazdırsın
-            document.documentElement.style.setProperty('--dynamic-modal-rgb', `${r}, ${g}, ${b}`);
-        } catch(e) { 
-            console.error("Glow renk çıkarma hatası:", e); // Hatayı konsola basar
-            document.documentElement.style.setProperty('--dynamic-modal-rgb', '157, 80, 255'); 
+        function updateModalGlow(imgUrl) {
+            const colorImg = new Image();
+            colorImg.crossOrigin = "Anonymous";
+            colorImg.src = imgUrl;
+            colorImg.onload = () => {
+                try {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    canvas.width = 50; canvas.height = 50;
+                    ctx.drawImage(colorImg, 0, 0, 50, 50);
+                    const data = ctx.getImageData(0, 0, 50, 50).data;
+                    let r=0, g=0, b=0, count=0;
+                    for(let i=0; i<data.length; i+=16) { r+=data[i]; g+=data[i+1]; b+=data[i+2]; count++; }
+                    r=Math.floor(r/count); g=Math.floor(g/count); b=Math.floor(b/count);
+                    
+                    const max = Math.max(r, g, b);
+                    if (max > 0 && max < 200) { 
+                        const factor = 200 / max; 
+                        r = Math.min(255, Math.floor(r * factor)); 
+                        g = Math.min(255, Math.floor(g * factor)); 
+                        b = Math.min(255, Math.floor(b * factor)); 
+                    } 
+                    else if (max === 0) { r = 157; g = 80; b = 255; } 
+                    
+                    document.documentElement.style.setProperty('--dynamic-modal-rgb', `${r}, ${g}, ${b}`);
+                } catch(e) { 
+                    document.documentElement.style.setProperty('--dynamic-modal-rgb', '157, 80, 255'); 
+                }
+            };
         }
-    };
-    colorImg.onerror = (err) => {
-        console.error("Resim yüklenemedi:", err);
-    };
-}
-
 
         function toggleLyrics() {
             if (navigator.vibrate) navigator.vibrate(20);
@@ -1688,7 +1585,6 @@ function updateModalGlow(imgUrl) {
                 }
                 resetAdvancedControlsTimer();
                 
-                // İkizinin profili aktifse onun mor/pembe rengini, değilsen senin rengini geri yükler
                 if (document.body.classList.contains('is-twin-active')) {
                     window.particleRGB = '138, 55, 138'; 
                 } else {
@@ -1807,9 +1703,61 @@ function updateModalGlow(imgUrl) {
             }
         }
 
-let playlist = []; // Müzik listesi artık JSON'dan gelecek
-
-
+        async function loadRandomTrack() {
+            if (playlist.length === 0) return;
+            toggleBtn.classList.add('solid-bg');
+            trackLoadTicket++;
+            const myTicket = trackLoadTicket;
+            currentLyrics = [];
+            activeLyricIndex = -1;
+            if (shuffledQueue.length === 0 || currentQueueIndex >= shuffledQueue.length) {
+                shuffledQueue = Array.from({length: playlist.length}, (_, i) => i);
+                for (let i = shuffledQueue.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [shuffledQueue[i], shuffledQueue[j]] = [shuffledQueue[j], shuffledQueue[i]];
+                }
+                currentQueueIndex = 0;
+            }
+            const trackIndex = shuffledQueue[currentQueueIndex];
+            currentQueueIndex++;
+            const randomTrack = playlist[trackIndex];
+            trackTitle.textContent = randomTrack.title;
+            trackArtist.textContent = randomTrack.artist;
+            audioPlayer.src = randomTrack.file;
+            cachedDuration = 0;
+            fetchLyrics(randomTrack.file);
+            const fileName = randomTrack.file.split('/').pop().replace('.opus', '.png');
+            const finalCoverUrl = `https://kazikate.github.io/Biography/assets/covers/${fileName}`;
+            const defaultCoverUrl = "https://i.scdn.co/image/ab67616d0000b27341e97ee9cf2ee378519e4875";
+            if (myTicket !== trackLoadTicket) return;
+            const nextCover = activeCover === 1 ? trackCover2 : trackCover1;
+            const currentCover = activeCover === 1 ? trackCover1 : trackCover2;
+            updateThemeColor(finalCoverUrl);
+            const preloader = new Image();
+            preloader.onload = () => {
+                if (myTicket !== trackLoadTicket) return;
+                nextCover.src = finalCoverUrl;
+                nextCover.style.opacity = '1';
+                currentCover.style.opacity = '0';
+                defaultCover.style.opacity = '0';
+                activeCover = activeCover === 1 ? 2 : 1;
+                if (isLyricsMode && profileImgVisual) {
+                    profileImgVisual.style.backgroundImage = `url("${finalCoverUrl}")`;
+                }
+            };
+            preloader.onerror = () => {
+                if (myTicket !== trackLoadTicket) return;
+                nextCover.src = defaultCoverUrl;
+                nextCover.style.opacity = '1';
+                currentCover.style.opacity = '0';
+                defaultCover.style.opacity = '0';
+                activeCover = activeCover === 1 ? 2 : 1;
+                if (isLyricsMode && profileImgVisual) {
+                    profileImgVisual.style.backgroundImage = `url("${defaultCoverUrl}")`;
+                }
+            };
+            preloader.src = finalCoverUrl;
+        }
 
         // ---------- BUTON OLAYLARI ----------
         toggleBtn.addEventListener('contextmenu', (e) => e.preventDefault());
@@ -1864,32 +1812,19 @@ let playlist = []; // Müzik listesi artık JSON'dan gelecek
         prevBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             resetAdvancedControlsTimer();
-            
             if (isFirstPlay) return;
-            
             if (audioPlayer.currentTime > 3) {
                 audioPlayer.currentTime = 0;
                 activeLyricIndex = -99;
                 syncLyricPosition();
                 if (!isPlaying) playTrack();
             } else {
-                clearTimeout(clickTimer); 
-                clearTimeout(pillTimeout); 
-                clearTimeout(pillCloseTimer);
-                
-                musicPill.classList.remove('show-pill'); 
-                resetIcons();
-                
+                clearTimeout(clickTimer); clearTimeout(pillTimeout); clearTimeout(pillCloseTimer);
+                musicPill.classList.remove('show-pill'); resetIcons();
                 shouldReopenAdvanced = true;
-
                 currentQueueIndex -= 2;
                 if (currentQueueIndex < 0) currentQueueIndex = playlist.length - 1;
-                
-                setTimeout(() => { 
-                    loadRandomTrack(); 
-                    showPill(); 
-                    playTrack(true); 
-                }, 500);
+                setTimeout(() => { loadRandomTrack(); showPill(); playTrack(true); }, 500);
             }
         });
 
@@ -1923,712 +1858,262 @@ let playlist = []; // Müzik listesi artık JSON'dan gelecek
             resetAdvancedControlsTimer();
         });
 
-    // ---------- DOMContentLoaded, MODAL, PARALLAX, PARTICLES ----------
-document.addEventListener('DOMContentLoaded', () => {
-     // YENİ: Sayfa ilk açıldığı an, o anki modal resminin rengini otomatik tara ve glow yap!
-    const initialPreviewImg = document.getElementById('preview-image');
-    if (initialPreviewImg) {
-        updateModalGlow(initialPreviewImg.src);
-    }
-    
-    const elementsToAnimate = [profileImgContainer, document.querySelector('.username'), document.querySelector('.bio'), document.querySelector('.social-icons-mini'), ...document.querySelectorAll('.link-button')].filter(el => el != null);
-    setTimeout(() => { elementsToAnimate.forEach(el => { el.classList.add('is-visible'); }); }, 50);
-
-    const parallaxRatio = 0.4; const maxScroll = 200; const maxBlur = 10; const maxDimOpacity = 0.6; let ticking = false;
-    function updateEffects() {
-        if (!ticking) {
-            window.requestAnimationFrame(() => {
-                const scrollY = Math.max(0, -document.body.getBoundingClientRect().top);
-                if (isLyricsMode) {
-                    if (scrollY > 150) toggleLyrics();
-                    profileImgContainer.style.transform = `translate3d(-50%, ${scrollY * parallaxRatio}px, 0)`;
-                    ticking = false;
-                    return;
-                }
-                const scrollRatio = Math.min(scrollY, maxScroll) / maxScroll;
-                profileImgContainer.style.transform = `translate3d(-50%, ${scrollY * parallaxRatio}px, 0)`;
-                profileImgVisual.style.filter = `blur(${scrollRatio * maxBlur}px)`;
-                dimOverlay.style.opacity = scrollRatio * maxDimOpacity;
-                if (scrollY > 30) { profileImgContainer.classList.add('scrolled-past'); } else { profileImgContainer.classList.remove('scrolled-past'); }
-                ticking = false;
-            }); ticking = true;
-        }
-    }
-    window.addEventListener('scroll', updateEffects, { passive: true });
-    window.addEventListener('touchmove', updateEffects, { passive: true });
-    updateEffects();
-
-    document.querySelectorAll('.link-button').forEach(btn => {
-        btn.addEventListener('click', () => { btn.classList.remove('press'); void btn.offsetWidth; btn.classList.add('press'); setTimeout(() => { btn.classList.remove('press'); }, 200); });
-    });
-
-    setTimeout(() => {
-        document.body.classList.add('animations-done');
-        if (profileImgContainer) { setTimeout(() => { profileImgContainer.classList.add('show-hint'); setTimeout(() => { profileImgContainer.classList.remove('show-hint'); }, 1000); }, 300); }
-    }, 2200);
-
-    // Modal yönetimi
-    const modal = document.getElementById('image-preview-modal');
-    const modalContent = document.querySelector('.modal-content');
-    let initialDistance = 0; let currentScale = 1; let isPinching = false; const MIN_TOUCHES_FOR_PINCH = 2;
-
-    function closeModal() {
-        if (!modal.classList.contains('is-open')) return;
-        modal.classList.remove('is-open'); document.removeEventListener('keydown', handleEscape);
-        document.body.classList.remove('no-scroll'); document.body.classList.remove('is-modal-open');
-        modalContent.style.transition = SPRING_TRANSITION; modalContent.style.transform = `scale(0)`;
-        currentScale = 1; isPinching = false;
-        if (history.state && history.state.modal === MODAL_STATE_NAME) { if (history.length > 0) { history.back(); } }
-    }
-    function openModal() {
-        if (isLyricsMode) return;
-        if (modal.classList.contains('is-open')) return;
-        if (!history.state || history.state.modal !== MODAL_STATE_NAME) { history.pushState({ modal: MODAL_STATE_NAME }, '', window.location.href); }
-        document.body.classList.add('no-scroll'); document.body.classList.add('is-modal-open');
-        modalContent.style.transition = SPRING_TRANSITION; modalContent.style.transform = `scale(0)`;
-        modal.classList.add('is-open'); setTimeout(() => { modalContent.style.transform = `scale(1)`; }, 10);
-        modal.onclick = (event) => { 
-            if (event.target.id !== 'preview-image') { 
-                closeModal(); 
-            } 
-        };
-
-        document.addEventListener('keydown', handleEscape, { once: true });
-    }
-    function handleEscape(e) { if (e.key === 'Escape') closeModal(); }
-    window.addEventListener('popstate', (e) => {
-        if (modal.classList.contains('is-open') && (!e.state || e.state.modal !== MODAL_STATE_NAME)) {
-            modal.classList.remove('is-open'); document.body.classList.remove('no-scroll'); document.body.classList.remove('is-modal-open');
-            modalContent.style.transition = SPRING_TRANSITION; modalContent.style.transform = `scale(0)`;
-        }
-    });
-    profileImgContainer.addEventListener('click', openModal);
-    modal.addEventListener('touchstart', (e) => {
-        if (e.touches.length === MIN_TOUCHES_FOR_PINCH) {
-            e.preventDefault(); modalContent.style.transition = 'none'; initialDistance = Math.hypot(e.touches[1].clientX - e.touches[0].clientX, e.touches[1].clientY - e.touches[0].clientY); isPinching = true;
-        } else { isPinching = false; }
-    }, { passive: false });
-    modal.addEventListener('touchmove', (e) => {
-        if (!isPinching) return; e.preventDefault();
-        const newDistance = Math.hypot(e.touches[1].clientX - e.touches[0].clientX, e.touches[1].clientY - e.touches[0].clientY);
-        const scaleFactor = newDistance / initialDistance; currentScale = Math.min(Math.max(scaleFactor, 0.5), 4.0);
-        modalContent.style.transform = `scale(${currentScale})`;
-    }, { passive: false });
-    modal.addEventListener('touchend', () => {
-        if (!isPinching) return; isPinching = false;
-        modalContent.style.transition = SPRING_TRANSITION; modalContent.style.transform = `scale(1)`; currentScale = 1;
-    });
-});
-
-document.addEventListener('touchstart', () => { document.body.classList.add('is-touching'); }, { passive: true });
-document.addEventListener('mousemove', (e) => { if (e.movementX !== 0 || e.movementY !== 0) { document.body.classList.remove('is-touching'); } }, { passive: true });
-
-document.querySelectorAll('.social-icons-mini a').forEach(icon => {
-    icon.addEventListener('mousemove', (e) => {
-        if (!document.body.classList.contains('is-touching') && document.body.classList.contains('animations-done')) {
-            const rect = icon.getBoundingClientRect();
-            const x = e.clientX - rect.left - rect.width / 2; const y = e.clientY - rect.top - rect.height / 2;
-            icon.style.transform = `translate(${x * 0.4}px, ${y * 0.4}px) scale(1.15)`; icon.style.transition = 'transform 0.1s ease-out';
-        }
-    });
-    icon.addEventListener('mouseleave', () => { icon.style.transform = ''; icon.style.transition = 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)'; });
-});
-
-// Particles
-(function() {
-    window.particleRGB = '157, 80, 255'; 
-
-    const canvas = document.getElementById('particle-canvas');
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d'); let width, height; let particles = []; let tiltX = 0; let tiltY = 0;
-    function resizeCanvas() { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; }
-    window.addEventListener('resize', resizeCanvas); resizeCanvas();
-    class Particle {
-        constructor() {
-            this.x = Math.random() * width; this.y = Math.random() * height;
-            this.size = Math.random() * 2.0 + 1.0; this.speedX = Math.random() * 0.5 - 0.2; this.speedY = Math.random() * -0.5 - 0.2;
-            this.opacity = Math.random() * 0.35 + 0.15;
-        }
-        update() {
-            const depth = this.size * 0.4; this.x += this.speedX + (tiltX * 0.02 * depth); this.y += this.speedY + (tiltY * 0.02 * depth);
-            if (this.y < -10) this.y = height + 10; if (this.x < -10) this.x = width + 10;
-            if (this.x > width + 10) this.x = -10; if (this.y > height + 10) this.y = -10;
-        }
-        draw() { 
-            ctx.fillStyle = `rgba(${window.particleRGB}, ${this.opacity})`; 
-            ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); 
-        }
-    }
-    for (let i = 0; i < 45; i++) { particles.push(new Particle()); }
-    function animateParticles() { ctx.clearRect(0, 0, width, height); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animateParticles); }
-    animateParticles();
-    window.addEventListener('deviceorientation', (e) => { if(e.gamma !== null && e.beta !== null) { tiltX = e.gamma; tiltY = e.beta; } }, { passive: true });
-})();
-
-
-// Global haptik
-function stopHaptics() { clearTimeout(window.globalHoldTimer); if (navigator.vibrate) navigator.vibrate(0); }
-document.addEventListener('pointerup', stopHaptics);
-document.addEventListener('pointercancel', stopHaptics);
-window.addEventListener('scroll', stopHaptics, { passive: true });
-    
-// --- PROFİL VE FOTOĞRAF DEĞİŞTİRME FONKSİYONU (KUSURSUZ ZAMANLAMA) ---
-function toggleProfile(target) {
-    const currentPanel = target === 'twin' ? document.getElementById('kazikate-panel') : document.getElementById('twin-panel');
-    const titleEl = currentPanel.querySelector('.username-switch');
-    
-    // 1. Tıklandığı an ikona "dön ve parla" sınıfını ekle (Dönüş başlar)
-    titleEl.classList.add('icon-spin-active');
-
-    // 2. Animasyonun tam bitiş süresi (350ms) kadar bekle ve TİTREŞİM VER
-    setTimeout(() => {
-        // İkon tam 180 derece dönüşünü bitirdiğinde titreyecek:
-        if (navigator.vibrate) navigator.vibrate(15);
-        
-        // 3. Titreşimi hissettikten çok kısa bir süre (100ms) sonra sayfayı değiştir
-        setTimeout(() => {
-            titleEl.classList.remove('icon-spin-active');
+        // ---------- JSON ÇEKME VE DOM İŞLEMLERİ ----------
+        function renderMiniIcons(containerId, iconsArray) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
             
-            const kazikatePanel = document.getElementById('kazikate-panel');
-            const twinPanel = document.getElementById('twin-panel');
-            const visualBg = document.querySelector('.profile-img-visual');
-            const downloadableImg = document.querySelector('.downloadable-profile-img');
-            const previewImage = document.getElementById('preview-image');
+            container.innerHTML = iconsArray.map(icon => `
+                <a href="${icon.url}" aria-label="${icon.platform}" class="${icon.cssClass}">
+                    <img src="${icon.icon}" alt="${icon.platform}" class="mini-icon">
+                </a>
+            `).join('\n');
+        }
 
-            const kazikateBg = "https://kazikate.github.io/Biography/assets/Profile2.png";
-            const kazikateModal = "https://kazikate.github.io/Biography/assets/Profile.png";
+        function renderLinks(containerId, linksArray) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
             
-            const twinBg = "https://kazikate.github.io/Biography/assets/Twinbio.jpg"; 
-            const twinModal = "https://kazikate.github.io/Biography/assets/Twinbio2.jpg";
+            container.innerHTML = linksArray.map((link, index) => `
+                <a href="${link.url}" target="_blank" class="link-button" style="transition-delay: ${0.9 + (index * 0.1)}s;">
+                    <div class="link-img-placeholder" style="background-image: url('${link.bg}');"></div>
+                    <div class="link-text-details">
+                        <span class="link-platform">${link.platform}</span>
+                        ${link.username ? `<span class="link-username">${link.username}</span>` : ''}
+                    </div>
+                </a>
+            `).join('\n');
+        }
 
-            if (target === 'twin') {
-                window.currentProfileBg = twinBg; 
-                
-                kazikatePanel.classList.remove('active-panel');
-                kazikatePanel.classList.add('hidden-panel');
-                twinPanel.classList.remove('hidden-panel');
-                twinPanel.classList.add('active-panel');
-                
-                if (!isLyricsMode) {
-                    visualBg.style.backgroundImage = `url('${twinBg}')`;
-                    window.particleRGB = '138, 55, 138'; 
-                }
-                
-                downloadableImg.src = twinBg;
-                previewImage.src = twinModal;
-                
-                updateModalGlow(twinModal);
-                document.body.classList.add('is-twin-active');
-            } else {
-                window.currentProfileBg = kazikateBg; 
-                
-                twinPanel.classList.remove('active-panel');
-                twinPanel.classList.add('hidden-panel');
-                kazikatePanel.classList.remove('hidden-panel');
-                kazikatePanel.classList.add('active-panel');
-                
-                if (!isLyricsMode) {
-                    visualBg.style.backgroundImage = `url('${kazikateBg}')`;
-                    window.particleRGB = '157, 80, 255'; 
-                }
-                
-                downloadableImg.src = kazikateBg;
-                previewImage.src = kazikateModal;
-                
-                updateModalGlow(kazikateModal);
-                document.body.classList.remove('is-twin-active');
-            }
+        let kazikateData = null;
+        let twinData = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const elementsToAnimate = [
+                profileImgContainer, 
+                ...document.querySelectorAll('.username'), 
+                ...document.querySelectorAll('.bio')
+            ].filter(el => el != null);
             
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            
-        }, 0); // Titreşim ile sayfa değişimi arasındaki o milimetrik boşluk
-        
-    }, 300); // Dönme animasyonunun bittiği o an!
-}
+            setTimeout(() => { elementsToAnimate.forEach(el => { el.classList.add('is-visible'); }); }, 50);
 
-      // ---------- JSON ÇEKME VE DOM İŞLEMLERİ ----------
-    function renderMiniIcons(containerId, iconsArray) {
-        const container = document.getElementById(containerId);
-        if (!container) return;
-        // HTML'de boşluk olmaması css'i bozmaması için satır arası boşluksuz joinliyoruz
-        container.innerHTML = iconsArray.map(icon => `<a href="${icon.url}" aria-label="${icon.platform}" class="${icon.cssClass}"><img src="${icon.icon}" alt="${icon.platform}" class="mini-icon"></a>`).join('');
-    }
+            // 3 AYRI DOSYAYI AYNI ANDA ÇEK
+            Promise.all([
+                fetch('music.json').then(res => res.json()),
+                fetch('kazikate.json').then(res => res.json()),
+                fetch('twin.json').then(res => res.json())
+            ])
+            .then(([music, kazikate, twin]) => {
+                playlist = music.playlist;
+                kazikateData = kazikate;
+                twinData = twin;
+                
+                renderMiniIcons('kazikate-mini-icons', kazikate.miniIcons);
+                renderLinks('kazikate-links', kazikate.links);
 
-    function renderLinks(containerId, linksArray) {
-        const container = document.getElementById(containerId);
-        if (!container) return;
-        container.innerHTML = linksArray.map(link => `
-            <a href="${link.url}" target="_blank" class="link-button">
-                <div class="link-img-placeholder" style="background-image: url('${link.bg}');"></div>
-                <div class="link-text-details">
-                    <span class="link-platform">${link.platform}</span>
-                    ${link.username ? `<span class="link-username">${link.username}</span>` : ''}
-                </div>
-            </a>
-        `).join('');
-    }
+                renderMiniIcons('twin-mini-icons', twin.miniIcons);
+                renderLinks('twin-links', twin.links);
 
-    let kazikateData = null;
-    let twinData = null;
+                document.querySelector('.profile-img-visual').style.backgroundImage = `url('${kazikate.profilePhoto}')`;
+                document.querySelector('.downloadable-profile-img').src = kazikate.profilePhoto;
+                const initialPreviewImg = document.getElementById('preview-image');
+                initialPreviewImg.src = kazikate.modalPhoto;
+                updateModalGlow(kazikate.modalPhoto);
+                window.currentProfileBg = kazikate.profilePhoto;
 
-    document.addEventListener('DOMContentLoaded', () => {
-        // Üst kısmı anında yükle
-        const elementsToAnimate = [
-            profileImgContainer, 
-            ...document.querySelectorAll('.username'), 
-            ...document.querySelectorAll('.bio')
-        ].filter(el => el != null);
-        
-        setTimeout(() => { elementsToAnimate.forEach(el => { el.classList.add('is-visible'); }); }, 50);
+                setTimeout(() => {
+                    document.querySelectorAll('#kazikate-mini-icons, #twin-mini-icons, .link-button').forEach(el => {
+                        el.classList.add('is-visible');
+                    });
+                }, 50);
+            })
+            .catch(err => {
+                console.error("JSON yükleme hatası:", err);
+            });
 
-        // 3 AYRI DOSYAYI AYNI ANDA ÇEK
-        Promise.all([
-            fetch('music.json').then(res => res.json()),
-            fetch('kazikate.json').then(res => res.json()),
-            fetch('twin.json').then(res => res.json())
-        ])
-        .then(([music, kazikate, twin]) => {
-            playlist = music.playlist;
-            kazikateData = kazikate;
-            twinData = twin;
-            
-            // Kazikate verilerini bas
-            renderMiniIcons('kazikate-mini-icons', kazikate.miniIcons);
-            renderLinks('kazikate-links', kazikate.links);
-
-            // Twin verilerini bas
-            renderMiniIcons('twin-mini-icons', twin.miniIcons);
-            renderLinks('twin-links', twin.links);
-
-            // İlk açılışta Kazikate fotoğraflarını ayarla
-            document.querySelector('.profile-img-visual').style.backgroundImage = `url('${kazikate.profilePhoto}')`;
-            document.querySelector('.downloadable-profile-img').src = kazikate.profilePhoto;
-            const initialPreviewImg = document.getElementById('preview-image');
-            initialPreviewImg.src = kazikate.modalPhoto;
-            updateModalGlow(kazikate.modalPhoto);
-            window.currentProfileBg = kazikate.profilePhoto;
-
-            // Animasyonları başlat
-            setTimeout(() => {
-                document.querySelectorAll('#kazikate-mini-icons, #twin-mini-icons, .link-button').forEach(el => {
-                    el.classList.add('is-visible');
-                });
-            }, 50);
-        })
-        .catch(err => console.error("JSON yükleme hatası:", err));
-
-        // ... Diğer scroll/parallax kodların (Aynı kalacak)
-        const parallaxRatio = 0.4; const maxScroll = 200; const maxBlur = 10; const maxDimOpacity = 0.6; let ticking = false;
-        function updateEffects() {
-            if (!ticking) {
-                window.requestAnimationFrame(() => {
-                    const scrollY = Math.max(0, -document.body.getBoundingClientRect().top);
-                    if (isLyricsMode) {
-                        if (scrollY > 150) toggleLyrics();
+            const parallaxRatio = 0.4; const maxScroll = 200; const maxBlur = 10; const maxDimOpacity = 0.6; let ticking = false;
+            function updateEffects() {
+                if (!ticking) {
+                    window.requestAnimationFrame(() => {
+                        const scrollY = Math.max(0, -document.body.getBoundingClientRect().top);
+                        if (isLyricsMode) {
+                            if (scrollY > 150) toggleLyrics();
+                            profileImgContainer.style.transform = `translate3d(-50%, ${scrollY * parallaxRatio}px, 0)`;
+                            ticking = false; return;
+                        }
+                        const scrollRatio = Math.min(scrollY, maxScroll) / maxScroll;
                         profileImgContainer.style.transform = `translate3d(-50%, ${scrollY * parallaxRatio}px, 0)`;
-                        ticking = false; return;
-                    }
-                    const scrollRatio = Math.min(scrollY, maxScroll) / maxScroll;
-                    profileImgContainer.style.transform = `translate3d(-50%, ${scrollY * parallaxRatio}px, 0)`;
-                    profileImgVisual.style.filter = `blur(${scrollRatio * maxBlur}px)`;
-                    dimOverlay.style.opacity = scrollRatio * maxDimOpacity;
-                    if (scrollY > 30) { profileImgContainer.classList.add('scrolled-past'); } else { profileImgContainer.classList.remove('scrolled-past'); }
-                    ticking = false;
-                }); ticking = true;
+                        profileImgVisual.style.filter = `blur(${scrollRatio * maxBlur}px)`;
+                        dimOverlay.style.opacity = scrollRatio * maxDimOpacity;
+                        if (scrollY > 30) { profileImgContainer.classList.add('scrolled-past'); } else { profileImgContainer.classList.remove('scrolled-past'); }
+                        ticking = false;
+                    }); ticking = true;
+                }
             }
-        }
-        window.addEventListener('scroll', updateEffects, { passive: true });
-        window.addEventListener('touchmove', updateEffects, { passive: true });
-        updateEffects();
+            window.addEventListener('scroll', updateEffects, { passive: true });
+            window.addEventListener('touchmove', updateEffects, { passive: true });
+            updateEffects();
 
-        setTimeout(() => {
-            document.body.classList.add('animations-done');
-            if (profileImgContainer) { setTimeout(() => { profileImgContainer.classList.add('show-hint'); setTimeout(() => { profileImgContainer.classList.remove('show-hint'); }, 1000); }, 300); }
-        }, 2200);
+            setTimeout(() => {
+                document.body.classList.add('animations-done');
+                if (profileImgContainer) { setTimeout(() => { profileImgContainer.classList.add('show-hint'); setTimeout(() => { profileImgContainer.classList.remove('show-hint'); }, 1000); }, 300); }
+            }, 2200);
 
-        const modal = document.getElementById('image-preview-modal');
-        const modalContent = document.querySelector('.modal-content');
-        let initialDistance = 0; let currentScale = 1; let isPinching = false; const MIN_TOUCHES_FOR_PINCH = 2;
+            const modal = document.getElementById('image-preview-modal');
+            const modalContent = document.querySelector('.modal-content');
+            let initialDistance = 0; let currentScale = 1; let isPinching = false; const MIN_TOUCHES_FOR_PINCH = 2;
 
-        function closeModal() {
-            if (!modal.classList.contains('is-open')) return;
-            modal.classList.remove('is-open'); document.removeEventListener('keydown', handleEscape);
-            document.body.classList.remove('no-scroll'); document.body.classList.remove('is-modal-open');
-            modalContent.style.transition = SPRING_TRANSITION; modalContent.style.transform = `scale(0)`;
-            currentScale = 1; isPinching = false;
-            if (history.state && history.state.modal === MODAL_STATE_NAME) { if (history.length > 0) { history.back(); } }
-        }
-        function openModal() {
-            if (isLyricsMode) return;
-            if (modal.classList.contains('is-open')) return;
-            if (!history.state || history.state.modal !== MODAL_STATE_NAME) { history.pushState({ modal: MODAL_STATE_NAME }, '', window.location.href); }
-            document.body.classList.add('no-scroll'); document.body.classList.add('is-modal-open');
-            modalContent.style.transition = SPRING_TRANSITION; modalContent.style.transform = `scale(0)`;
-            modal.classList.add('is-open'); setTimeout(() => { modalContent.style.transform = `scale(1)`; }, 10);
-            modal.onclick = (event) => { if (event.target.id !== 'preview-image') { closeModal(); } };
-            document.addEventListener('keydown', handleEscape, { once: true });
-        }
-        function handleEscape(e) { if (e.key === 'Escape') closeModal(); }
-        window.addEventListener('popstate', (e) => {
-            if (modal.classList.contains('is-open') && (!e.state || e.state.modal !== MODAL_STATE_NAME)) {
-                modal.classList.remove('is-open'); document.body.classList.remove('no-scroll'); document.body.classList.remove('is-modal-open');
+            function closeModal() {
+                if (!modal.classList.contains('is-open')) return;
+                modal.classList.remove('is-open'); document.removeEventListener('keydown', handleEscape);
+                document.body.classList.remove('no-scroll'); document.body.classList.remove('is-modal-open');
                 modalContent.style.transition = SPRING_TRANSITION; modalContent.style.transform = `scale(0)`;
+                currentScale = 1; isPinching = false;
+                if (history.state && history.state.modal === MODAL_STATE_NAME) { if (history.length > 0) { history.back(); } }
+            }
+            function openModal() {
+                if (isLyricsMode) return;
+                if (modal.classList.contains('is-open')) return;
+                if (!history.state || history.state.modal !== MODAL_STATE_NAME) { history.pushState({ modal: MODAL_STATE_NAME }, '', window.location.href); }
+                document.body.classList.add('no-scroll'); document.body.classList.add('is-modal-open');
+                modalContent.style.transition = SPRING_TRANSITION; modalContent.style.transform = `scale(0)`;
+                modal.classList.add('is-open'); setTimeout(() => { modalContent.style.transform = `scale(1)`; }, 10);
+                modal.onclick = (event) => { if (event.target.id !== 'preview-image') { closeModal(); } };
+                document.addEventListener('keydown', handleEscape, { once: true });
+            }
+            function handleEscape(e) { if (e.key === 'Escape') closeModal(); }
+            window.addEventListener('popstate', (e) => {
+                if (modal.classList.contains('is-open') && (!e.state || e.state.modal !== MODAL_STATE_NAME)) {
+                    modal.classList.remove('is-open'); document.body.classList.remove('no-scroll'); document.body.classList.remove('is-modal-open');
+                    modalContent.style.transition = SPRING_TRANSITION; modalContent.style.transform = `scale(0)`;
+                }
+            });
+            profileImgContainer.addEventListener('click', openModal);
+            modal.addEventListener('touchstart', (e) => {
+                if (e.touches.length === MIN_TOUCHES_FOR_PINCH) {
+                    e.preventDefault(); modalContent.style.transition = 'none'; initialDistance = Math.hypot(e.touches[1].clientX - e.touches[0].clientX, e.touches[1].clientY - e.touches[0].clientY); isPinching = true;
+                } else { isPinching = false; }
+            }, { passive: false });
+            modal.addEventListener('touchmove', (e) => {
+                if (!isPinching) return; e.preventDefault();
+                const newDistance = Math.hypot(e.touches[1].clientX - e.touches[0].clientX, e.touches[1].clientY - e.touches[0].clientY);
+                const scaleFactor = newDistance / initialDistance; currentScale = Math.min(Math.max(scaleFactor, 0.5), 4.0);
+                modalContent.style.transform = `scale(${currentScale})`;
+            }, { passive: false });
+            modal.addEventListener('touchend', () => {
+                if (!isPinching) return; isPinching = false;
+                modalContent.style.transition = SPRING_TRANSITION; modalContent.style.transform = `scale(1)`; currentScale = 1;
+            });
+        });
+
+        document.addEventListener('touchstart', () => { document.body.classList.add('is-touching'); }, { passive: true });
+        document.addEventListener('mousemove', (e) => { if (e.movementX !== 0 || e.movementY !== 0) { document.body.classList.remove('is-touching'); } }, { passive: true });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!document.body.classList.contains('is-touching') && document.body.classList.contains('animations-done')) {
+                if (e.target.closest('.social-icons-mini a')) {
+                    const icon = e.target.closest('.social-icons-mini a');
+                    const rect = icon.getBoundingClientRect();
+                    const x = e.clientX - rect.left - rect.width / 2; const y = e.clientY - rect.top - rect.height / 2;
+                    icon.style.transform = `translate(${x * 0.4}px, ${y * 0.4}px) scale(1.15)`; icon.style.transition = 'transform 0.1s ease-out';
+                }
             }
         });
-        profileImgContainer.addEventListener('click', openModal);
-        modal.addEventListener('touchstart', (e) => {
-            if (e.touches.length === MIN_TOUCHES_FOR_PINCH) {
-                e.preventDefault(); modalContent.style.transition = 'none'; initialDistance = Math.hypot(e.touches[1].clientX - e.touches[0].clientX, e.touches[1].clientY - e.touches[0].clientY); isPinching = true;
-            } else { isPinching = false; }
-        }, { passive: false });
-        modal.addEventListener('touchmove', (e) => {
-            if (!isPinching) return; e.preventDefault();
-            const newDistance = Math.hypot(e.touches[1].clientX - e.touches[0].clientX, e.touches[1].clientY - e.touches[0].clientY);
-            const scaleFactor = newDistance / initialDistance; currentScale = Math.min(Math.max(scaleFactor, 0.5), 4.0);
-            modalContent.style.transform = `scale(${currentScale})`;
-        }, { passive: false });
-        modal.addEventListener('touchend', () => {
-            if (!isPinching) return; isPinching = false;
-            modalContent.style.transition = SPRING_TRANSITION; modalContent.style.transform = `scale(1)`; currentScale = 1;
-        });
-    });
-
-    document.addEventListener('touchstart', () => { document.body.classList.add('is-touching'); }, { passive: true });
-    document.addEventListener('mousemove', (e) => { if (e.movementX !== 0 || e.movementY !== 0) { document.body.classList.remove('is-touching'); } }, { passive: true });
-
-    document.addEventListener('mousemove', (e) => {
-        if (!document.body.classList.contains('is-touching') && document.body.classList.contains('animations-done')) {
+        
+        document.addEventListener('mouseout', (e) => {
             if (e.target.closest('.social-icons-mini a')) {
                 const icon = e.target.closest('.social-icons-mini a');
-                const rect = icon.getBoundingClientRect();
-                const x = e.clientX - rect.left - rect.width / 2; const y = e.clientY - rect.top - rect.height / 2;
-                icon.style.transform = `translate(${x * 0.4}px, ${y * 0.4}px) scale(1.15)`; icon.style.transition = 'transform 0.1s ease-out';
-            }
-        }
-    });
-    
-    document.addEventListener('mouseout', (e) => {
-        if (e.target.closest('.social-icons-mini a')) {
-            const icon = e.target.closest('.social-icons-mini a');
-            icon.style.transform = ''; icon.style.transition = 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
-        }
-    });
-    
-    document.addEventListener('click', (e) => {
-        const btn = e.target.closest('.link-button');
-        if (btn) {
-            btn.classList.remove('press'); void btn.offsetWidth; btn.classList.add('press'); setTimeout(() => { btn.classList.remove('press'); }, 200);
-        }
-    });
-
-    (function() {
-        window.particleRGB = '157, 80, 255'; 
-        const canvas = document.getElementById('particle-canvas');
-        if (!canvas) return;
-        const ctx = canvas.getContext('2d'); let width, height; let particles = []; let tiltX = 0; let tiltY = 0;
-        function resizeCanvas() { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; }
-        window.addEventListener('resize', resizeCanvas); resizeCanvas();
-        class Particle {
-            constructor() {
-                this.x = Math.random() * width; this.y = Math.random() * height;
-                this.size = Math.random() * 2.0 + 1.0; this.speedX = Math.random() * 0.5 - 0.2; this.speedY = Math.random() * -0.5 - 0.2;
-                this.opacity = Math.random() * 0.35 + 0.15;
-            }
-            update() {
-                const depth = this.size * 0.4; this.x += this.speedX + (tiltX * 0.02 * depth); this.y += this.speedY + (tiltY * 0.02 * depth);
-                if (this.y < -10) this.y = height + 10; if (this.x < -10) this.x = width + 10;
-                if (this.x > width + 10) this.x = -10; if (this.y > height + 10) this.y = -10;
-            }
-            draw() { 
-                ctx.fillStyle = `rgba(${window.particleRGB}, ${this.opacity})`; 
-                ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); 
-            }
-        }
-        for (let i = 0; i < 45; i++) { particles.push(new Particle()); }
-        function animateParticles() { ctx.clearRect(0, 0, width, height); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animateParticles); }
-        animateParticles();
-        window.addEventListener('deviceorientation', (e) => { if(e.gamma !== null && e.beta !== null) { tiltX = e.gamma; tiltY = e.beta; } }, { passive: true });
-    })();
-
-    function stopHaptics() { clearTimeout(window.globalHoldTimer); if (navigator.vibrate) navigator.vibrate(0); }
-    document.addEventListener('pointerup', stopHaptics);
-    document.addEventListener('pointercancel', stopHaptics);
-    window.addEventListener('scroll', stopHaptics, { passive: true });
-        
-    function toggleProfile(target) {
-        if (!kazikateData || !twinData) return; // Veriler yüklenmediyse buton çalışmasın
-        
-        const currentPanel = target === 'twin' ? document.getElementById('kazikate-panel') : document.getElementById('twin-panel');
-        const titleEl = currentPanel.querySelector('.username-switch');
-        
-        titleEl.classList.add('icon-spin-active');
-        setTimeout(() => {
-            if (navigator.vibrate) navigator.vibrate(15);
-            setTimeout(() => {
-                titleEl.classList.remove('icon-spin-active');
-
-                    // ---------- JSON ÇEKME VE DOM İŞLEMLERİ ----------
-    function renderMiniIcons(containerId, iconsArray) {
-        const container = document.getElementById(containerId);
-        if (!container) return;
-        
-        // CSS ayarlarının (translateX) bozulmaması için join('\n') ile aralara doğal HTML boşlukları ekliyoruz.
-        container.innerHTML = iconsArray.map(icon => `
-            <a href="${icon.url}" aria-label="${icon.platform}" class="${icon.cssClass}">
-                <img src="${icon.icon}" alt="${icon.platform}" class="mini-icon">
-            </a>
-        `).join('\n');
-    }
-
-    function renderLinks(containerId, linksArray) {
-        const container = document.getElementById(containerId);
-        if (!container) return;
-        
-        container.innerHTML = linksArray.map(link => `
-            <a href="${link.url}" target="_blank" class="link-button">
-                <div class="link-img-placeholder" style="background-image: url('${link.bg}');"></div>
-                <div class="link-text-details">
-                    <span class="link-platform">${link.platform}</span>
-                    ${link.username ? `<span class="link-username">${link.username}</span>` : ''}
-                </div>
-            </a>
-        `).join('\n');
-    }
-
-    let kazikateData = null;
-    let twinData = null;
-
-    document.addEventListener('DOMContentLoaded', () => {
-        // Üst kısmı anında yükle
-        const elementsToAnimate = [
-            profileImgContainer, 
-            ...document.querySelectorAll('.username'), 
-            ...document.querySelectorAll('.bio')
-        ].filter(el => el != null);
-        
-        setTimeout(() => { elementsToAnimate.forEach(el => { el.classList.add('is-visible'); }); }, 50);
-
-        // 3 AYRI DOSYAYI AYNI ANDA ÇEK
-        Promise.all([
-            fetch('music.json').then(res => res.json()),
-            fetch('kazikate.json').then(res => res.json()),
-            fetch('twin.json').then(res => res.json())
-        ])
-        .then(([music, kazikate, twin]) => {
-            playlist = music.playlist;
-            kazikateData = kazikate;
-            twinData = twin;
-            
-            // Kazikate verilerini bas
-            renderMiniIcons('kazikate-mini-icons', kazikate.miniIcons);
-            renderLinks('kazikate-links', kazikate.links);
-
-            // Twin verilerini bas
-            renderMiniIcons('twin-mini-icons', twin.miniIcons);
-            renderLinks('twin-links', twin.links);
-
-            // İlk açılışta Kazikate fotoğraflarını ayarla
-            document.querySelector('.profile-img-visual').style.backgroundImage = `url('${kazikate.profilePhoto}')`;
-            document.querySelector('.downloadable-profile-img').src = kazikate.profilePhoto;
-            const initialPreviewImg = document.getElementById('preview-image');
-            initialPreviewImg.src = kazikate.modalPhoto;
-            updateModalGlow(kazikate.modalPhoto);
-            window.currentProfileBg = kazikate.profilePhoto;
-
-            // Animasyonları başlat
-            setTimeout(() => {
-                document.querySelectorAll('#kazikate-mini-icons, #twin-mini-icons, .link-button').forEach(el => {
-                    el.classList.add('is-visible');
-                });
-            }, 50);
-        })
-        .catch(err => console.error("JSON yükleme hatası:", err));
-
-        const parallaxRatio = 0.4; const maxScroll = 200; const maxBlur = 10; const maxDimOpacity = 0.6; let ticking = false;
-        function updateEffects() {
-            if (!ticking) {
-                window.requestAnimationFrame(() => {
-                    const scrollY = Math.max(0, -document.body.getBoundingClientRect().top);
-                    if (isLyricsMode) {
-                        if (scrollY > 150) toggleLyrics();
-                        profileImgContainer.style.transform = `translate3d(-50%, ${scrollY * parallaxRatio}px, 0)`;
-                        ticking = false; return;
-                    }
-                    const scrollRatio = Math.min(scrollY, maxScroll) / maxScroll;
-                    profileImgContainer.style.transform = `translate3d(-50%, ${scrollY * parallaxRatio}px, 0)`;
-                    profileImgVisual.style.filter = `blur(${scrollRatio * maxBlur}px)`;
-                    dimOverlay.style.opacity = scrollRatio * maxDimOpacity;
-                    if (scrollY > 30) { profileImgContainer.classList.add('scrolled-past'); } else { profileImgContainer.classList.remove('scrolled-past'); }
-                    ticking = false;
-                }); ticking = true;
-            }
-        }
-        window.addEventListener('scroll', updateEffects, { passive: true });
-        window.addEventListener('touchmove', updateEffects, { passive: true });
-        updateEffects();
-
-        setTimeout(() => {
-            document.body.classList.add('animations-done');
-            if (profileImgContainer) { setTimeout(() => { profileImgContainer.classList.add('show-hint'); setTimeout(() => { profileImgContainer.classList.remove('show-hint'); }, 1000); }, 300); }
-        }, 2200);
-
-        const modal = document.getElementById('image-preview-modal');
-        const modalContent = document.querySelector('.modal-content');
-        let initialDistance = 0; let currentScale = 1; let isPinching = false; const MIN_TOUCHES_FOR_PINCH = 2;
-
-        function closeModal() {
-            if (!modal.classList.contains('is-open')) return;
-            modal.classList.remove('is-open'); document.removeEventListener('keydown', handleEscape);
-            document.body.classList.remove('no-scroll'); document.body.classList.remove('is-modal-open');
-            modalContent.style.transition = SPRING_TRANSITION; modalContent.style.transform = `scale(0)`;
-            currentScale = 1; isPinching = false;
-            if (history.state && history.state.modal === MODAL_STATE_NAME) { if (history.length > 0) { history.back(); } }
-        }
-        function openModal() {
-            if (isLyricsMode) return;
-            if (modal.classList.contains('is-open')) return;
-            if (!history.state || history.state.modal !== MODAL_STATE_NAME) { history.pushState({ modal: MODAL_STATE_NAME }, '', window.location.href); }
-            document.body.classList.add('no-scroll'); document.body.classList.add('is-modal-open');
-            modalContent.style.transition = SPRING_TRANSITION; modalContent.style.transform = `scale(0)`;
-            modal.classList.add('is-open'); setTimeout(() => { modalContent.style.transform = `scale(1)`; }, 10);
-            modal.onclick = (event) => { if (event.target.id !== 'preview-image') { closeModal(); } };
-            document.addEventListener('keydown', handleEscape, { once: true });
-        }
-        function handleEscape(e) { if (e.key === 'Escape') closeModal(); }
-        window.addEventListener('popstate', (e) => {
-            if (modal.classList.contains('is-open') && (!e.state || e.state.modal !== MODAL_STATE_NAME)) {
-                modal.classList.remove('is-open'); document.body.classList.remove('no-scroll'); document.body.classList.remove('is-modal-open');
-                modalContent.style.transition = SPRING_TRANSITION; modalContent.style.transform = `scale(0)`;
+                icon.style.transform = ''; icon.style.transition = 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
             }
         });
-        profileImgContainer.addEventListener('click', openModal);
-        modal.addEventListener('touchstart', (e) => {
-            if (e.touches.length === MIN_TOUCHES_FOR_PINCH) {
-                e.preventDefault(); modalContent.style.transition = 'none'; initialDistance = Math.hypot(e.touches[1].clientX - e.touches[0].clientX, e.touches[1].clientY - e.touches[0].clientY); isPinching = true;
-            } else { isPinching = false; }
-        }, { passive: false });
-        modal.addEventListener('touchmove', (e) => {
-            if (!isPinching) return; e.preventDefault();
-            const newDistance = Math.hypot(e.touches[1].clientX - e.touches[0].clientX, e.touches[1].clientY - e.touches[0].clientY);
-            const scaleFactor = newDistance / initialDistance; currentScale = Math.min(Math.max(scaleFactor, 0.5), 4.0);
-            modalContent.style.transform = `scale(${currentScale})`;
-        }, { passive: false });
-        modal.addEventListener('touchend', () => {
-            if (!isPinching) return; isPinching = false;
-            modalContent.style.transition = SPRING_TRANSITION; modalContent.style.transform = `scale(1)`; currentScale = 1;
+        
+        document.addEventListener('click', (e) => {
+            const btn = e.target.closest('.link-button');
+            if (btn) {
+                btn.classList.remove('press'); void btn.offsetWidth; btn.classList.add('press'); setTimeout(() => { btn.classList.remove('press'); }, 200);
+            }
         });
-    });
 
-    document.addEventListener('touchstart', () => { document.body.classList.add('is-touching'); }, { passive: true });
-    document.addEventListener('mousemove', (e) => { if (e.movementX !== 0 || e.movementY !== 0) { document.body.classList.remove('is-touching'); } }, { passive: true });
-
-    document.addEventListener('mousemove', (e) => {
-        if (!document.body.classList.contains('is-touching') && document.body.classList.contains('animations-done')) {
-            if (e.target.closest('.social-icons-mini a')) {
-                const icon = e.target.closest('.social-icons-mini a');
-                const rect = icon.getBoundingClientRect();
-                const x = e.clientX - rect.left - rect.width / 2; const y = e.clientY - rect.top - rect.height / 2;
-                icon.style.transform = `translate(${x * 0.4}px, ${y * 0.4}px) scale(1.15)`; icon.style.transition = 'transform 0.1s ease-out';
-            }
-        }
-    });
-    
-    document.addEventListener('mouseout', (e) => {
-        if (e.target.closest('.social-icons-mini a')) {
-            const icon = e.target.closest('.social-icons-mini a');
-            icon.style.transform = ''; icon.style.transition = 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
-        }
-    });
-    
-    document.addEventListener('click', (e) => {
-        const btn = e.target.closest('.link-button');
-        if (btn) {
-            btn.classList.remove('press'); void btn.offsetWidth; btn.classList.add('press'); setTimeout(() => { btn.classList.remove('press'); }, 200);
-        }
-    });
-
-    (function() {
-        window.particleRGB = '157, 80, 255'; 
-        const canvas = document.getElementById('particle-canvas');
-        if (!canvas) return;
-        const ctx = canvas.getContext('2d'); let width, height; let particles = []; let tiltX = 0; let tiltY = 0;
-        function resizeCanvas() { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; }
-        window.addEventListener('resize', resizeCanvas); resizeCanvas();
-        class Particle {
-            constructor() {
-                this.x = Math.random() * width; this.y = Math.random() * height;
-                this.size = Math.random() * 2.0 + 1.0; this.speedX = Math.random() * 0.5 - 0.2; this.speedY = Math.random() * -0.5 - 0.2;
-                this.opacity = Math.random() * 0.35 + 0.15;
-            }
-            update() {
-                const depth = this.size * 0.4; this.x += this.speedX + (tiltX * 0.02 * depth); this.y += this.speedY + (tiltY * 0.02 * depth);
-                if (this.y < -10) this.y = height + 10; if (this.x < -10) this.x = width + 10;
-                if (this.x > width + 10) this.x = -10; if (this.y > height + 10) this.y = -10;
-            }
-            draw() { 
-                ctx.fillStyle = `rgba(${window.particleRGB}, ${this.opacity})`; 
-                ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); 
-            }
-        }
-        for (let i = 0; i < 45; i++) { particles.push(new Particle()); }
-        function animateParticles() { ctx.clearRect(0, 0, width, height); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animateParticles); }
-        animateParticles();
-        window.addEventListener('deviceorientation', (e) => { if(e.gamma !== null && e.beta !== null) { tiltX = e.gamma; tiltY = e.beta; } }, { passive: true });
-    })();
-
-    function stopHaptics() { clearTimeout(window.globalHoldTimer); if (navigator.vibrate) navigator.vibrate(0); }
-    document.addEventListener('pointerup', stopHaptics);
-    document.addEventListener('pointercancel', stopHaptics);
-    window.addEventListener('scroll', stopHaptics, { passive: true });
-        
-    function toggleProfile(target) {
-        if (!kazikateData || !twinData) return; // Veriler yüklenmediyse buton çalışmasın
-        
-        const currentPanel = target === 'twin' ? document.getElementById('kazikate-panel') : document.getElementById('twin-panel');
-        const titleEl = currentPanel.querySelector('.username-switch');
-        
-        titleEl.classList.add('icon-spin-active');
-        setTimeout(() => {
-            if (navigator.vibrate) navigator.vibrate(15);
-            setTimeout(() => {
-                titleEl.classList.remove('icon-spin-active');
-                const kazikatePanel = document.getElementById('kazikate-panel');
-                const twinPanel = document.getElementById('twin-panel');
-                const visualBg = document.querySelector('.profile-img-visual');
-                const downloadableImg = document.querySelector('.downloadable-profile-img');
-                const previewImage = document.getElementById('preview-image');
-                
-                const kazikateBg = kazikateData.profilePhoto;
-                const kazikateModal = kazikateData.modalPhoto;
-                const twinBg = twinData.profilePhoto; 
-                const twinModal = twinData.modalPhoto;
-
-                if (target === 'twin') {
-                    window.currentProfileBg = twinBg; 
-                    kazikatePanel.classList.remove('active-panel'); kazikatePanel.classList.add('hidden-panel');
-                    twinPanel.classList.remove('hidden-panel'); twinPanel.classList.add('active-panel');
-                    
-                    if (!isLyricsMode) { visualBg.style.backgroundImage = `url('${twinBg}')`; window.particleRGB = '138, 55, 138'; }
-                    
-                    downloadableImg.src = twinBg; previewImage.src = twinModal;
-                    updateModalGlow(twinModal); document.body.classList.add('is-twin-active');
-                } else {
-                    window.currentProfileBg = kazikateBg; 
-                    twinPanel.classList.remove('active-panel'); twinPanel.classList.add('hidden-panel');
-                    kazikatePanel.classList.remove('hidden-panel'); kazikatePanel.classList.add('active-panel');
-                    
-                    if (!isLyricsMode) { visualBg.style.backgroundImage = `url('${kazikateBg}')`; window.particleRGB = '157, 80, 255'; }
-                    
-                    downloadableImg.src = kazikateBg; previewImage.src = kazikateModal;
-                    updateModalGlow(kazikateModal); document.body.classList.remove('is-twin-active');
+        (function() {
+            window.particleRGB = '157, 80, 255'; 
+            const canvas = document.getElementById('particle-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d'); let width, height; let particles = []; let tiltX = 0; let tiltY = 0;
+            function resizeCanvas() { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; }
+            window.addEventListener('resize', resizeCanvas); resizeCanvas();
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * width; this.y = Math.random() * height;
+                    this.size = Math.random() * 2.0 + 1.0; this.speedX = Math.random() * 0.5 - 0.2; this.speedY = Math.random() * -0.5 - 0.2;
+                    this.opacity = Math.random() * 0.35 + 0.15;
                 }
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }, 0); 
-        }, 300); 
-    }
+                update() {
+                    const depth = this.size * 0.4; this.x += this.speedX + (tiltX * 0.02 * depth); this.y += this.speedY + (tiltY * 0.02 * depth);
+                    if (this.y < -10) this.y = height + 10; if (this.x < -10) this.x = width + 10;
+                    if (this.x > width + 10) this.x = -10; if (this.y > height + 10) this.y = -10;
+                }
+                draw() { 
+                    ctx.fillStyle = `rgba(${window.particleRGB}, ${this.opacity})`; 
+                    ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); 
+                }
+            }
+            for (let i = 0; i < 45; i++) { particles.push(new Particle()); }
+            function animateParticles() { ctx.clearRect(0, 0, width, height); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animateParticles); }
+            animateParticles();
+            window.addEventListener('deviceorientation', (e) => { if(e.gamma !== null && e.beta !== null) { tiltX = e.gamma; tiltY = e.beta; } }, { passive: true });
+        })();
 
-  </script>
+        function stopHaptics() { clearTimeout(window.globalHoldTimer); if (navigator.vibrate) navigator.vibrate(0); }
+        document.addEventListener('pointerup', stopHaptics);
+        document.addEventListener('pointercancel', stopHaptics);
+        window.addEventListener('scroll', stopHaptics, { passive: true });
+            
+        function toggleProfile(target) {
+            if (!kazikateData || !twinData) return; 
+            
+            const currentPanel = target === 'twin' ? document.getElementById('kazikate-panel') : document.getElementById('twin-panel');
+            const titleEl = currentPanel.querySelector('.username-switch');
+            
+            titleEl.classList.add('icon-spin-active');
+            setTimeout(() => {
+                if (navigator.vibrate) navigator.vibrate(15);
+                setTimeout(() => {
+                    titleEl.classList.remove('icon-spin-active');
+                    const kazikatePanel = document.getElementById('kazikate-panel');
+                    const twinPanel = document.getElementById('twin-panel');
+                    const visualBg = document.querySelector('.profile-img-visual');
+                    const downloadableImg = document.querySelector('.downloadable-profile-img');
+                    const previewImage = document.getElementById('preview-image');
+                    
+                    const kazikateBg = kazikateData.profilePhoto;
+                    const kazikateModal = kazikateData.modalPhoto;
+                    const twinBg = twinData.profilePhoto; 
+                    const twinModal = twinData.modalPhoto;
 
+                    if (target === 'twin') {
+                        window.currentProfileBg = twinBg; 
+                        kazikatePanel.classList.remove('active-panel'); kazikatePanel.classList.add('hidden-panel');
+                        twinPanel.classList.remove('hidden-panel'); twinPanel.classList.add('active-panel');
+                        
+                        if (!isLyricsMode) { visualBg.style.backgroundImage = `url('${twinBg}')`; window.particleRGB = '138, 55, 138'; }
+                        
+                        downloadableImg.src = twinBg; previewImage.src = twinModal;
+                        updateModalGlow(twinModal); document.body.classList.add('is-twin-active');
+                    } else {
+                        window.currentProfileBg = kazikateBg; 
+                        twinPanel.classList.remove('active-panel'); twinPanel.classList.add('hidden-panel');
+                        kazikatePanel.classList.remove('hidden-panel'); kazikatePanel.classList.add('active-panel');
+                        
+                        if (!isLyricsMode) { visualBg.style.backgroundImage = `url('${kazikateBg}')`; window.particleRGB = '157, 80, 255'; }
+                        
+                        downloadableImg.src = kazikateBg; previewImage.src = kazikateModal;
+                        updateModalGlow(kazikateModal); document.body.classList.remove('is-twin-active');
+                    }
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }, 0); 
+            }, 300); 
+        }
+    </script>
     <div class="bottom-blur-layer"></div>
 </body>
 </html>
