@@ -1,6 +1,6 @@
 {
-  "profilePhoto": "assets/twin/profile/Twinbio.jpg",
-  "modalPhoto": "assets/twin/profile/Twinbio2.jpg",
+  "twin_profilePhoto": "/assets/twin/profile/Twinbio.jpg",
+  "twin_modalPhoto": "/assets/twin/profile/Twinbio2.jpg",
   "miniIcons": [
     {
       "platform": "Instagram",
@@ -102,5 +102,7 @@
       "twin_bg": "/assets/twin/icons/normal/Spotify.png",
       "bg": "assets/twin/icons/Spotify.png"
     }
-  ]
+  ],
+  "modalPhoto": "assets/twin/profile/Twinbio2.jpg",
+  "profilePhoto": "assets/twin/profile/Twinbio.jpg"
 }
