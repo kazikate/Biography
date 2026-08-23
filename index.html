@@ -129,7 +129,7 @@
             width: 100%;
             height: 100%;
             position: relative;
-            background-image: url('https://kazikate.github.io/Biography/assets/Profile2.png');
+            background-image: url('assets/Profile2.png');
             background-size: cover;
             background-position: center top;
             background-repeat: no-repeat;
@@ -1592,6 +1592,7 @@ body:not(.is-loading) .content-wrapper {
                 document.body.classList.remove('theme-lyric-on');
                 
                 if (profileImgVisual) {
+                    // Kazikate ana sayfa olduğu için varsayılan arka plan Kazikate
                     const activeBg = window.currentProfileBg || 'assets/Profile2.png';
                     profileImgVisual.style.backgroundImage = `url('${activeBg}')`;
                     
@@ -1968,7 +1969,7 @@ body:not(.is-loading) .content-wrapper {
                         document.getElementById('preview-image').src = defaultKaziModal;
                         updateModalGlow(defaultKaziModal);
                     }
-                    window.particleRGB = '157, 80, 255';
+                    window.particleRGB = '157, 80, 255'; // Kazikate'nin varsayılan (Mor) parçacık rengi
                 } catch (err) { console.error('Kazikate profili hatası:', err); }
 
                 setTimeout(() => {
