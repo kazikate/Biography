@@ -1,6 +1,6 @@
 {
-  "profilePhoto": "assets/kazikate/profile/Profile2.png",
-  "modalPhoto": "assets/kazikate/profile/Profile.png",
+  "kazi_profilePhoto": "/assets/kazikate/profile/Profile2.png",
+  "kazi_modalPhoto": "/assets/kazikate/profile/Profile.png",
   "miniIcons": [
     {
       "platform": "Instagram",
@@ -95,5 +95,7 @@
       "kazi_bg": "/assets/kazikate/icons/normal/Github.png",
       "bg": "/assets/kazikate/icons/normal/Github.png"
     }
-  ]
+  ],
+  "modalPhoto": "assets/kazikate/profile/Profile.png",
+  "profilePhoto": "assets/kazikate/profile/Profile2.png"
 }
