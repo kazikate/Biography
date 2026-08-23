@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
+
+    <style>
+    body.is-loading .content-wrapper {
+        opacity: 0 !important;
+        pointer-events: none;
+    }
+    </style>
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Kazikate - Biography</title>
@@ -170,16 +178,13 @@
             /* --- DİNAMİK İKON DİZİLİMİ (FLEXBOX) --- */
 
 .social-icons-mini {
-    display: flex;                /* İkonları yan yana esnek bir kutuya koyar */
-    justify-content: center;      /* Kaç ikon olursa olsun tam ekranın ORTASINA hizalar */
-    align-items: center;          /* Dikeyde de tam ortalar */
-    flex-wrap: wrap;              /* Eğer çok fazla ikon eklersen ve ekrana sığmazsa otomatik alt satıra geçer */
-    gap: 15px;                    /* İkonların arasına otomatik ve EŞİT 15px boşluk koyar */
-    /* ESKİ MESAFEYİ GERİ GETİREN KISIM */
-    margin-top: 2px;      /* Biyografiye olan eski yakınlığı */
-    margin-bottom: 28px;  /* Altındaki büyük link haplarına olan uzaklığı */
-      
-    margin: 15px auto;
+    display: flex;                
+    justify-content: center;      
+    align-items: center;          
+    flex-wrap: wrap;              
+    gap: 15px;                    
+    margin-top: 10px !important;      
+    margin-bottom: 10px !important;  
     opacity: 0;
     transform: translateY(20px);
     transition: opacity 0.6s ease-out, transform 0.6s ease-out;
@@ -200,19 +205,17 @@
     transition: transform 0.2s, opacity 0.2s;
     line-height: 0;
     -webkit-tap-highlight-color: transparent;
-    margin: 0 !important; /* Eski margin ayarlarını sıfırlayıp Gap'e bırakıyoruz */
+    margin: 0 !important; 
 }
 
 .social-icons-mini a:hover { 
     transform: scale(1.15); 
 }
 
-/* Tüm ikonlar için standart, yuvarlak ve eşit boyut */
 .social-icons-mini .mini-icon {
     width: 36px;  
     height: 36px;
-    object-fit: visible; /* İkonun kırpılmadan çerçevenin içine tam oturmasını sağlar */
-  
+    object-fit: visible; 
 }
     
         .link-button {
@@ -954,11 +957,18 @@ body.is-touching .profile-img-container:hover .profile-hover-layer i {
     opacity: 0 !important;
     transform: scale(0.5) !important;
     pointer-events: none !important;
+             }
+    
+.content-wrapper {
+    opacity: 0;
+    transition: opacity 0.6s ease;
 }
-
-    </style>
+body:not(.is-loading) .content-wrapper {
+    opacity: 1;
+}
+  </style>
 </head>
-<body>
+<body class="is-loading">
 
     <div id="music-widget">
         <div class="music-pill" id="music-pill">
@@ -1122,6 +1132,9 @@ body.is-touching .profile-img-container:hover .profile-hover-layer i {
         let initialTransformY = 0;
         let lyricSpring = null;
         let playlist = []; 
+
+        let kazikateData = null;
+        let twinData = null;
 
         // ---------- FAYDALI FONKSİYONLAR ----------
         function formatTime(seconds) {
@@ -1579,7 +1592,7 @@ body.is-touching .profile-img-container:hover .profile-hover-layer i {
                 document.body.classList.remove('theme-lyric-on');
                 
                 if (profileImgVisual) {
-                    const activeBg = window.currentProfileBg || 'https://kazikate.github.io/Biography/assets/Profile2.png';
+                    const activeBg = window.currentProfileBg || 'assets/Profile2.png';
                     profileImgVisual.style.backgroundImage = `url('${activeBg}')`;
                     
                     profileImgVisual.style.filter = ''; profileImgVisual.style.transform = '';
@@ -1860,36 +1873,49 @@ body.is-touching .profile-img-container:hover .profile-hover-layer i {
             resetAdvancedControlsTimer();
         });
 
-        // ---------- JSON ÇEKME VE DOM İŞLEMLERİ ----------
+        // ---------- İKON VE LİNK FONKSİYONLARI (KUSURSUZ YAPI) ----------
         function renderMiniIcons(containerId, iconsArray) {
             const container = document.getElementById(containerId);
             if (!container) return;
-            
-            container.innerHTML = iconsArray.map(icon => `
-                <a href="${icon.url}" aria-label="${icon.platform}" class="${icon.cssClass}">
-                    <img src="${icon.icon}" alt="${icon.platform}" class="mini-icon">
-                </a>
-            `).join('\n');
+            if (!iconsArray || iconsArray.length === 0) return;
+
+            container.innerHTML = iconsArray.map(icon => {
+                let iconUrl = icon.twin_icon || icon.kazi_icon || icon.icon || '';
+                if (iconUrl.startsWith('/')) iconUrl = iconUrl.substring(1); 
+                
+                const label = icon.platform || 'Platform';
+                if (!iconUrl) return '';
+                return `
+                    <a href="${icon.url}" target="_blank" rel="noopener" aria-label="${label}">
+                        <img src="${iconUrl}" alt="${label}" class="mini-icon" loading="lazy">
+                    </a>
+                `;
+            }).join('\n');
         }
 
         function renderLinks(containerId, linksArray) {
             const container = document.getElementById(containerId);
             if (!container) return;
-            
-            container.innerHTML = linksArray.map((link, index) => `
-                <a href="${link.url}" target="_blank" class="link-button" style="transition-delay: ${0.9 + (index * 0.1)}s;">
-                    <div class="link-img-placeholder" style="background-image: url('${link.bg}');"></div>
-                    <div class="link-text-details">
-                        <span class="link-platform">${link.platform}</span>
-                        ${link.username ? `<span class="link-username">${link.username}</span>` : ''}
-                    </div>
-                </a>
-            `).join('\n');
+            if (!linksArray || linksArray.length === 0) return;
+
+            container.innerHTML = linksArray.map((link, index) => {  
+                let iconUrl = link.twin_bg || link.kazi_bg || link.bg || '';
+                if (iconUrl.startsWith('/')) iconUrl = iconUrl.substring(1); 
+                
+                if (!iconUrl) return '';
+                return `
+                    <a href="${link.url}" target="_blank" rel="noopener" class="link-button" style="transition-delay: ${0.9 + (index * 0.1)}s;">
+                        <div class="link-img-placeholder" style="background-image: url('${iconUrl}');"></div>
+                        <div class="link-text-details">
+                            <span class="link-platform">${link.platform}</span>
+                            ${link.username ? `<span class="link-username">${link.username}</span>` : ''}
+                        </div>
+                    </a>
+                `;
+            }).join('\n');
         }
 
-        let kazikateData = null;
-        let twinData = null;
-
+        // ---------- DOM YÜKLEMESİ VE JSON ----------
         document.addEventListener('DOMContentLoaded', () => {
             const elementsToAnimate = [
                 profileImgContainer, 
@@ -1899,39 +1925,61 @@ body.is-touching .profile-img-container:hover .profile-hover-layer i {
             
             setTimeout(() => { elementsToAnimate.forEach(el => { el.classList.add('is-visible'); }); }, 50);
 
-            // 3 AYRI DOSYAYI AYNI ANDA ÇEK
-            Promise.all([
-                fetch('music.json').then(res => res.json()),
-                fetch('kazikate.json').then(res => res.json()),
-                fetch('twin.json').then(res => res.json())
-            ])
-            .then(([music, kazikate, twin]) => {
-                playlist = music.playlist;
-                kazikateData = kazikate;
-                twinData = twin;
-                
-                renderMiniIcons('kazikate-mini-icons', kazikate.miniIcons);
-                renderLinks('kazikate-links', kazikate.links);
+            async function loadData() {
+                const cacheBuster = `?v=${new Date().getTime()}`;
 
-                renderMiniIcons('twin-mini-icons', twin.miniIcons);
-                renderLinks('twin-links', twin.links);
+                try {
+                    const musicRes = await fetch('music.json' + cacheBuster);
+                    if (!musicRes.ok) throw new Error(`music.json yüklenemedi`);
+                    const musicData = await musicRes.json();
+                    if (musicData.playlist && Array.isArray(musicData.playlist)) {
+                        playlist = musicData.playlist;
+                    }
+                } catch (err) { console.error('Müzik listesi hatası:', err); }
 
-                document.querySelector('.profile-img-visual').style.backgroundImage = `url('${kazikate.profilePhoto}')`;
-                document.querySelector('.downloadable-profile-img').src = kazikate.profilePhoto;
-                const initialPreviewImg = document.getElementById('preview-image');
-                initialPreviewImg.src = kazikate.modalPhoto;
-                updateModalGlow(kazikate.modalPhoto);
-                window.currentProfileBg = kazikate.profilePhoto;
+                try {
+                    const twinRes = await fetch('twin.json' + cacheBuster);
+                    if (!twinRes.ok) throw new Error(`twin.json yüklenemedi`);
+                    twinData = await twinRes.json();
+                    if (twinData.miniIcons) renderMiniIcons('twin-mini-icons', twinData.miniIcons);
+                    if (twinData.links) renderLinks('twin-links', twinData.links);
+                } catch (err) { console.error('Twin profili hatası:', err); }
+
+                try {
+                    const kazikateRes = await fetch('kazikate.json' + cacheBuster);
+                    if (!kazikateRes.ok) throw new Error(`kazikate.json yüklenemedi`);
+                    kazikateData = await kazikateRes.json();
+                    if (kazikateData.miniIcons) renderMiniIcons('kazikate-mini-icons', kazikateData.miniIcons);
+                    if (kazikateData.links) renderLinks('kazikate-links', kazikateData.links);
+
+                    // Kazikate ana sayfa olduğu için varsayılan arka plan Kazikate'den alınır:
+                    let defaultKaziPhoto = kazikateData.kazi_profilePhoto || kazikateData.profilePhoto;
+                    let defaultKaziModal = kazikateData.kazi_modalPhoto || kazikateData.modalPhoto;
+                    
+                    if (defaultKaziPhoto && defaultKaziPhoto.startsWith('/')) defaultKaziPhoto = defaultKaziPhoto.substring(1);
+                    if (defaultKaziModal && defaultKaziModal.startsWith('/')) defaultKaziModal = defaultKaziModal.substring(1);
+
+                    if (defaultKaziPhoto) {
+                        document.querySelector('.profile-img-visual').style.backgroundImage = `url('${defaultKaziPhoto}')`;
+                        document.querySelector('.downloadable-profile-img').src = defaultKaziPhoto;
+                        window.currentProfileBg = defaultKaziPhoto;
+                    }
+                    if (defaultKaziModal) {
+                        document.getElementById('preview-image').src = defaultKaziModal;
+                        updateModalGlow(defaultKaziModal);
+                    }
+                    window.particleRGB = '157, 80, 255';
+                } catch (err) { console.error('Kazikate profili hatası:', err); }
 
                 setTimeout(() => {
                     document.querySelectorAll('#kazikate-mini-icons, #twin-mini-icons, .link-button').forEach(el => {
                         el.classList.add('is-visible');
                     });
+                    document.body.classList.remove('is-loading');
                 }, 50);
-            })
-            .catch(err => {
-                console.error("JSON yükleme hatası:", err);
-            });
+            }
+
+            loadData();
 
             const parallaxRatio = 0.4; const maxScroll = 200; const maxBlur = 10; const maxDimOpacity = 0.6; let ticking = false;
             function updateEffects() {
@@ -2070,7 +2118,8 @@ body.is-touching .profile-img-container:hover .profile-hover-layer i {
         document.addEventListener('pointercancel', stopHaptics);
         window.addEventListener('scroll', stopHaptics, { passive: true });
             
-        function toggleProfile(target) {
+        // --- Profil Geçişi (toggleProfile) KUSURSUZ YAPI ---
+        window.toggleProfile = function(target) {
             if (!kazikateData || !twinData) return; 
             
             const currentPanel = target === 'twin' ? document.getElementById('kazikate-panel') : document.getElementById('twin-panel');
@@ -2087,29 +2136,53 @@ body.is-touching .profile-img-container:hover .profile-hover-layer i {
                     const downloadableImg = document.querySelector('.downloadable-profile-img');
                     const previewImage = document.getElementById('preview-image');
                     
-                    const kazikateBg = kazikateData.profilePhoto;
-                    const kazikateModal = kazikateData.modalPhoto;
-                    const twinBg = twinData.profilePhoto; 
-                    const twinModal = twinData.modalPhoto;
+                    let kazikateBg = (kazikateData && (kazikateData.kazi_profilePhoto || kazikateData.profilePhoto)) ? (kazikateData.kazi_profilePhoto || kazikateData.profilePhoto) : "assets/Profile2.png";
+                    let kazikateModal = (kazikateData && (kazikateData.kazi_modalPhoto || kazikateData.modalPhoto)) ? (kazikateData.kazi_modalPhoto || kazikateData.modalPhoto) : "assets/Profile.png";
+                    
+                    let twinBg = (twinData && (twinData.twin_profilePhoto || twinData.profilePhoto)) ? (twinData.twin_profilePhoto || twinData.profilePhoto) : "assets/Twinbio.jpg"; 
+                    let twinModal = (twinData && (twinData.twin_modalPhoto || twinData.modalPhoto)) ? (twinData.twin_modalPhoto || twinData.modalPhoto) : "assets/Twinbio2.jpg";
+
+                    if (kazikateBg && kazikateBg.startsWith('/')) kazikateBg = kazikateBg.substring(1);
+                    if (kazikateModal && kazikateModal.startsWith('/')) kazikateModal = kazikateModal.substring(1);
+                    if (twinBg && twinBg.startsWith('/')) twinBg = twinBg.substring(1);
+                    if (twinModal && twinModal.startsWith('/')) twinModal = twinModal.substring(1);
 
                     if (target === 'twin') {
                         window.currentProfileBg = twinBg; 
-                        kazikatePanel.classList.remove('active-panel'); kazikatePanel.classList.add('hidden-panel');
-                        twinPanel.classList.remove('hidden-panel'); twinPanel.classList.add('active-panel');
                         
-                        if (!isLyricsMode) { visualBg.style.backgroundImage = `url('${twinBg}')`; window.particleRGB = '138, 55, 138'; }
+                        kazikatePanel.classList.remove('active-panel'); 
+                        kazikatePanel.classList.add('hidden-panel');
+                        twinPanel.classList.remove('hidden-panel'); 
+                        twinPanel.classList.add('active-panel');
                         
-                        downloadableImg.src = twinBg; previewImage.src = twinModal;
-                        updateModalGlow(twinModal); document.body.classList.add('is-twin-active');
+                        if (typeof isLyricsMode !== 'undefined' && !isLyricsMode) { 
+                            visualBg.style.backgroundImage = `url('${twinBg}')`; 
+                            window.particleRGB = '138, 55, 138'; 
+                        }
+                        
+                        downloadableImg.src = twinBg; 
+                        previewImage.src = twinModal;
+                        
+                        if(typeof updateModalGlow === 'function') updateModalGlow(twinModal); 
+                        document.body.classList.add('is-twin-active');
                     } else {
                         window.currentProfileBg = kazikateBg; 
-                        twinPanel.classList.remove('active-panel'); twinPanel.classList.add('hidden-panel');
-                        kazikatePanel.classList.remove('hidden-panel'); kazikatePanel.classList.add('active-panel');
                         
-                        if (!isLyricsMode) { visualBg.style.backgroundImage = `url('${kazikateBg}')`; window.particleRGB = '157, 80, 255'; }
+                        twinPanel.classList.remove('active-panel'); 
+                        twinPanel.classList.add('hidden-panel');
+                        kazikatePanel.classList.remove('hidden-panel'); 
+                        kazikatePanel.classList.add('active-panel');
                         
-                        downloadableImg.src = kazikateBg; previewImage.src = kazikateModal;
-                        updateModalGlow(kazikateModal); document.body.classList.remove('is-twin-active');
+                        if (typeof isLyricsMode !== 'undefined' && !isLyricsMode) { 
+                            visualBg.style.backgroundImage = `url('${kazikateBg}')`; 
+                            window.particleRGB = '157, 80, 255'; 
+                        }
+                        
+                        downloadableImg.src = kazikateBg; 
+                        previewImage.src = kazikateModal;
+                        
+                        if(typeof updateModalGlow === 'function') updateModalGlow(kazikateModal); 
+                        document.body.classList.remove('is-twin-active');
                     }
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                 }, 0); 
