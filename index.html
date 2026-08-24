@@ -131,6 +131,26 @@
             will-change: filter, transform;
         }
 
+        /* Profil fotoğrafı giriş animasyonu */
+@keyframes profile-reveal {
+    0% {
+        transform: scale(1.35);
+        filter: blur(30px) brightness(0.35);
+    }
+    60% {
+        transform: scale(0.98);
+        filter: blur(6px) brightness(0.85);
+    }
+    100% {
+        transform: scale(1);
+        filter: blur(0px) brightness(1);
+    }
+}
+
+.profile-img-visual.reveal-anim {
+    animation: profile-reveal 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    will-change: transform, filter;
+}
         body.is-modal-open .profile-img-visual { transform: scale(1.08); }
         .dim-overlay {
             position: absolute;
@@ -1932,8 +1952,22 @@
                 ...document.querySelectorAll('.bio')
             ].filter(el => el != null);
             
-            setTimeout(() => { elementsToAnimate.forEach(el => { el.classList.add('is-visible'); }); }, 50);
-
+            // Orijinal kayma animasyonunu başlatan satır (Yüklenir yüklenmez)
+setTimeout(() => {
+    elementsToAnimate.forEach(el => { el.classList.add('is-visible'); });
+    
+    // Yeni: Profil fotoğrafı tatlı animasyonla gelsin
+    if (profileImgVisual) {
+        profileImgVisual.classList.remove('reveal-anim');
+        void profileImgVisual.offsetWidth; // Reflow'u zorlayarak animasyonu yeniden başlat
+        profileImgVisual.classList.add('reveal-anim');
+        
+        // Animasyon bittikten sonra sınıfı temizle (scroll blur çakışmasın diye)
+        setTimeout(() => {
+            profileImgVisual.classList.remove('reveal-anim');
+        }, 1600); // 1500ms + küçük tolerans
+    }
+}, 50);
             Promise.all([
                 fetch('music.json').then(res => res.json()),
                 fetch('kazikate.json').then(res => res.json()),
@@ -1963,6 +1997,18 @@
                 updateModalGlow(defaultKaziModal);
                 window.currentProfileBg = defaultKaziPhoto;
 
+                // Twin profil resimlerini önceden yükle (geçişte gecikme olmasın)
+let twinPhotoForPreload = twin?.twin_profilePhoto || twin?.profilePhoto || "assets/Twinbio.jpg";
+let twinModalForPreload = twin?.twin_modalPhoto || twin?.modalPhoto || "assets/Twinbio2.jpg";
+
+if (twinPhotoForPreload.startsWith('/')) twinPhotoForPreload = twinPhotoForPreload.substring(1);
+if (twinModalForPreload.startsWith('/')) twinModalForPreload = twinModalForPreload.substring(1);
+
+const preloadTwinImg = new Image();
+preloadTwinImg.src = twinPhotoForPreload;
+const preloadTwinModalImg = new Image();
+preloadTwinModalImg.src = twinModalForPreload;
+               
                 setTimeout(() => {
                     document.querySelectorAll('#kazikate-mini-icons, #twin-mini-icons, .link-button').forEach(el => {
                         el.classList.add('is-visible');
