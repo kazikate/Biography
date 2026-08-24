@@ -24,6 +24,24 @@
     <style>
         @import url('https://api.fontshare.com/css?f[]=chillax@300,400,500,600,700&display=swap');
 
+        @property --ui-light {
+            syntax: '<color>';
+            inherits: true;
+            initial-value: #DCBAF7;
+        }
+
+        @property --ui-accent {
+            syntax: '<color>';
+            inherits: true;
+            initial-value: #A48BB8;
+        }
+
+        @property --lyric-accent {
+            syntax: '<color>';
+            inherits: true;
+            initial-value: #DCBAF7;
+        }
+
         :root {
             color-scheme: dark;
             --dark-bg: #000000;
@@ -51,7 +69,7 @@
             -webkit-tap-highlight-color: transparent;
             --ui-accent: #A48BB8;
             --ui-light: #DCBAF7;
-            transition: background-color 0.5s ease, color 0.5s ease, --ui-accent 0.8s ease, --ui-light 0.8s ease;
+            transition: background-color 0.5s ease, color 0.5s ease, --ui-accent 0.8s ease, --ui-light 0.8s ease, --lyric-accent 0.8s ease;
         }
 
         body.theme-lyric-on {
@@ -824,8 +842,8 @@
     height: 3px;
     border-radius: 3px;
     outline: none;
-    background: linear-gradient(to right, var(--ui-light) 0%, rgba(255,255,255,0.15) 0%);
-    transition: background 0.8s ease, height 0.3s ease;
+    background: linear-gradient(to right, var(--ui-light) var(--progress, 0%), rgba(255,255,255,0.15) var(--progress, 0%));
+    transition: height 0.3s ease;
     cursor: pointer;
     touch-action: none;
 }
@@ -1221,6 +1239,7 @@
                         openAdvancedControls();
                     }
                 }
+            }
             }, 400);
         }
 
@@ -1470,7 +1489,7 @@
             }
             currentTimeDisplay.textContent = "00:00";
             seekBar.value = 0;
-            seekBar.style.background = `linear-gradient(to right, var(--ui-light) 0%, rgba(255,255,255,0.15) 0%)`;
+            seekBar.style.setProperty('--progress', '0%');
         });
 
         audioPlayer.addEventListener('timeupdate', () => {
@@ -1503,7 +1522,7 @@
             if (!isSeeking && d && !isNaN(d) && d !== Infinity) {
                 const progress = (audioPlayer.currentTime / d) * 100;
                 seekBar.value = progress;
-                seekBar.style.background = `linear-gradient(to right, var(--ui-light) ${progress}%, rgba(255,255,255,0.15) ${progress}%)`;
+                seekBar.style.setProperty('--progress', `${progress}%`);
             }
             syncLyricPosition();
             animationFrameId = requestAnimationFrame(updateSeekBarSmoothly);
@@ -1895,7 +1914,7 @@
         seekBar.addEventListener('input', () => {
             isSeeking = true;
             const val = seekBar.value;
-            seekBar.style.background = `linear-gradient(to right, var(--ui-light) ${val}%, rgba(255,255,255,0.15) ${val}%)`;
+            seekBar.style.setProperty('--progress', `${val}%`);
             const d = cachedDuration || audioPlayer.duration;
             if(d && !isNaN(d) && d !== Infinity) currentTimeDisplay.textContent = formatTime((val / 100) * d);
             resetAdvancedControlsTimer();
