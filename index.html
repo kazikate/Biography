@@ -1,14 +1,6 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-
-    <style>
-    body.is-loading .content-wrapper {
-        opacity: 0 !important;
-        pointer-events: none;
-    }
-    </style>
-    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Kazikate - Biography</title>
@@ -99,10 +91,7 @@
             position: relative;
             margin-left: auto;
             margin-right: auto;
-            opacity: 0;
-            transition: opacity 0.6s ease;
         }
-        body:not(.is-loading) .content-wrapper { opacity: 1; }
 
         .container {
             width: 100%;
@@ -185,8 +174,8 @@
             align-items: center;          
             flex-wrap: wrap;              
             gap: 15px;                    
-            margin-top: 10px !important;      
-            margin-bottom: 10px !important;  
+            margin-top: 2px;      
+            margin-bottom: 28px;  
             opacity: 0;
             transform: translateY(20px);
             transition: opacity 0.6s ease-out, transform 0.6s ease-out;
@@ -797,10 +786,9 @@
             transform: scale(0.5) !important;
             pointer-events: none !important;
         }
-
     </style>
 </head>
-<body class="is-loading">
+<body>
 
     <div id="music-widget">
         <div class="music-pill" id="music-pill">
@@ -870,7 +858,7 @@
             <div id="kazikate-panel" class="view-panel active-panel">
                 <header class="profile-header">
                     <h1 class="username username-switch" onclick="toggleProfile('twin')">Kazikate</h1>
-                    <p class="bio">Future RN <img src="https://kazikate.github.io/Biography/assets/kazikate/icons/other/Syringe.png" alt="Şırınga Emojisi" class="bio-emoji"> • Lost in Music <img src="https://kazikate.github.io/Biography/assets/kazikate/icons/other/Music.png" alt="Müzik Emojisi" class="bio-emoji"></p>
+                    <p class="bio">Future RN <img src="https://kazikate.github.io/Biography/assets/Syringe.png" alt="Şırınga Emojisi" class="bio-emoji"> • Lost in Music <img src="https://kazikate.github.io/Biography/assets/Music.png" alt="Müzik Emojisi" class="bio-emoji"></p>
                     
                     <div class="social-icons-mini" id="kazikate-mini-icons"></div>
                 </header>
@@ -1705,7 +1693,7 @@
             resetAdvancedControlsTimer();
         });
 
-        // ---------- İKON VE LİNK FONKSİYONLARI (KUSURSUZ YAPI) ----------
+        // ---------- İKON VE LİNK FONKSİYONLARI ----------
         function renderMiniIcons(containerId, iconsArray) {
             const container = document.getElementById(containerId);
             if (!container || !Array.isArray(iconsArray)) return;
@@ -1755,28 +1743,28 @@
                 ...document.querySelectorAll('.bio')
             ].filter(el => el != null);
             
+            // O tatlı kayma animasyonunu başlatan satır (50ms içinde)
             setTimeout(() => { elementsToAnimate.forEach(el => { el.classList.add('is-visible'); }); }, 50);
 
-            // SENİN ORİJİNAL, %100 SORUNSUZ ÇALIŞAN VERİ ÇEKME YAPIN
+            // Eski mükemmel hızda, aynı anda yükleyen sistem
             Promise.all([
-                fetch('music.json').then(res => res.json()),
-                fetch('kazikate.json').then(res => res.json()),
-                fetch('twin.json').then(res => res.json())
+                fetch('music.json').then(res => res.json()).catch(() => ({})),
+                fetch('kazikate.json').then(res => res.json()).catch(() => ({})),
+                fetch('twin.json').then(res => res.json()).catch(() => ({}))
             ])
             .then(([music, kazikate, twin]) => {
-                playlist = music.playlist;
+                if (music && music.playlist) playlist = music.playlist;
                 kazikateData = kazikate;
                 twinData = twin;
                 
-                renderMiniIcons('kazikate-mini-icons', kazikate.miniIcons);
-                renderLinks('kazikate-links', kazikate.links);
+                if (kazikate.miniIcons) renderMiniIcons('kazikate-mini-icons', kazikate.miniIcons);
+                if (kazikate.links) renderLinks('kazikate-links', kazikate.links);
 
-                renderMiniIcons('twin-mini-icons', twin.miniIcons);
-                renderLinks('twin-links', twin.links);
+                if (twin.miniIcons) renderMiniIcons('twin-mini-icons', twin.miniIcons);
+                if (twin.links) renderLinks('twin-links', twin.links);
 
-                // Ana profil fotoğraflarını çek ve baştaki eğik çizgiyi (/) sil
-                let defaultKaziPhoto = kazikate.kazi_profilePhoto || kazikate.profilePhoto || 'assets/Profile2.png';
-                let defaultKaziModal = kazikate.kazi_modalPhoto || kazikate.modalPhoto || 'assets/Profile.png';
+                let defaultKaziPhoto = kazikate?.kazi_profilePhoto || kazikate?.profilePhoto || 'assets/Profile2.png';
+                let defaultKaziModal = kazikate?.kazi_modalPhoto || kazikate?.modalPhoto || 'assets/Profile.png';
                 
                 if (defaultKaziPhoto && defaultKaziPhoto.startsWith('/')) defaultKaziPhoto = defaultKaziPhoto.substring(1);
                 if (defaultKaziModal && defaultKaziModal.startsWith('/')) defaultKaziModal = defaultKaziModal.substring(1);
@@ -1789,17 +1777,14 @@
                 updateModalGlow(defaultKaziModal);
                 
                 window.currentProfileBg = defaultKaziPhoto;
+                window.particleRGB = '157, 80, 255'; 
 
+                // Butonların sırayla gelmesini sağlayan kısım
                 setTimeout(() => {
                     document.querySelectorAll('#kazikate-mini-icons, #twin-mini-icons, .link-button').forEach(el => {
                         el.classList.add('is-visible');
                     });
-                    document.body.classList.remove('is-loading');
                 }, 50);
-            })
-            .catch(err => {
-                console.error("JSON yükleme hatası:", err);
-                document.body.classList.remove('is-loading'); // Hata olsa bile yükleniyor ekranını kaldırır ki beyaz kalmasın
             });
 
             const parallaxRatio = 0.4; const maxScroll = 200; const maxBlur = 10; const maxDimOpacity = 0.6; let ticking = false;
@@ -1939,7 +1924,7 @@
         document.addEventListener('pointercancel', stopHaptics);
         window.addEventListener('scroll', stopHaptics, { passive: true });
             
-        // --- Profil Geçişi (toggleProfile) ---
+        // --- Profil Geçişi ---
         window.toggleProfile = function(target) {
             if (!kazikateData || !twinData) return; 
             
@@ -1957,11 +1942,11 @@
                     const downloadableImg = document.querySelector('.downloadable-profile-img');
                     const previewImage = document.getElementById('preview-image');
                     
-                    let kaziPhoto = kazikateData.kazi_profilePhoto || kazikateData.profilePhoto || "assets/Profile2.png";
-                    let kaziModal = kazikateData.kazi_modalPhoto || kazikateData.modalPhoto || "assets/Profile.png";
+                    let kaziPhoto = kazikateData?.kazi_profilePhoto || kazikateData?.profilePhoto || "assets/Profile2.png";
+                    let kaziModal = kazikateData?.kazi_modalPhoto || kazikateData?.modalPhoto || "assets/Profile.png";
                     
-                    let twinPhoto = twinData.twin_profilePhoto || twinData.profilePhoto || "assets/Twinbio.jpg"; 
-                    let twinModal = twinData.twin_modalPhoto || twinData.modalPhoto || "assets/Twinbio2.jpg";
+                    let twinPhoto = twinData?.twin_profilePhoto || twinData?.profilePhoto || "assets/Twinbio.jpg"; 
+                    let twinModal = twinData?.twin_modalPhoto || twinData?.modalPhoto || "assets/Twinbio2.jpg";
 
                     if (kaziPhoto && kaziPhoto.startsWith('/')) kaziPhoto = kaziPhoto.substring(1);
                     if (kaziModal && kaziModal.startsWith('/')) kaziModal = kaziModal.substring(1);
