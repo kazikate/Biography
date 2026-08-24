@@ -131,27 +131,6 @@
             will-change: filter, transform;
         }
 
-        /* Profil fotoğrafı giriş animasyonu */
-@keyframes profile-reveal {
-    0% {
-        transform: scale(1.35);
-        filter: blur(30px) brightness(0.35);
-    }
-    60% {
-        transform: scale(0.98);
-        filter: blur(6px) brightness(0.85);
-    }
-    100% {
-        transform: scale(1);
-        filter: blur(0px) brightness(1);
-    }
-}
-
-.profile-img-visual.reveal-anim {
-    animation: profile-reveal 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    will-change: transform, filter;
-}
-      
         body.is-modal-open .profile-img-visual { transform: scale(1.08); }
         .dim-overlay {
             position: absolute;
@@ -880,7 +859,7 @@
             <div id="kazikate-panel" class="view-panel active-panel">
                 <header class="profile-header">
                     <h1 class="username username-switch" onclick="toggleProfile('twin')">Kazikate</h1>
-                    <p class="bio">Future RN <img src="https://kazikate.github.io/Biography/assets/kazikate/icons/other/Syringe.png" alt="Şırınga Emojisi" class="bio-emoji"> • Lost in Music <img src="https://kazikate.github.io/Biography/assets/kazikate/icons/other/Music.png" alt="Müzik Emojisi" class="bio-emoji"></p>
+                    <p class="bio">Future RN <img src="https://kazikate.github.io/Biography/assets/Syringe.png" alt="Şırınga Emojisi" class="bio-emoji"> • Lost in Music <img src="https://kazikate.github.io/Biography/assets/Music.png" alt="Müzik Emojisi" class="bio-emoji"></p>
                     
                     <div class="social-icons-mini" id="kazikate-mini-icons"></div>
                 </header>
@@ -1766,73 +1745,46 @@
                 ...document.querySelectorAll('.bio')
             ].filter(el => el != null);
             
-           // Orijinal kayma animasyonunu başlatan satır (Yüklenir yüklenmez)
-setTimeout(() => {
-    elementsToAnimate.forEach(el => { el.classList.add('is-visible'); });
-    
-    // Yeni: Profil fotoğrafı tatlı animasyonla gelsin
-    if (profileImgVisual) {
-        profileImgVisual.classList.remove('reveal-anim');
-        void profileImgVisual.offsetWidth; // Reflow'u zorlayarak animasyonu yeniden başlat
-        profileImgVisual.classList.add('reveal-anim');
-        
-        // Animasyon bittikten sonra sınıfı temizle (scroll blur çakışmasın diye)
-        setTimeout(() => {
-            profileImgVisual.classList.remove('reveal-anim');
-        }, 1600); // 1500ms + küçük tolerans
-    }
-}, 50);
-            // Orijinal, hepsini aynı anda indiren sistem
+            setTimeout(() => { elementsToAnimate.forEach(el => { el.classList.add('is-visible'); }); }, 50);
+
             Promise.all([
-    fetch('music.json').then(res => res.json()).catch(() => ({})),
-    fetch('kazikate.json').then(res => res.json()).catch(() => ({})),
-    fetch('twin.json').then(res => res.json()).catch(() => ({}))
-])
-.then(([music, kazikate, twin]) => {
-    if (music && music.playlist) playlist = music.playlist;
-    kazikateData = kazikate;
-    twinData = twin;
-    
-    if (kazikate.miniIcons) renderMiniIcons('kazikate-mini-icons', kazikate.miniIcons);
-    if (kazikate.links) renderLinks('kazikate-links', kazikate.links);
+                fetch('music.json').then(res => res.json()),
+                fetch('kazikate.json').then(res => res.json()),
+                fetch('twin.json').then(res => res.json())
+            ])
+            .then(([music, kazikate, twin]) => {
+                playlist = music.playlist;
+                kazikateData = kazikate;
+                twinData = twin;
+                
+                renderMiniIcons('kazikate-mini-icons', kazikate.miniIcons);
+                renderLinks('kazikate-links', kazikate.links);
 
-    if (twin.miniIcons) renderMiniIcons('twin-mini-icons', twin.miniIcons);
-    if (twin.links) renderLinks('twin-links', twin.links);
+                renderMiniIcons('twin-mini-icons', twin.miniIcons);
+                renderLinks('twin-links', twin.links);
 
-    let defaultKaziPhoto = kazikate?.kazi_profilePhoto || kazikate?.profilePhoto || "assets/Profile2.png";
-    let defaultKaziModal = kazikate?.kazi_modalPhoto || kazikate?.modalPhoto || "assets/Profile.png";
-    
-    if (defaultKaziPhoto && defaultKaziPhoto.startsWith('/')) defaultKaziPhoto = defaultKaziPhoto.substring(1);
-    if (defaultKaziModal && defaultKaziModal.startsWith('/')) defaultKaziModal = defaultKaziModal.substring(1);
+                let defaultKaziPhoto = kazikate.kazi_profilePhoto || kazikate.profilePhoto || "assets/Profile2.png";
+                let defaultKaziModal = kazikate.kazi_modalPhoto || kazikate.modalPhoto || "assets/Profile.png";
+                
+                if (defaultKaziPhoto && defaultKaziPhoto.startsWith('/')) defaultKaziPhoto = defaultKaziPhoto.substring(1);
+                if (defaultKaziModal && defaultKaziModal.startsWith('/')) defaultKaziModal = defaultKaziModal.substring(1);
 
-    document.querySelector('.profile-img-visual').style.backgroundImage = `url('${defaultKaziPhoto}')`;
-    document.querySelector('.downloadable-profile-img').src = defaultKaziPhoto;
-    
-    const initialPreviewImg = document.getElementById('preview-image');
-    initialPreviewImg.src = defaultKaziModal;
-    updateModalGlow(defaultKaziModal);
-    
-    window.currentProfileBg = defaultKaziPhoto;
+                document.querySelector('.profile-img-visual').style.backgroundImage = `url('${defaultKaziPhoto}')`;
+                document.querySelector('.downloadable-profile-img').src = defaultKaziPhoto;
+                const initialPreviewImg = document.getElementById('preview-image');
+                initialPreviewImg.src = defaultKaziModal;
+                updateModalGlow(defaultKaziModal);
+                window.currentProfileBg = defaultKaziPhoto;
 
-    // Twin profil resimlerini önceden yükle (geçişte gecikme olmasın)
-    let twinPhotoForPreload = twin?.twin_profilePhoto || twin?.profilePhoto || "assets/Twinbio.jpg";
-    let twinModalForPreload = twin?.twin_modalPhoto || twin?.modalPhoto || "assets/Twinbio2.jpg";
-
-    if (twinPhotoForPreload.startsWith('/')) twinPhotoForPreload = twinPhotoForPreload.substring(1);
-    if (twinModalForPreload.startsWith('/')) twinModalForPreload = twinModalForPreload.substring(1);
-
-    const preloadTwinImg = new Image();
-    preloadTwinImg.src = twinPhotoForPreload;
-    const preloadTwinModalImg = new Image();
-    preloadTwinModalImg.src = twinModalForPreload;
-
-    // Veriler inip HTML oluşturulduktan sonra Butonların ve İkonların Orijinal Kayarak Gelme Animasyonu
-    setTimeout(() => {
-        document.querySelectorAll('#kazikate-mini-icons, #twin-mini-icons, .link-button').forEach(el => {
-            el.classList.add('is-visible');
-        });
-    }, 50);
-});
+                setTimeout(() => {
+                    document.querySelectorAll('#kazikate-mini-icons, #twin-mini-icons, .link-button').forEach(el => {
+                        el.classList.add('is-visible');
+                    });
+                }, 50);
+            })
+            .catch(err => {
+                console.error("JSON yükleme hatası:", err);
+            });
 
             const parallaxRatio = 0.4; const maxScroll = 200; const maxBlur = 10; const maxDimOpacity = 0.6; let ticking = false;
             function updateEffects() {
@@ -1989,11 +1941,11 @@ setTimeout(() => {
                     const downloadableImg = document.querySelector('.downloadable-profile-img');
                     const previewImage = document.getElementById('preview-image');
                     
-                    let kaziPhoto = kazikateData?.kazi_profilePhoto || kazikateData?.profilePhoto || "assets/Profile2.png";
-                    let kaziModal = kazikateData?.kazi_modalPhoto || kazikateData?.modalPhoto || "assets/Profile.png";
+                    let kaziPhoto = kazikateData.kazi_profilePhoto || kazikateData.profilePhoto || "assets/Profile2.png";
+                    let kaziModal = kazikateData.kazi_modalPhoto || kazikateData.modalPhoto || "assets/Profile.png";
                     
-                    let twinPhoto = twinData?.twin_profilePhoto || twinData?.profilePhoto || "assets/Twinbio.jpg"; 
-                    let twinModal = twinData?.twin_modalPhoto || twinData?.modalPhoto || "assets/Twinbio2.jpg";
+                    let twinPhoto = twinData.twin_profilePhoto || twinData.profilePhoto || "assets/Twinbio.jpg"; 
+                    let twinModal = twinData.twin_modalPhoto || twinData.modalPhoto || "assets/Twinbio2.jpg";
 
                     if (kaziPhoto && kaziPhoto.startsWith('/')) kaziPhoto = kaziPhoto.substring(1);
                     if (kaziModal && kaziModal.startsWith('/')) kaziModal = kaziModal.substring(1);
