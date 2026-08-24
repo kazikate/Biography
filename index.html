@@ -92,7 +92,7 @@
             margin-left: auto;
             margin-right: auto;
         }
-
+        
         .container {
             width: 100%;
             max-width: 600px;
@@ -236,7 +236,7 @@
             100% { transform: scale(1) translateZ(0); }
         }
         .link-button.press { animation: press-link 0.2s ease-out; pointer-events: none; }
-
+        
         .bio-emoji {
             width: 1.2em;
             height: 1.2em;
@@ -786,6 +786,7 @@
             transform: scale(0.5) !important;
             pointer-events: none !important;
         }
+
     </style>
 </head>
 <body>
@@ -858,7 +859,7 @@
             <div id="kazikate-panel" class="view-panel active-panel">
                 <header class="profile-header">
                     <h1 class="username username-switch" onclick="toggleProfile('twin')">Kazikate</h1>
-                    <p class="bio">Future RN <img src="https://kazikate.github.io/Biography/assets/Syringe.png" alt="Şırınga Emojisi" class="bio-emoji"> • Lost in Music <img src="https://kazikate.github.io/Biography/assets/Music.png" alt="Müzik Emojisi" class="bio-emoji"></p>
+                    <p class="bio">Future RN <img src="https://kazikate.github.io/Biography/assets/kazikate/icons/other/Syringe.png" alt="Şırınga Emojisi" class="bio-emoji"> • Lost in Music <img src="https://kazikate.github.io/Biography/assets/kazikate/icons/other/Music.png" alt="Müzik Emojisi" class="bio-emoji"></p>
                     
                     <div class="social-icons-mini" id="kazikate-mini-icons"></div>
                 </header>
@@ -1704,9 +1705,10 @@
                 if (iconUrl && iconUrl.startsWith('/')) iconUrl = iconUrl.substring(1); 
                 
                 const label = icon.platform || 'Platform';
+                const cssClass = icon.cssClass ? `class="${icon.cssClass}"` : '';
                 if (!iconUrl) return '';
                 return `
-                    <a href="${icon.url}" target="_blank" rel="noopener" aria-label="${label}">
+                    <a href="${icon.url}" aria-label="${label}" ${cssClass} target="_blank" rel="noopener">
                         <img src="${iconUrl}" alt="${label}" class="mini-icon" loading="lazy">
                     </a>
                 `;
@@ -1743,10 +1745,10 @@
                 ...document.querySelectorAll('.bio')
             ].filter(el => el != null);
             
-            // O tatlı kayma animasyonunu başlatan satır (50ms içinde)
+            // Orijinal kayma animasyonunu başlatan satır (Yüklenir yüklenmez)
             setTimeout(() => { elementsToAnimate.forEach(el => { el.classList.add('is-visible'); }); }, 50);
 
-            // Eski mükemmel hızda, aynı anda yükleyen sistem
+            // Orijinal, hepsini aynı anda indiren sistem
             Promise.all([
                 fetch('music.json').then(res => res.json()).catch(() => ({})),
                 fetch('kazikate.json').then(res => res.json()).catch(() => ({})),
@@ -1763,8 +1765,8 @@
                 if (twin.miniIcons) renderMiniIcons('twin-mini-icons', twin.miniIcons);
                 if (twin.links) renderLinks('twin-links', twin.links);
 
-                let defaultKaziPhoto = kazikate?.kazi_profilePhoto || kazikate?.profilePhoto || 'assets/Profile2.png';
-                let defaultKaziModal = kazikate?.kazi_modalPhoto || kazikate?.modalPhoto || 'assets/Profile.png';
+                let defaultKaziPhoto = kazikate?.kazi_profilePhoto || kazikate?.profilePhoto || "assets/Profile2.png";
+                let defaultKaziModal = kazikate?.kazi_modalPhoto || kazikate?.modalPhoto || "assets/Profile.png";
                 
                 if (defaultKaziPhoto && defaultKaziPhoto.startsWith('/')) defaultKaziPhoto = defaultKaziPhoto.substring(1);
                 if (defaultKaziModal && defaultKaziModal.startsWith('/')) defaultKaziModal = defaultKaziModal.substring(1);
@@ -1777,9 +1779,8 @@
                 updateModalGlow(defaultKaziModal);
                 
                 window.currentProfileBg = defaultKaziPhoto;
-                window.particleRGB = '157, 80, 255'; 
 
-                // Butonların sırayla gelmesini sağlayan kısım
+                // Veriler inip HTML oluşturulduktan sonra Butonların ve İkonların Orijinal Kayarak Gelme Animasyonu
                 setTimeout(() => {
                     document.querySelectorAll('#kazikate-mini-icons, #twin-mini-icons, .link-button').forEach(el => {
                         el.classList.add('is-visible');
