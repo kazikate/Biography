@@ -307,14 +307,26 @@
         }
         .link-platform { font-weight: 600; display: block; }
         .link-username { font-size: 0.75em; opacity: 0.6; font-weight: 400; display: block; }
-        .footer-links {
+                .footer-links {
             margin-top: 40px;
             font-size: 1em;
             font-weight: 400;
             margin-bottom: 0px;
             position: relative;
             z-index: 10;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            transition-delay: 1.3s; /* Linklerden hemen sonra süzülecek */
         }
+        .footer-links.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        body.animations-done .footer-links {
+            transition-delay: 0s !important;
+        }
+
         .footer-links a {
             color: var(--text-light);
             opacity: 0.6;
@@ -2029,7 +2041,8 @@ const preloadTwinModalImg = new Image();
 preloadTwinModalImg.src = twinModalForPreload;
                
                 setTimeout(() => {
-                    document.querySelectorAll('#kazikate-mini-icons, #twin-mini-icons, .link-button').forEach(el => {
+                            document.querySelectorAll('#kazikate-mini-icons, #twin-mini-icons, .link-button, .footer-links').forEach(el => {
+
                         el.classList.add('is-visible');
                     });
                 }, 50);
