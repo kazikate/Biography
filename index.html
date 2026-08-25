@@ -1087,7 +1087,8 @@
                 
                 <div class="links-section" id="kazikate-links"></div>
                 
-                <footer class="footer-links"><span style="opacity: 0.8;">●</span><span class="footer-text" style="margin: 0 1px;">Created by Kazikate</span></footer>
+               <footer class="footer-links"><span style="opacity: 0.8;">●</span><span class="footer-text" id="kazi-footer-text" style="margin: 0 1px;">Created by Kazikate</span></footer>
+
             </div>
             
             <!-- ================= 2. İKİZİNİN PROFİLİ ================= -->
@@ -1101,7 +1102,8 @@
                 
                 <div class="links-section" id="twin-links"></div>
                 
-                <footer class="footer-links"><span style="opacity: 0.8;">●</span><span class="footer-text" style="margin: 0 1px;">Created for Kate by Kazikate</span></footer>
+               <footer class="footer-links"><span style="opacity: 0.8;">●</span><span class="footer-text" id="twin-footer-text" style="margin: 0 1px;">Created for Kate by Kazikate</span></footer>
+
             </div>
             
         </div> 
@@ -1998,6 +2000,9 @@ setTimeout(() => {
                 renderMiniIcons('twin-mini-icons', twin.miniIcons);
                 renderLinks('twin-links', twin.links);
 
+                if (kazikate.footerText) document.getElementById('kazi-footer-text').innerText = kazikate.footerText;
+                if (twin.footerText) document.getElementById('twin-footer-text').innerText = twin.footerText;
+              
                 let defaultKaziPhoto = kazikate.kazi_profilePhoto || kazikate.profilePhoto || "assets/Profile2.png";
                 let defaultKaziModal = kazikate.kazi_modalPhoto || kazikate.modalPhoto || "assets/Profile.png";
                 
