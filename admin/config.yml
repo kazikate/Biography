@@ -1,4 +1,4 @@
-backend:
+Backend:
   name: github
   repo: kazikate/Biography 
   branch: main 
@@ -35,6 +35,8 @@ collections:
               - {label: "Kullanıcı Adı", name: "username", widget: "string", required: false}
               - {label: "URL (Link)", name: "url", widget: "string"}
               - {label: "İkon (Normal)", name: "twin_bg", widget: "image", media_folder: "/assets/twin/icons/normal", public_folder: "/assets/twin/icons/normal"}
+          
+          - {label: "Footer Yazısı", name: "footerText", widget: "string"}
 
   - name: "kazikate_ayarlari"
     label: "Kazikate Profili"
@@ -64,6 +66,8 @@ collections:
               - {label: "Kullanıcı Adı", name: "username", widget: "string", required: false}
               - {label: "URL (Link)", name: "url", widget: "string"}
               - {label: "İkon (Normal)", name: "kazi_bg", widget: "image", media_folder: "/assets/kazikate/icons/normal", public_folder: "/assets/kazikate/icons/normal"}
+          
+          - {label: "Footer Yazısı", name: "footerText", widget: "string"}
 
   - name: "muzik_ayarlari"
     label: "Müzik Listesi"
