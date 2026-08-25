@@ -104,5 +104,6 @@
     }
   ],
   "modalPhoto": "assets/twin/profile/Twinbio2.jpg",
-  "profilePhoto": "assets/twin/profile/Twinbio.jpg"
+  "profilePhoto": "assets/twin/profile/Twinbio.jpg",
+    "footerText": "Created for Kate by Kazikate"
 }
